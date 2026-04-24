@@ -74,7 +74,7 @@ import {
   classifyIssueGraphLiveness,
   type IssueLivenessFinding,
 } from "./issue-liveness.js";
-import { logActivity, publishPluginDomainEvent, type LogActivityInput } from "./activity-log.js";
+import { logActivity, publishPluginDomainEvent, emitAndAwaitPluginDomainEvent, type LogActivityInput } from "./activity-log.js";
 import {
   buildWorkspaceReadyComment,
   cleanupExecutionWorkspaceArtifacts,
@@ -5164,7 +5164,7 @@ export function heartbeatService(db: Db) {
     const resolvedProjectId = executionWorkspace.projectId ?? issueRef?.projectId ?? executionProjectId ?? null;
     const resolvedProjectWorkspaceId = issueRef?.projectWorkspaceId ?? resolvedWorkspace.workspaceId ?? null;
 
-    publishPluginDomainEvent({
+    await emitAndAwaitPluginDomainEvent({
       eventId: randomUUID(),
       eventType: "agent.run.workspace_ready",
       occurredAt: new Date().toISOString(),

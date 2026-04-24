@@ -39,6 +39,11 @@ function resolveSkills(agentId: string, config: AtelierInstanceConfig): string[]
   return override?.skills ?? config.skills;
 }
 
+function resolveHooks(agentId: string, config: AtelierInstanceConfig): string[] | undefined {
+  const override = config.perAgentOverrides?.[agentId];
+  return override?.hooks ?? config.hooks;
+}
+
 /**
  * Injecte le profil claude-atelier dans le worktree cible via l'API
  * programmatique de claude-atelier@>=0.22.0-preview.0.
@@ -50,6 +55,7 @@ function resolveSkills(agentId: string, config: AtelierInstanceConfig): string[]
 export async function injectIntoWorktree(input: InjectionInput): Promise<InjectionResult> {
   const profile = resolveProfile(input.agentId, input.config);
   const skills = resolveSkills(input.agentId, input.config);
+  const hooks = resolveHooks(input.agentId, input.config);
 
   let applyProfile: ApplyProfileFn;
   try {
@@ -70,6 +76,7 @@ export async function injectIntoWorktree(input: InjectionInput): Promise<Injecti
     cwd: input.cwd,
     profile,
     skills,
+    hooks,
     mcp: input.config.mcpServers ?? undefined,
     mergeStrategy: "repo-wins",
   });
