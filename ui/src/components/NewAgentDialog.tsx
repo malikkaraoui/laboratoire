@@ -84,8 +84,8 @@ export function NewAgentDialog() {
     closeNewAgent();
     openNewIssue({
       assigneeAgentId: ceoAgent?.id,
-      title: "Create a new agent",
-      description: "(type in what kind of agent you want here)",
+      title: "Créer un nouvel agent",
+      description: "(décrivez ici le type d'agent que vous souhaitez)",
     });
   }
 
@@ -115,7 +115,7 @@ export function NewAgentDialog() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-2.5 border-b border-border">
-          <span className="text-sm text-muted-foreground">Add a new agent</span>
+          <span className="text-sm text-muted-foreground">Ajouter un nouvel agent</span>
           <Button
             variant="ghost"
             size="icon-xs"
@@ -138,15 +138,15 @@ export function NewAgentDialog() {
                   <Bot className="h-6 w-6 text-foreground" />
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  We recommend letting your CEO handle agent setup — they know the
-                  org structure and can configure reporting, permissions, and
-                  adapters.
+                  Nous recommandons de laisser votre CEO gérer la configuration des agents — il connaît
+                  la structure de l'organisation et peut configurer les rapports, les permissions et
+                  les adaptateurs.
                 </p>
               </div>
 
               <Button className="w-full" size="lg" onClick={handleAskCeo}>
                 <Bot className="h-4 w-4 mr-2" />
-                Ask the CEO to create a new agent
+                Demander au CEO de créer un nouvel agent
               </Button>
 
               {/* Advanced link */}
@@ -155,7 +155,7 @@ export function NewAgentDialog() {
                   className="text-xs text-muted-foreground hover:text-foreground underline underline-offset-2 transition-colors"
                   onClick={handleAdvancedConfig}
                 >
-                  I want advanced configuration myself
+                  Je veux configurer moi-même en mode avancé
                 </button>
               </div>
             </>
@@ -167,10 +167,10 @@ export function NewAgentDialog() {
                   onClick={() => setShowAdvancedCards(false)}
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
-                  Back
+                  Retour
                 </button>
                 <p className="text-sm text-muted-foreground">
-                  Choose your adapter type for advanced setup.
+                  Choisissez votre type d'adaptateur pour la configuration avancée.
                 </p>
               </div>
 
@@ -190,7 +190,7 @@ export function NewAgentDialog() {
                   >
                     {opt.recommended && (
                       <span className="absolute -top-1.5 right-1.5 bg-green-500 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none">
-                        Recommended
+                        Recommandé
                       </span>
                     )}
                     <opt.icon className="h-4 w-4" />

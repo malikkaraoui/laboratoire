@@ -31,14 +31,14 @@ export function InstanceGeneralSettings() {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
     },
     onError: (error) => {
-      setActionError(error instanceof Error ? error.message : "Failed to sign out.");
+      setActionError(error instanceof Error ? error.message : "Impossible de se déconnecter.");
     },
   });
 
   useEffect(() => {
     setBreadcrumbs([
-      { label: "Instance Settings" },
-      { label: "General" },
+      { label: "Paramètres de l'instance" },
+      { label: "Général" },
     ]);
   }, [setBreadcrumbs]);
 
@@ -59,12 +59,12 @@ export function InstanceGeneralSettings() {
       await queryClient.invalidateQueries({ queryKey: queryKeys.instance.generalSettings });
     },
     onError: (error) => {
-      setActionError(error instanceof Error ? error.message : "Failed to update general settings.");
+      setActionError(error instanceof Error ? error.message : "Impossible de mettre à jour les paramètres généraux.");
     },
   });
 
   if (generalQuery.isLoading) {
-    return <div className="text-sm text-muted-foreground">Loading general settings...</div>;
+    return <div className="text-sm text-muted-foreground">Chargement des paramètres généraux...</div>;
   }
 
   if (generalQuery.error) {
@@ -72,7 +72,7 @@ export function InstanceGeneralSettings() {
       <div className="text-sm text-destructive">
         {generalQuery.error instanceof Error
           ? generalQuery.error.message
-          : "Failed to load general settings."}
+          : "Impossible de charger les paramètres généraux."}
       </div>
     );
   }
@@ -87,11 +87,10 @@ export function InstanceGeneralSettings() {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="h-5 w-5 text-muted-foreground" />
-          <h1 className="text-lg font-semibold">General</h1>
+          <h1 className="text-lg font-semibold">Général</h1>
         </div>
         <p className="text-sm text-muted-foreground">
-          Configure instance-wide preferences including log display, keyboard shortcuts, backup
-          retention, and data sharing.
+          Configurez les préférences de l'instance : affichage des journaux, raccourcis clavier, rétention des sauvegardes et partage de données.
         </p>
       </div>
 
@@ -104,7 +103,7 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-sm font-semibold">Deployment and auth</h2>
+            <h2 className="text-sm font-semibold">Déploiement et authentification</h2>
             <ModeBadge
               deploymentMode={healthQuery.data?.deploymentMode}
               deploymentExposure={healthQuery.data?.deploymentExposure}
@@ -112,23 +111,23 @@ export function InstanceGeneralSettings() {
           </div>
           <div className="text-sm text-muted-foreground">
             {healthQuery.data?.deploymentMode === "local_trusted"
-              ? "Local trusted mode is optimized for a local operator. Browser requests run as local board context and no sign-in is required."
+              ? "Le mode de confiance locale est optimisé pour un opérateur local. Les requêtes du navigateur s'exécutent en contexte de tableau local et aucune connexion n'est requise."
               : healthQuery.data?.deploymentExposure === "public"
-                ? "Authenticated public mode requires sign-in for board access and is intended for public URLs."
-                : "Authenticated private mode requires sign-in and is intended for LAN, VPN, or other private-network deployments."}
+                ? "Le mode public authentifié nécessite une connexion pour accéder au tableau et est destiné aux URL publiques."
+                : "Le mode privé authentifié nécessite une connexion et est destiné aux déploiements sur LAN, VPN ou autres réseaux privés."}
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             <StatusBox
-              label="Auth readiness"
-              value={healthQuery.data?.authReady ? "Ready" : "Not ready"}
+              label="État de l'authentification"
+              value={healthQuery.data?.authReady ? "Prêt" : "Non prêt"}
             />
             <StatusBox
-              label="Bootstrap status"
-              value={healthQuery.data?.bootstrapStatus === "bootstrap_pending" ? "Setup required" : "Ready"}
+              label="État du bootstrap"
+              value={healthQuery.data?.bootstrapStatus === "bootstrap_pending" ? "Configuration requise" : "Prêt"}
             />
             <StatusBox
-              label="Bootstrap invite"
-              value={healthQuery.data?.bootstrapInviteActive ? "Active" : "None"}
+              label="Invitation bootstrap"
+              value={healthQuery.data?.bootstrapInviteActive ? "Active" : "Aucune"}
             />
           </div>
         </div>
@@ -137,18 +136,16 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Censor username in logs</h2>
+            <h2 className="text-sm font-semibold">Masquer le nom d'utilisateur dans les journaux</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Hide the username segment in home-directory paths and similar operator-visible log output. Standalone
-              username mentions outside of paths are not yet masked in the live transcript view. This is off by
-              default.
+              Masque le segment du nom d'utilisateur dans les chemins de répertoire personnel et les sorties de journaux visibles par l'opérateur. Les mentions isolées du nom d'utilisateur hors des chemins ne sont pas encore masquées dans la vue de transcription en direct. Désactivé par défaut.
             </p>
           </div>
           <ToggleSwitch
             checked={censorUsernameInLogs}
             onCheckedChange={() => updateGeneralMutation.mutate({ censorUsernameInLogs: !censorUsernameInLogs })}
             disabled={updateGeneralMutation.isPending}
-            aria-label="Toggle username log censoring"
+            aria-label="Activer/désactiver le masquage du nom d'utilisateur dans les journaux"
           />
         </div>
       </section>
@@ -156,17 +153,16 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Keyboard shortcuts</h2>
+            <h2 className="text-sm font-semibold">Raccourcis clavier</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Enable app keyboard shortcuts, including inbox navigation and global shortcuts like creating issues or
-              toggling panels. This is off by default.
+              Activez les raccourcis clavier de l'application, notamment la navigation dans la boîte de réception et les raccourcis globaux comme la création de tickets ou le basculement des panneaux. Désactivé par défaut.
             </p>
           </div>
           <ToggleSwitch
             checked={keyboardShortcuts}
             onCheckedChange={() => updateGeneralMutation.mutate({ keyboardShortcuts: !keyboardShortcuts })}
             disabled={updateGeneralMutation.isPending}
-            aria-label="Toggle keyboard shortcuts"
+            aria-label="Activer/désactiver les raccourcis clavier"
           />
         </div>
       </section>
@@ -174,16 +170,14 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="space-y-5">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Backup retention</h2>
+            <h2 className="text-sm font-semibold">Rétention des sauvegardes</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Configure how long automatic database backups are retained. Backups run roughly
-              every hour and are compressed with gzip. Within the daily window all backups are
-              kept; beyond that, one backup per week and one per month are preserved.
+              Configurez la durée de conservation des sauvegardes automatiques de la base de données. Les sauvegardes s'exécutent environ toutes les heures et sont compressées avec gzip. Dans la fenêtre quotidienne, toutes les sauvegardes sont conservées ; au-delà, une sauvegarde par semaine et une par mois sont préservées.
             </p>
           </div>
 
           <div className="space-y-1.5">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Daily</h3>
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Quotidien</h3>
             <div className="flex flex-wrap gap-2">
               {DAILY_RETENTION_PRESETS.map((days) => {
                 const active = backupRetention.dailyDays === days;
@@ -204,7 +198,7 @@ export function InstanceGeneralSettings() {
                       })
                     }
                   >
-                    <div className="text-sm font-medium">{days} days</div>
+                    <div className="text-sm font-medium">{days} jour{days > 1 ? "s" : ""}</div>
                   </button>
                 );
               })}
@@ -212,11 +206,11 @@ export function InstanceGeneralSettings() {
           </div>
 
           <div className="space-y-1.5">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Weekly</h3>
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Hebdomadaire</h3>
             <div className="flex flex-wrap gap-2">
               {WEEKLY_RETENTION_PRESETS.map((weeks) => {
                 const active = backupRetention.weeklyWeeks === weeks;
-                const label = weeks === 1 ? "1 week" : `${weeks} weeks`;
+                const label = weeks === 1 ? "1 semaine" : `${weeks} semaines`;
                 return (
                   <button
                     key={weeks}
@@ -242,11 +236,11 @@ export function InstanceGeneralSettings() {
           </div>
 
           <div className="space-y-1.5">
-            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Monthly</h3>
+            <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Mensuel</h3>
             <div className="flex flex-wrap gap-2">
               {MONTHLY_RETENTION_PRESETS.map((months) => {
                 const active = backupRetention.monthlyMonths === months;
-                const label = months === 1 ? "1 month" : `${months} months`;
+                const label = months === 1 ? "1 mois" : `${months} mois`;
                 return (
                   <button
                     key={months}
@@ -276,10 +270,9 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="space-y-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">AI feedback sharing</h2>
+            <h2 className="text-sm font-semibold">Partage des retours IA</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Control whether thumbs up and thumbs down votes can send the voted AI output to
-              Paperclip Labs. Votes are always saved locally.
+              Contrôlez si les votes positifs et négatifs peuvent envoyer la sortie IA votée à Paperclip Labs. Les votes sont toujours enregistrés localement.
             </p>
             {FEEDBACK_TERMS_URL ? (
               <a
@@ -288,27 +281,26 @@ export function InstanceGeneralSettings() {
                 rel="noreferrer"
                 className="inline-flex text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
               >
-                Read our terms of service
+                Lire nos conditions d'utilisation
               </a>
             ) : null}
           </div>
           {feedbackDataSharingPreference === "prompt" ? (
             <div className="rounded-lg border border-border/70 bg-accent/20 px-3 py-2 text-sm text-muted-foreground">
-              No default is saved yet. The next thumbs up or thumbs down choice will ask once and
-              then save the answer here.
+              Aucun choix par défaut n'est enregistré. Le prochain vote positif ou négatif demandera une fois puis enregistrera la réponse ici.
             </div>
           ) : null}
           <div className="flex flex-wrap gap-2">
             {[
               {
                 value: "allowed",
-                label: "Always allow",
-                description: "Share voted AI outputs automatically.",
+                label: "Toujours autoriser",
+                description: "Partager automatiquement les sorties IA votées.",
               },
               {
                 value: "not_allowed",
-                label: "Don't allow",
-                description: "Keep voted AI outputs local only.",
+                label: "Ne pas autoriser",
+                description: "Conserver les sorties IA votées en local uniquement.",
               },
             ].map((option) => {
               const active = feedbackDataSharingPreference === option.value;
@@ -352,9 +344,9 @@ export function InstanceGeneralSettings() {
       <section className="rounded-xl border border-border bg-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1.5">
-            <h2 className="text-sm font-semibold">Sign out</h2>
+            <h2 className="text-sm font-semibold">Déconnexion</h2>
             <p className="max-w-2xl text-sm text-muted-foreground">
-              Sign out of this Paperclip instance. You will be redirected to the login page.
+              Se déconnecter de cette instance Paperclip. Vous serez redirigé vers la page de connexion.
             </p>
           </div>
           <Button
@@ -364,7 +356,7 @@ export function InstanceGeneralSettings() {
             onClick={() => signOutMutation.mutate()}
           >
             <LogOut className="size-4" />
-            {signOutMutation.isPending ? "Signing out..." : "Sign out"}
+            {signOutMutation.isPending ? "Déconnexion..." : "Se déconnecter"}
           </Button>
         </div>
       </section>

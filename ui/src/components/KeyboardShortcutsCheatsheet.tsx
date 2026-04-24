@@ -12,37 +12,37 @@ interface ShortcutSection {
 
 const sections: ShortcutSection[] = [
   {
-    title: "Inbox",
+    title: "Boîte de réception",
     shortcuts: [
-      { keys: ["j"], label: "Move down" },
-      { keys: ["↓"], label: "Move down" },
-      { keys: ["k"], label: "Move up" },
-      { keys: ["↑"], label: "Move up" },
-      { keys: ["←"], label: "Collapse selected group" },
-      { keys: ["→"], label: "Expand selected group" },
-      { keys: ["Enter"], label: "Open selected item" },
-      { keys: ["a"], label: "Archive item" },
-      { keys: ["y"], label: "Archive item" },
-      { keys: ["r"], label: "Mark as read" },
-      { keys: ["U"], label: "Mark as unread" },
+      { keys: ["j"], label: "Descendre" },
+      { keys: ["↓"], label: "Descendre" },
+      { keys: ["k"], label: "Monter" },
+      { keys: ["↑"], label: "Monter" },
+      { keys: ["←"], label: "Réduire le groupe sélectionné" },
+      { keys: ["→"], label: "Développer le groupe sélectionné" },
+      { keys: ["Enter"], label: "Ouvrir l'élément sélectionné" },
+      { keys: ["a"], label: "Archiver l'élément" },
+      { keys: ["y"], label: "Archiver l'élément" },
+      { keys: ["r"], label: "Marquer comme lu" },
+      { keys: ["U"], label: "Marquer comme non lu" },
     ],
   },
   {
-    title: "Issue detail",
+    title: "Détail de la tâche",
     shortcuts: [
-      { keys: ["y"], label: "Quick-archive back to inbox" },
-      { keys: ["g", "i"], label: "Go to inbox" },
-      { keys: ["g", "c"], label: "Focus comment composer" },
+      { keys: ["y"], label: "Archiver rapidement vers la boîte de réception" },
+      { keys: ["g", "i"], label: "Aller à la boîte de réception" },
+      { keys: ["g", "c"], label: "Cibler le champ de commentaire" },
     ],
   },
   {
     title: "Global",
     shortcuts: [
-      { keys: ["/"], label: "Search current page or quick search" },
-      { keys: ["c"], label: "New issue" },
-      { keys: ["["], label: "Toggle sidebar" },
-      { keys: ["]"], label: "Toggle panel" },
-      { keys: ["?"], label: "Show keyboard shortcuts" },
+      { keys: ["/"], label: "Rechercher sur la page ou recherche rapide" },
+      { keys: ["c"], label: "Nouvelle tâche" },
+      { keys: ["["], label: "Afficher/masquer la barre latérale" },
+      { keys: ["]"], label: "Afficher/masquer le panneau" },
+      { keys: ["?"], label: "Afficher les raccourcis clavier" },
     ],
   },
 ];
@@ -74,7 +74,7 @@ export function KeyboardShortcutsCheatsheetContent() {
                   <div className="flex items-center gap-1">
                     {shortcut.keys.map((key, i) => (
                       <span key={key} className="flex items-center gap-1">
-                        {i > 0 && <span className="text-xs text-muted-foreground">then</span>}
+                        {i > 0 && <span className="text-xs text-muted-foreground">puis</span>}
                         <KeyCap>{key}</KeyCap>
                       </span>
                     ))}
@@ -87,7 +87,7 @@ export function KeyboardShortcutsCheatsheetContent() {
       </div>
       <div className="border-t border-border px-5 py-3">
         <p className="text-xs text-muted-foreground">
-          Press <KeyCap>Esc</KeyCap> to close &middot; Shortcuts are disabled in text fields
+          Appuyer sur <KeyCap>Esc</KeyCap> pour fermer &middot; Les raccourcis sont désactivés dans les champs de texte
         </p>
       </div>
     </>
@@ -105,7 +105,7 @@ export function KeyboardShortcutsCheatsheet({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md gap-0 p-0 overflow-hidden" showCloseButton={false}>
         <DialogHeader className="px-5 pt-5 pb-3">
-          <DialogTitle className="text-base">Keyboard shortcuts</DialogTitle>
+          <DialogTitle className="text-base">Raccourcis clavier</DialogTitle>
         </DialogHeader>
         <KeyboardShortcutsCheatsheetContent />
       </DialogContent>

@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="doc/assets/header.png" alt="Paperclip — runs your business" width="720" />
+  <img src="doc/assets/header.png" alt="Paperclip — pilote votre entreprise" width="720" />
 </p>
 
 <p align="center">
-  <a href="#quickstart"><strong>Quickstart</strong></a> &middot;
-  <a href="https://paperclip.ing/docs"><strong>Docs</strong></a> &middot;
+  <a href="#démarrage-rapide"><strong>Démarrage rapide</strong></a> &middot;
+  <a href="https://paperclip.ing/docs"><strong>Documentation</strong></a> &middot;
   <a href="https://github.com/paperclipai/paperclip"><strong>GitHub upstream</strong></a> &middot;
   <a href="https://discord.gg/m4HZY7xNG3"><strong>Discord</strong></a>
 </p>
@@ -36,41 +36,41 @@
 <br/>
 
 <p align="center">
-  <a href="https://github.com/paperclipai/paperclip/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
-  <a href="https://github.com/paperclipai/paperclip/stargazers"><img src="https://img.shields.io/github/stars/paperclipai/paperclip?style=flat" alt="Stars" /></a>
+  <a href="https://github.com/paperclipai/paperclip/blob/master/LICENSE"><img src="https://img.shields.io/badge/licence-MIT-blue" alt="Licence MIT" /></a>
+  <a href="https://github.com/paperclipai/paperclip/stargazers"><img src="https://img.shields.io/github/stars/paperclipai/paperclip?style=flat" alt="Étoiles" /></a>
   <a href="https://discord.gg/m4HZY7xNG3"><img src="https://img.shields.io/discord/000000000?label=discord" alt="Discord" /></a>
 </p>
 
 <br/>
 
-## What is Paperclip?
+## Qu'est-ce que Paperclip ?
 
-# Open-source orchestration for zero-human companies
+# Orchestration open-source pour entreprises autonomes
 
-**If OpenClaw is an _employee_, Paperclip is the _company_**
+**Si OpenClaw est un _employé_, Paperclip est l'_entreprise_**
 
-Paperclip is a Node.js server and React UI that orchestrates a team of AI agents to run a business. Bring your own agents, assign goals, and track your agents' work and costs from one dashboard.
+Paperclip est un serveur Node.js et une interface React qui orchestre une équipe d'agents IA pour faire tourner une entreprise. Apportez vos agents, assignez des objectifs et suivez leur travail depuis un seul tableau de bord.
 
-It looks like a task manager — but under the hood it has org charts, budgets, governance, goal alignment, and agent coordination.
+Ça ressemble à un gestionnaire de tâches — mais sous le capot, il y a des organigrammes, des budgets, de la gouvernance, de l'alignement sur les objectifs et de la coordination entre agents.
 
-**Manage business goals, not pull requests.**
+**Gérez des objectifs d'entreprise, pas des pull requests.**
 
-|        | Step            | Example                                                            |
-| ------ | --------------- | ------------------------------------------------------------------ |
-| **01** | Define the goal | _"Build the #1 AI note-taking app to $1M MRR."_                    |
-| **02** | Hire the team   | CEO, CTO, engineers, designers, marketers — any bot, any provider. |
-| **03** | Approve and run | Review strategy. Set budgets. Hit go. Monitor from the dashboard.  |
+|        | Étape                  | Exemple                                                                              |
+| ------ | ---------------------- | ------------------------------------------------------------------------------------ |
+| **01** | Définir l'objectif     | _"Construire l'appli de prise de notes IA n°1, jusqu'à 1 M€ de MRR."_               |
+| **02** | Recruter l'équipe      | CEO, CTO, ingénieurs, designers, marketeurs — n'importe quel bot, n'importe quel fournisseur. |
+| **03** | Approuver et lancer    | Valider la stratégie. Définir les budgets. Appuyer sur démarrer. Suivre depuis le tableau de bord. |
 
 <br/>
 
-> **COMING SOON: Clipmart** — Download and run entire companies with one click. Browse pre-built company templates — full org structures, agent configs, and skills — and import them into your Paperclip instance in seconds.
+> **BIENTÔT DISPONIBLE : Clipmart** — Téléchargez et lancez des entreprises entières en un clic. Parcourez des modèles préconfigurés — structures d'organisation, configs d'agents et compétences — et importez-les dans votre instance Paperclip en quelques secondes.
 
 <br/>
 
 <div align="center">
 <table>
   <tr>
-    <td align="center"><strong>Works<br/>with</strong></td>
+    <td align="center"><strong>Compatible<br/>avec</strong></td>
     <td align="center"><img src="doc/assets/logos/openclaw.svg" width="32" alt="OpenClaw" /><br/><sub>OpenClaw</sub></td>
     <td align="center"><img src="doc/assets/logos/claude.svg" width="32" alt="Claude" /><br/><sub>Claude Code</sub></td>
     <td align="center"><img src="doc/assets/logos/codex.svg" width="32" alt="Codex" /><br/><sub>Codex</sub></td>
@@ -80,123 +80,123 @@ It looks like a task manager — but under the hood it has org charts, budgets, 
   </tr>
 </table>
 
-<em>If it can receive a heartbeat, it's hired.</em>
+<em>S'il peut recevoir un heartbeat, il est recruté.</em>
 
 </div>
 
 <br/>
 
-## Paperclip is right for you if
+## Paperclip est fait pour vous si
 
-- ✅ You want to build **autonomous AI companies**
-- ✅ You **coordinate many different agents** (OpenClaw, Codex, Claude, Cursor) toward a common goal
-- ✅ You have **20 simultaneous Claude Code terminals** open and lose track of what everyone is doing
-- ✅ You want agents running **autonomously 24/7**, but still want to audit work and chime in when needed
-- ✅ You want to **monitor costs** and enforce budgets
-- ✅ You want a process for managing agents that **feels like using a task manager**
-- ✅ You want to manage your autonomous businesses **from your phone**
+- ✅ Vous voulez construire des **entreprises IA autonomes**
+- ✅ Vous **coordonnez de nombreux agents différents** (OpenClaw, Codex, Claude, Cursor) vers un objectif commun
+- ✅ Vous avez **20 terminaux Claude Code simultanément** ouverts et perdez le fil de qui fait quoi
+- ✅ Vous voulez des agents qui tournent **en autonomie 24h/24 et 7j/7**, tout en gardant la main pour auditer le travail
+- ✅ Vous voulez **surveiller les coûts** et imposer des budgets
+- ✅ Vous voulez un processus de gestion des agents qui **ressemble à un gestionnaire de tâches**
+- ✅ Vous voulez piloter vos entreprises autonomes **depuis votre téléphone**
 
 <br/>
 
-## Features
+## Fonctionnalités
 
 <table>
 <tr>
 <td align="center" width="33%">
-<h3>🔌 Bring Your Own Agent</h3>
-Any agent, any runtime, one org chart. If it can receive a heartbeat, it's hired.
+<h3>🔌 Apportez votre agent</h3>
+N'importe quel agent, n'importe quel runtime, un seul organigramme. S'il peut recevoir un heartbeat, il est recruté.
 </td>
 <td align="center" width="33%">
-<h3>🎯 Goal Alignment</h3>
-Every task traces back to the company mission. Agents know <em>what</em> to do and <em>why</em>.
+<h3>🎯 Alignement sur les objectifs</h3>
+Chaque tâche remonte à la mission de l'entreprise. Les agents savent <em>quoi</em> faire et <em>pourquoi</em>.
 </td>
 <td align="center" width="33%">
 <h3>💓 Heartbeats</h3>
-Agents wake on a schedule, check work, and act. Delegation flows up and down the org chart.
+Les agents se réveillent selon un planning, vérifient le travail et agissent. La délégation circule dans tout l'organigramme.
 </td>
 </tr>
 <tr>
 <td align="center">
-<h3>💰 Cost Control</h3>
-Monthly budgets per agent. When they hit the limit, they stop. No runaway costs.
+<h3>💰 Contrôle des coûts</h3>
+Budgets mensuels par agent. Quand la limite est atteinte, ils s'arrêtent. Zéro dérive incontrôlée.
 </td>
 <td align="center">
-<h3>🏢 Multi-Company</h3>
-One deployment, many companies. Complete data isolation. One control plane for your portfolio.
+<h3>🏢 Multi-entreprise</h3>
+Un seul déploiement, plusieurs entreprises. Isolation complète des données. Un seul plan de contrôle pour votre portefeuille.
 </td>
 <td align="center">
-<h3>🎫 Ticket System</h3>
-Every conversation traced. Every decision explained. Full tool-call tracing and immutable audit log.
+<h3>🎫 Système de tickets</h3>
+Chaque conversation tracée. Chaque décision expliquée. Traçage complet des appels d'outils et journal d'audit immuable.
 </td>
 </tr>
 <tr>
 <td align="center">
-<h3>🛡️ Governance</h3>
-You're the board. Approve hires, override strategy, pause or terminate any agent — at any time.
+<h3>🛡️ Gouvernance</h3>
+Vous êtes le conseil d'administration. Approuvez les recrutements, modifiez la stratégie, mettez en pause ou terminez n'importe quel agent — à tout moment.
 </td>
 <td align="center">
-<h3>📊 Org Chart</h3>
-Hierarchies, roles, reporting lines. Your agents have a boss, a title, and a job description.
+<h3>📊 Organigramme</h3>
+Hiérarchies, rôles, lignes hiérarchiques. Vos agents ont un patron, un titre et une fiche de poste.
 </td>
 <td align="center">
-<h3>📱 Mobile Ready</h3>
-Monitor and manage your autonomous businesses from anywhere.
+<h3>📱 Mobile</h3>
+Surveillez et gérez vos entreprises autonomes depuis n'importe où.
 </td>
 </tr>
 </table>
 
 <br/>
 
-## Problems Paperclip solves
+## Problèmes que Paperclip résout
 
-| Without Paperclip                                                                                                                     | With Paperclip                                                                                                                         |
-| ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| ❌ You have 20 Claude Code tabs open and can't track which one does what. On reboot you lose everything.                              | ✅ Tasks are ticket-based, conversations are threaded, sessions persist across reboots.                                                |
-| ❌ You manually gather context from several places to remind your bot what you're actually doing.                                     | ✅ Context flows from the task up through the project and company goals — your agent always knows what to do and why.                  |
-| ❌ Folders of agent configs are disorganized and you're re-inventing task management, communication, and coordination between agents. | ✅ Paperclip gives you org charts, ticketing, delegation, and governance out of the box — so you run a company, not a pile of scripts. |
-| ❌ Runaway loops waste hundreds of dollars of tokens and max your quota before you even know what happened.                           | ✅ Cost tracking surfaces token budgets and throttles agents when they're out. Management prioritizes with budgets.                    |
-| ❌ You have recurring jobs (customer support, social, reports) and have to remember to manually kick them off.                        | ✅ Heartbeats handle regular work on a schedule. Management supervises.                                                                |
-| ❌ You have an idea, you have to find your repo, fire up Claude Code, keep a tab open, and babysit it.                                | ✅ Add a task in Paperclip. Your coding agent works on it until it's done. Management reviews their work.                              |
-
-<br/>
-
-## Why Paperclip is special
-
-Paperclip handles the hard orchestration details correctly.
-
-|                                   |                                                                                                               |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **Atomic execution.**             | Task checkout and budget enforcement are atomic, so no double-work and no runaway spend.                      |
-| **Persistent agent state.**       | Agents resume the same task context across heartbeats instead of restarting from scratch.                     |
-| **Runtime skill injection.**      | Agents can learn Paperclip workflows and project context at runtime, without retraining.                      |
-| **Governance with rollback.**     | Approval gates are enforced, config changes are revisioned, and bad changes can be rolled back safely.        |
-| **Goal-aware execution.**         | Tasks carry full goal ancestry so agents consistently see the "why," not just a title.                        |
-| **Portable company templates.**   | Export/import orgs, agents, and skills with secret scrubbing and collision handling.                          |
-| **True multi-company isolation.** | Every entity is company-scoped, so one deployment can run many companies with separate data and audit trails. |
+| Sans Paperclip | Avec Paperclip |
+| -------------- | -------------- |
+| ❌ 20 onglets Claude Code ouverts et impossible de suivre qui fait quoi. Au redémarrage, tout est perdu. | ✅ Les tâches sont sous forme de tickets, les conversations sont threadées, les sessions persistent entre les redémarrages. |
+| ❌ Vous collectez manuellement le contexte de plusieurs endroits pour rappeler à votre bot ce qu'il fait vraiment. | ✅ Le contexte remonte de la tâche jusqu'aux objectifs du projet et de l'entreprise — votre agent sait toujours quoi faire et pourquoi. |
+| ❌ Des dossiers de configs d'agents désorganisés et vous réinventez la gestion de tâches, la communication et la coordination entre agents. | ✅ Paperclip vous donne des organigrammes, un système de tickets, de la délégation et de la gouvernance clés en main. |
+| ❌ Des boucles incontrôlées gaspillent des centaines d'euros de tokens et épuisent votre quota avant même que vous le sachiez. | ✅ Le suivi des coûts affiche les budgets de tokens et ralentit les agents quand ils les dépassent. |
+| ❌ Vous avez des tâches récurrentes (support client, réseaux sociaux, rapports) et devez vous souvenir de les lancer manuellement. | ✅ Les heartbeats gèrent le travail régulier selon un planning. La direction supervise. |
+| ❌ Vous avez une idée, vous devez trouver votre repo, lancer Claude Code, garder un onglet ouvert et surveiller. | ✅ Ajoutez une tâche dans Paperclip. Votre agent de code travaille dessus jusqu'à la fin. La direction examine le résultat. |
 
 <br/>
 
-## What's Under the Hood
+## Ce qui rend Paperclip spécial
 
-Paperclip is a full control plane, not a wrapper. Before you build any of this yourself, know that it already exists:
+Paperclip gère correctement les détails complexes de l'orchestration.
+
+|                                        |                                                                                                                              |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Exécution atomique.**                | La prise en charge des tâches et l'application du budget sont atomiques : pas de double travail, pas de dérive des coûts.    |
+| **État agent persistant.**             | Les agents reprennent le même contexte de tâche entre les heartbeats au lieu de repartir de zéro.                           |
+| **Injection de compétences à chaud.**  | Les agents peuvent apprendre les workflows Paperclip et le contexte du projet à l'exécution, sans réentraînement.            |
+| **Gouvernance avec retour arrière.**   | Les portes d'approbation sont appliquées, les changements de config sont versionnés, les mauvais changements sont annulables. |
+| **Exécution orientée objectifs.**      | Les tâches portent l'ascendance complète des objectifs, les agents voient toujours le « pourquoi », pas seulement un titre.  |
+| **Modèles d'entreprises portables.**   | Exportez/importez des orgs, agents et compétences avec nettoyage des secrets et gestion des collisions.                     |
+| **Isolation multi-entreprise réelle.** | Chaque entité est scopée à l'entreprise : un déploiement peut faire tourner plusieurs entreprises avec des données séparées. |
+
+<br/>
+
+## Ce qu'il y a sous le capot
+
+Paperclip est un plan de contrôle complet, pas un wrapper. Avant de construire tout ça vous-même, sachez que ça existe déjà :
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
 │                       PAPERCLIP SERVER                       │
 │                                                              │
 │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐  │
-│  │Identity & │  │  Work &   │  │ Heartbeat │  │Governance │  │
-│  │  Access   │  │   Tasks   │  │ Execution │  │& Approvals│  │
+│  │Identité & │  │ Travail & │  │Heartbeat  │  │Gouvernance│  │
+│  │  Accès    │  │  Tâches   │  │Exécution  │  │& Approbat.│  │
 │  └───────────┘  └───────────┘  └───────────┘  └───────────┘  │
 │                                                              │
 │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐  │
-│  │ Org Chart │  │Workspaces │  │  Plugins  │  │  Budget   │  │
-│  │ & Agents  │  │ & Runtime │  │           │  │ & Costs   │  │
+│  │Organi-    │  │Workspaces │  │ Plugins   │  │  Budget   │  │
+│  │gramme     │  │& Runtime  │  │           │  │ & Coûts   │  │
 │  └───────────┘  └───────────┘  └───────────┘  └───────────┘  │
 │                                                              │
 │  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌───────────┐  │
-│  │ Routines  │  │ Secrets & │  │ Activity  │  │  Company  │  │
-│  │& Schedules│  │  Storage  │  │ & Events  │  │Portability│  │
+│  │ Routines  │  │Secrets &  │  │ Activité  │  │Portabilité│  │
+│  │& Planning │  │ Stockage  │  │& Événements│ │entreprise │  │
 │  └───────────┘  └───────────┘  └───────────┘  └───────────┘  │
 └──────────────────────────────────────────────────────────────┘
          ▲              ▲              ▲              ▲
@@ -206,78 +206,78 @@ Paperclip is a full control plane, not a wrapper. Before you build any of this y
    └───────────┘  └───────────┘  └───────────┘  └───────────┘
 ```
 
-### The Systems
+### Les systèmes
 
 <table>
 <tr>
 <td width="50%">
 
-**Identity & Access** — Two deployment modes (trusted local or authenticated), board users, agent API keys, short-lived run JWTs, company memberships, invite flows, and OpenClaw onboarding. Every mutating request is traced to an actor.
+**Identité & Accès** — Deux modes de déploiement (local de confiance ou authentifié), utilisateurs du conseil, clés API des agents, JWTs de run éphémères, appartenances aux entreprises, flux d'invitation et onboarding OpenClaw. Chaque requête de mutation est tracée à un acteur.
 
 </td>
 <td width="50%">
 
-**Org Chart & Agents** — Agents have roles, titles, reporting lines, permissions, and budgets. Adapter examples match the diagram: Claude Code, Codex, CLI agents such as Cursor/Gemini/bash, HTTP/webhook bots such as OpenClaw, and external adapter plugins. If it can receive a heartbeat, it's hired.
+**Organigramme & Agents** — Les agents ont des rôles, des titres, des lignes hiérarchiques, des permissions et des budgets. Les adaptateurs couvrent : Claude Code, Codex, agents CLI (Cursor/Gemini/bash), bots HTTP/webhook (OpenClaw) et plugins d'adaptateurs externes. S'il peut recevoir un heartbeat, il est recruté.
 
 </td>
 </tr>
 <tr>
 <td>
 
-**Work & Task System** — Issues carry company/project/goal/parent links, atomic checkout with execution locks, first-class blocker dependencies, comments, documents, attachments, work products, labels, and inbox state. No double-work, no lost context.
+**Travail & Système de tâches** — Les tickets portent des liens entreprise/projet/objectif/parent, une prise en charge atomique avec verrous d'exécution, des dépendances bloquantes de premier ordre, des commentaires, des documents, des pièces jointes, des produits de travail, des étiquettes et un état de boîte de réception. Pas de double travail, pas de contexte perdu.
 
 </td>
 <td>
 
-**Heartbeat Execution** — DB-backed wakeup queue with coalescing, budget checks, workspace resolution, secret injection, skill loading, and adapter invocation. Runs produce structured logs, cost events, session state, and audit trails. Recovery handles orphaned runs automatically.
-
-</td>
-</tr>
-<tr>
-<td>
-
-**Workspaces & Runtime** — Project workspaces, isolated execution workspaces (git worktrees, operator branches), and runtime services (dev servers, preview URLs). Agents work in the right directory with the right context every time.
-
-</td>
-<td>
-
-**Governance & Approvals** — Board approval workflows, execution policies with review/approval stages, decision tracking, budget hard-stops, agent pause/resume/terminate, and full audit logging. You're the board — nothing ships without your sign-off.
+**Exécution par Heartbeat** — File d'attente de réveil en base de données avec coalescence, vérifications du budget, résolution du workspace, injection des secrets, chargement des compétences et invocation des adaptateurs. Les runs produisent des logs structurés, des événements de coût, l'état de session et des pistes d'audit. La récupération gère automatiquement les runs orphelins.
 
 </td>
 </tr>
 <tr>
 <td>
 
-**Budget & Cost Control** — Token and cost tracking by company, agent, project, goal, issue, provider, and model. Scoped budget policies with warning thresholds and hard stops. Overspend pauses agents and cancels queued work automatically.
+**Workspaces & Runtime** — Workspaces de projet, workspaces d'exécution isolés (worktrees git, branches d'opérateur) et services runtime (serveurs de dev, URLs de prévisualisation). Les agents travaillent toujours dans le bon répertoire avec le bon contexte.
 
 </td>
 <td>
 
-**Routines & Schedules** — Recurring tasks with cron, webhook, and API triggers. Concurrency and catch-up policies. Each routine execution creates a tracked issue and wakes the assigned agent — no manual kick-offs needed.
-
-</td>
-</tr>
-<tr>
-<td>
-
-**Plugins** — Instance-wide plugin system with out-of-process workers, capability-gated host services, job scheduling, tool exposure, and UI contributions. Extend Paperclip without forking it.
-
-</td>
-<td>
-
-**Secrets & Storage** — Instance and company secrets, encrypted local storage, provider-backed object storage, attachments, and work products. Sensitive values stay out of prompts unless a scoped run explicitly needs them.
+**Gouvernance & Approbations** — Workflows d'approbation du conseil, politiques d'exécution avec étapes de revue/approbation, suivi des décisions, arrêts durs de budget, mise en pause/reprise/arrêt des agents, et journalisation complète des audits. Vous êtes le conseil — rien n'est livré sans votre accord.
 
 </td>
 </tr>
 <tr>
 <td>
 
-**Activity & Events** — Mutating actions, heartbeat state changes, cost events, approvals, comments, and work products are recorded as durable activity so operators can audit what happened and why.
+**Budget & Contrôle des coûts** — Suivi des tokens et des coûts par entreprise, agent, projet, objectif, ticket, fournisseur et modèle. Politiques de budget scopées avec seuils d'avertissement et arrêts durs. Le dépassement met en pause les agents et annule le travail en attente automatiquement.
 
 </td>
 <td>
 
-**Company Portability** — Export and import entire organizations — agents, skills, projects, routines, and issues — with secret scrubbing and collision handling. One deployment, many companies, complete data isolation.
+**Routines & Planning** — Tâches récurrentes avec déclencheurs cron, webhook et API. Politiques de concurrence et de rattrapage. Chaque exécution de routine crée un ticket suivi et réveille l'agent assigné — plus de lancement manuel.
+
+</td>
+</tr>
+<tr>
+<td>
+
+**Plugins** — Système de plugins à l'échelle de l'instance avec workers out-of-process, services hôtes à capacités limitées, planification de jobs, exposition d'outils et contributions UI. Étendez Paperclip sans le forker.
+
+</td>
+<td>
+
+**Secrets & Stockage** — Secrets d'instance et d'entreprise, stockage local chiffré, stockage objet par fournisseur, pièces jointes et produits de travail. Les valeurs sensibles restent hors des prompts sauf si un run scopé en a explicitement besoin.
+
+</td>
+</tr>
+<tr>
+<td>
+
+**Activité & Événements** — Les actions de mutation, les changements d'état des heartbeats, les événements de coût, les approbations, les commentaires et les produits de travail sont enregistrés comme activité durable pour que les opérateurs puissent auditer ce qui s'est passé et pourquoi.
+
+</td>
+<td>
+
+**Portabilité des entreprises** — Exportez et importez des organisations entières — agents, compétences, projets, routines et tickets — avec nettoyage des secrets et gestion des collisions. Un seul déploiement, plusieurs entreprises, isolation complète des données.
 
 </td>
 </tr>
@@ -285,38 +285,38 @@ Paperclip is a full control plane, not a wrapper. Before you build any of this y
 
 <br/>
 
-## What Paperclip is not
+## Ce que Paperclip n'est pas
 
-|                              |                                                                                                                      |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| **Not a chatbot.**           | Agents have jobs, not chat windows.                                                                                  |
-| **Not an agent framework.**  | We don't tell you how to build agents. We tell you how to run a company made of them.                                |
-| **Not a workflow builder.**  | No drag-and-drop pipelines. Paperclip models companies — with org charts, goals, budgets, and governance.            |
-| **Not a prompt manager.**    | Agents bring their own prompts, models, and runtimes. Paperclip manages the organization they work in.               |
-| **Not a single-agent tool.** | This is for teams. If you have one agent, you probably don't need Paperclip. If you have twenty — you definitely do. |
-| **Not a code review tool.**  | Paperclip orchestrates work, not pull requests. Bring your own review process.                                       |
+|                                       |                                                                                                                                     |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **Pas un chatbot.**                   | Les agents ont des postes, pas des fenêtres de chat.                                                                                |
+| **Pas un framework d'agents.**        | Nous ne vous disons pas comment construire des agents. Nous vous disons comment faire tourner une entreprise qui en est composée.   |
+| **Pas un constructeur de workflows.** | Pas de pipelines drag-and-drop. Paperclip modélise des entreprises — avec des organigrammes, des objectifs, des budgets et de la gouvernance. |
+| **Pas un gestionnaire de prompts.**   | Les agents apportent leurs propres prompts, modèles et runtimes. Paperclip gère l'organisation dans laquelle ils travaillent.       |
+| **Pas un outil mono-agent.**          | C'est fait pour des équipes. Un agent ? Vous n'avez probablement pas besoin de Paperclip. Vingt ? Vous en avez absolument besoin.   |
+| **Pas un outil de code review.**      | Paperclip orchestre le travail, pas les pull requests. Apportez votre propre processus de revue.                                    |
 
 <br/>
 
-## Quickstart
+## Démarrage rapide
 
-Open source. Self-hosted. No Paperclip account required.
+Open source. Hébergé chez vous. Aucun compte Paperclip requis.
 
 ```bash
 npx paperclipai onboard --yes
 ```
 
-That quickstart path now defaults to trusted local loopback mode for the fastest first run. To start in authenticated/private mode instead, choose a bind preset explicitly:
+Ce chemin de démarrage rapide utilise par défaut le mode loopback local de confiance pour le lancement le plus rapide. Pour démarrer en mode authentifié/privé, choisissez explicitement un preset de liaison :
 
 ```bash
 npx paperclipai onboard --yes --bind lan
-# or:
+# ou :
 npx paperclipai onboard --yes --bind tailnet
 ```
 
-If you already have Paperclip configured, rerunning `onboard` keeps the existing config in place. Use `paperclipai configure` to edit settings.
+Si Paperclip est déjà configuré, relancer `onboard` conserve la config existante. Utilisez `paperclipai configure` pour modifier les paramètres.
 
-Or manually:
+Ou manuellement :
 
 ```bash
 git clone https://github.com/paperclipai/paperclip.git
@@ -325,116 +325,116 @@ pnpm install
 pnpm dev
 ```
 
-This starts the API server at `http://localhost:3100`. An embedded PostgreSQL database is created automatically — no setup required.
+Ceci démarre le serveur API à `http://localhost:3100`. Une base de données PostgreSQL embarquée est créée automatiquement — aucune configuration requise.
 
-> **Requirements:** Node.js 20+, pnpm 9.15+
+> **Prérequis :** Node.js 20+, pnpm 9.15+
 
 <br/>
 
 ## FAQ
 
-**What does a typical setup look like?**
-Locally, a single Node.js process manages an embedded Postgres and local file storage. For production, point it at your own Postgres and deploy however you like. Configure projects, agents, and goals — the agents take care of the rest.
+**À quoi ressemble une installation typique ?**
+En local, un seul processus Node.js gère un Postgres embarqué et un stockage de fichiers local. Pour la production, pointez sur votre propre Postgres et déployez comme vous le souhaitez. Configurez des projets, des agents et des objectifs — les agents s'occupent du reste.
 
-If you're a solo-entreprenuer you can use Tailscale to access Paperclip on the go. Then later you can deploy to e.g. Vercel when you need it.
+Si vous êtes entrepreneur solo, vous pouvez utiliser Tailscale pour accéder à Paperclip en mobilité, puis déployer sur Vercel quand vous en avez besoin.
 
-**Can I run multiple companies?**
-Yes. A single deployment can run an unlimited number of companies with complete data isolation.
+**Peut-on faire tourner plusieurs entreprises ?**
+Oui. Un seul déploiement peut faire tourner un nombre illimité d'entreprises avec une isolation complète des données.
 
-**How is Paperclip different from agents like OpenClaw or Claude Code?**
-Paperclip _uses_ those agents. It orchestrates them into a company — with org charts, budgets, goals, governance, and accountability.
+**En quoi Paperclip est-il différent des agents comme OpenClaw ou Claude Code ?**
+Paperclip _utilise_ ces agents. Il les orchestre en entreprise — avec des organigrammes, des budgets, des objectifs, de la gouvernance et de la responsabilité.
 
-**Why should I use Paperclip instead of just pointing my OpenClaw to Asana or Trello?**
-Agent orchestration has subtleties in how you coordinate who has work checked out, how to maintain sessions, monitoring costs, establishing governance - Paperclip does this for you.
+**Pourquoi utiliser Paperclip plutôt que de pointer mon OpenClaw vers Asana ou Trello ?**
+L'orchestration d'agents a des subtilités : coordination de qui a une tâche en cours, maintien des sessions, surveillance des coûts, établissement de la gouvernance — Paperclip fait tout ça pour vous.
 
-(Bring-your-own-ticket-system is on the Roadmap)
+(La prise en charge de votre propre système de tickets est dans la Roadmap)
 
-**Do agents run continuously?**
-By default, agents run on scheduled heartbeats and event-based triggers (task assignment, @-mentions). You can also hook in continuous agents like OpenClaw. You bring your agent and Paperclip coordinates.
+**Les agents tournent-ils en continu ?**
+Par défaut, les agents tournent selon des heartbeats planifiés et des déclencheurs événementiels (assignation de tâche, @-mentions). Vous pouvez aussi brancher des agents continus comme OpenClaw. Vous apportez votre agent, Paperclip coordonne.
 
 <br/>
 
-## Development
+## Développement
 
 ```bash
-pnpm dev              # Full dev (API + UI, watch mode)
-pnpm dev:once         # Full dev without file watching
-pnpm dev:server       # Server only
-pnpm build            # Build all
-pnpm typecheck        # Type checking
-pnpm test             # Cheap default test run (Vitest only)
-pnpm test:watch       # Vitest watch mode
-pnpm test:e2e         # Playwright browser suite
-pnpm db:generate      # Generate DB migration
-pnpm db:migrate       # Apply migrations
+pnpm dev              # Dev complet (API + UI, mode watch)
+pnpm dev:once         # Dev complet sans surveillance de fichiers
+pnpm dev:server       # Serveur uniquement
+pnpm build            # Tout compiler
+pnpm typecheck        # Vérification des types
+pnpm test             # Tests rapides (Vitest uniquement)
+pnpm test:watch       # Mode watch Vitest
+pnpm test:e2e         # Suite navigateur Playwright
+pnpm db:generate      # Générer une migration DB
+pnpm db:migrate       # Appliquer les migrations
 ```
 
-`pnpm test` does not run Playwright. Browser suites stay separate and are typically run only when working on those flows or in CI.
+`pnpm test` n'exécute pas Playwright. Les suites navigateur sont séparées et ne tournent généralement que lors du travail sur ces flows ou en CI.
 
-See [doc/DEVELOPING.md](doc/DEVELOPING.md) for the full development guide.
+Voir [doc/DEVELOPING.md](doc/DEVELOPING.md) pour le guide de développement complet.
 
 <br/>
 
 ## Roadmap
 
-- ✅ Plugin system (e.g. add a knowledge base, custom tracing, queues, etc)
-- ✅ Get OpenClaw / claw-style agent employees
-- ✅ companies.sh - import and export entire organizations
-- ✅ Easy AGENTS.md configurations
-- ✅ Skills Manager
-- ✅ Scheduled Routines
-- ✅ Better Budgeting
-- ✅ Agent Reviews and Approvals
-- ✅ Multiple Human Users
-- ⚪ Cloud / Sandbox agents (e.g. Cursor / e2b agents)
-- ⚪ Artifacts & Work Products
-- ⚪ Memory / Knowledge
-- ⚪ Enforced Outcomes
-- ⚪ MAXIMIZER MODE
-- ⚪ Deep Planning
-- ⚪ Work Queues
-- ⚪ Self-Organization
-- ⚪ Automatic Organizational Learning
-- ⚪ CEO Chat
-- ⚪ Cloud deployments
-- ⚪ Desktop App
+- ✅ Système de plugins (base de connaissances, traçage custom, files d'attente, etc.)
+- ✅ Intégration OpenClaw / agents de style claw
+- ✅ companies.sh — export et import d'organisations entières
+- ✅ Configurations AGENTS.md simplifiées
+- ✅ Gestionnaire de compétences
+- ✅ Routines planifiées
+- ✅ Gestion budgétaire améliorée
+- ✅ Revues et approbations des agents
+- ✅ Plusieurs utilisateurs humains
+- ⚪ Agents cloud / sandbox (Cursor, e2b...)
+- ⚪ Artefacts & produits de travail
+- ⚪ Mémoire / Base de connaissances
+- ⚪ Résultats imposés
+- ⚪ MODE MAXIMISEUR
+- ⚪ Planification approfondie
+- ⚪ Files de travail
+- ⚪ Auto-organisation
+- ⚪ Apprentissage organisationnel automatique
+- ⚪ Chat CEO
+- ⚪ Déploiements cloud
+- ⚪ Application de bureau
 
-This is the short roadmap preview. See the full roadmap in [ROADMAP.md](ROADMAP.md).
-
-<br/>
-
-## Community & Plugins
-
-Find Plugins and more at [awesome-paperclip](https://github.com/gsxdsm/awesome-paperclip)
-
-## Telemetry
-
-Paperclip collects anonymous usage telemetry to help us understand how the product is used and improve it. No personal information, issue content, prompts, file paths, or secrets are ever collected. Private repository references are hashed with a per-install salt before being sent.
-
-Telemetry is **enabled by default** and can be disabled with any of the following:
-
-| Method               | How                                                     |
-| -------------------- | ------------------------------------------------------- |
-| Environment variable | `PAPERCLIP_TELEMETRY_DISABLED=1`                        |
-| Standard convention  | `DO_NOT_TRACK=1`                                        |
-| CI environments      | Automatically disabled when `CI=true`                   |
-| Config file          | Set `telemetry.enabled: false` in your Paperclip config |
-
-## Contributing
-
-We welcome contributions. See the [contributing guide](CONTRIBUTING.md) for details.
+Ceci est un aperçu raccourci de la roadmap. Voir la roadmap complète dans [ROADMAP.md](ROADMAP.md).
 
 <br/>
 
-## Community
+## Communauté & Plugins
 
-- [Discord](https://discord.gg/m4HZY7xNG3) — Join the community
-- [GitHub Issues](https://github.com/paperclipai/paperclip/issues) — bugs and feature requests
-- [GitHub Discussions](https://github.com/paperclipai/paperclip/discussions) — ideas and RFC
+Trouvez des plugins et plus encore sur [awesome-paperclip](https://github.com/gsxdsm/awesome-paperclip)
+
+## Télémétrie
+
+Paperclip collecte des données d'utilisation anonymes pour nous aider à comprendre comment le produit est utilisé et à l'améliorer. Aucune information personnelle, contenu de ticket, prompt, chemin de fichier ou secret n'est jamais collecté. Les références de dépôts privés sont hachées avec un sel par installation avant envoi.
+
+La télémétrie est **activée par défaut** et peut être désactivée par l'une des méthodes suivantes :
+
+| Méthode               | Comment                                                     |
+| --------------------- | ----------------------------------------------------------- |
+| Variable d'environnement | `PAPERCLIP_TELEMETRY_DISABLED=1`                         |
+| Convention standard   | `DO_NOT_TRACK=1`                                            |
+| Environnements CI     | Désactivée automatiquement quand `CI=true`                  |
+| Fichier de config     | Définir `telemetry.enabled: false` dans votre config Paperclip |
+
+## Contribuer
+
+Les contributions sont les bienvenues. Voir le [guide de contribution](CONTRIBUTING.md) pour les détails.
 
 <br/>
 
-## License
+## Communauté
+
+- [Discord](https://discord.gg/m4HZY7xNG3) — Rejoindre la communauté
+- [Issues GitHub](https://github.com/paperclipai/paperclip/issues) — bugs et demandes de fonctionnalités
+- [Discussions GitHub](https://github.com/paperclipai/paperclip/discussions) — idées et RFC
+
+<br/>
+
+## Licence
 
 MIT &copy; 2026 Paperclip
 
@@ -450,9 +450,9 @@ Ce fork n'existerait pas sans votre vision, votre code, et votre documentation d
 
 ---
 
-## Star History
+## Historique des étoiles
 
-[![Star History Chart](https://api.star-history.com/image?repos=paperclipai/paperclip&type=date&legend=top-left)](https://www.star-history.com/?repos=paperclipai%2Fpaperclip&type=date&legend=top-left)
+[![Historique des étoiles](https://api.star-history.com/image?repos=paperclipai/paperclip&type=date&legend=top-left)](https://www.star-history.com/?repos=paperclipai%2Fpaperclip&type=date&legend=top-left)
 
 <br/>
 
@@ -463,5 +463,5 @@ Ce fork n'existerait pas sans votre vision, votre code, et votre documentation d
 </p>
 
 <p align="center">
-  <sub>Open source under MIT. Built for people who want to run companies, not babysit agents.</sub>
+  <sub>Open source sous licence MIT. Fait pour ceux qui veulent piloter des entreprises, pas surveiller des agents.</sub>
 </p>
