@@ -5,9 +5,35 @@
 <p align="center">
   <a href="#quickstart"><strong>Quickstart</strong></a> &middot;
   <a href="https://paperclip.ing/docs"><strong>Docs</strong></a> &middot;
-  <a href="https://github.com/paperclipai/paperclip"><strong>GitHub</strong></a> &middot;
+  <a href="https://github.com/paperclipai/paperclip"><strong>GitHub upstream</strong></a> &middot;
   <a href="https://discord.gg/m4HZY7xNG3"><strong>Discord</strong></a>
 </p>
+
+<br/>
+
+<p align="center">
+  <strong>🇫🇷 Fork francophone — interface entièrement en français</strong><br/>
+  <sub>Basé sur <a href="https://github.com/paperclipai/paperclip">paperclipai/paperclip</a> — merci à toute l'équipe Paperclip pour ce travail de dingue 🙏</sub>
+</p>
+
+<details>
+<summary><strong>🚀 Ce fork en un coup d'œil — les features qui déchirent</strong></summary>
+
+<br/>
+
+| Statut | Feature |
+|--------|---------|
+| ✅ En prod | **Interface 100 % en français** — navigation, tableaux de bord, dialogs, graphiques, tout |
+| ✅ En prod | **Aide contextuelle** — survol de souris = explication simple sur chaque bouton/icône |
+| ✅ En prod | **Tutoriel de démarrage guidé** — assistant pas à pas au premier lancement, relançable depuis les paramètres |
+| 🔧 En cours | **Plugin `@paperclipai/plugin-atelier`** — chaque agent Claude Code spawné par Paperclip reçoit automatiquement la config [claude-atelier](https://github.com/malikkaraoui/claude-atelier) (skills, hooks, MCP, mémoire) dans son workspace |
+| 🗺️ Roadmap | **Profils d'agents prêts à l'emploi** — `full`, `lean`, `review-only` injectés au démarrage du run |
+| 🗺️ Roadmap | **Dashboard francophone enrichi** — métriques localisées, graphiques étendus, filtres avancés |
+| 🗺️ Roadmap | **Templates d'entreprises FR** — entreprises préconfigurées pour des use-cases français courants |
+
+</details>
+
+<br/>
 
 <p align="center">
   <a href="https://github.com/paperclipai/paperclip/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License" /></a>
@@ -417,6 +443,18 @@ We welcome contributions. See the [contributing guide](CONTRIBUTING.md) for deta
 ## License
 
 MIT &copy; 2026 Paperclip
+
+---
+
+## Remerciements
+
+Un immense merci à toute l'équipe de [**paperclipai/paperclip**](https://github.com/paperclipai/paperclip) pour avoir construit quelque chose d'aussi solide et bien architecturé. Votre travail est une base extraordinaire — on est debout sur les épaules de géants. 🙏
+
+Ce fork n'existerait pas sans votre vision, votre code, et votre documentation de qualité. Continuez comme ça, c'est du beau boulot.
+
+> Ce fork vit en parallèle du projet upstream. Les contributions pertinentes remontent vers `paperclipai/paperclip`.
+
+---
 
 ## Star History
 
