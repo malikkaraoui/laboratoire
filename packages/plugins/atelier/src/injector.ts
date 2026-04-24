@@ -1,11 +1,6 @@
 /**
  * Injects claude-atelier config into an agent execution worktree.
  *
- * Phase 3 (bloquée sur claude-atelier@0.22.0-preview.0) :
- * Cette fonction utilisera `applyProfile` de claude-atelier pour injecter
- * la config programmatiquement. En attendant, le stub est fonctionnel mais
- * ne fait aucune injection réelle.
- *
  * @see CLAUDE.md — Phase 3 Logique d'injection
  */
 
@@ -24,28 +19,58 @@ export interface InjectionResult {
   warnings: string[];
 }
 
+type ApplyProfileFn = (opts: {
+  cwd: string;
+  profile: ProfileName;
+  skills?: string[];
+  hooks?: string[];
+  mcp?: Record<string, unknown>;
+  mergeStrategy?: "repo-wins" | "atelier-wins";
+  dryRun?: boolean;
+}) => Promise<InjectionResult>;
+
 function resolveProfile(agentId: string, config: AtelierInstanceConfig): ProfileName {
   const override = config.perAgentOverrides?.[agentId];
   return override?.profile ?? config.defaultProfile ?? "lean";
 }
 
+function resolveSkills(agentId: string, config: AtelierInstanceConfig): string[] | undefined {
+  const override = config.perAgentOverrides?.[agentId];
+  return override?.skills ?? config.skills;
+}
+
 /**
- * Injecte le profil claude-atelier dans le worktree cible.
+ * Injecte le profil claude-atelier dans le worktree cible via l'API
+ * programmatique de claude-atelier@>=0.22.0-preview.0.
  *
- * TODO Phase 3 : remplacer le corps par :
- *   const { applyProfile } = await import("claude-atelier");
- *   return applyProfile({ cwd, profile, skills, mcp: config.mcpServers, mergeStrategy: "repo-wins" });
+ * L'import est dynamique pour rester optionnel : si claude-atelier n'est pas
+ * installé dans l'environnement du plugin, on retourne un avertissement sans
+ * faire planter le worker.
  */
 export async function injectIntoWorktree(input: InjectionInput): Promise<InjectionResult> {
   const profile = resolveProfile(input.agentId, input.config);
-  const overrideSkills = input.config.perAgentOverrides?.[input.agentId]?.skills
-    ?? input.config.skills
-    ?? [];
+  const skills = resolveSkills(input.agentId, input.config);
 
-  // Phase 3 stub — applyProfile de claude-atelier n'est pas encore dispo
-  return {
-    applied: [],
-    skipped: [`claude-atelier@>=0.22.0-preview.0 requis pour injecter profile="${profile}" skills=${JSON.stringify(overrideSkills)}`],
-    warnings: ["Plugin atelier en mode stub : aucune injection réelle. Mettre à jour claude-atelier."],
-  };
+  let applyProfile: ApplyProfileFn;
+  try {
+    const mod = await import("claude-atelier") as { applyProfile: ApplyProfileFn };
+    applyProfile = mod.applyProfile;
+  } catch {
+    return {
+      applied: [],
+      skipped: [`cwd=${input.cwd} profile=${profile}`],
+      warnings: [
+        "claude-atelier introuvable dans l'environnement du plugin. " +
+        "Installer claude-atelier@>=0.22.0-preview.0 pour activer l'injection.",
+      ],
+    };
+  }
+
+  return applyProfile({
+    cwd: input.cwd,
+    profile,
+    skills,
+    mcp: input.config.mcpServers ?? undefined,
+    mergeStrategy: "repo-wins",
+  });
 }
