@@ -17,7 +17,7 @@ export function Goals() {
   const { setBreadcrumbs } = useBreadcrumbs();
 
   useEffect(() => {
-    setBreadcrumbs([{ label: "Goals" }]);
+    setBreadcrumbs([{ label: "Objectifs" }]);
   }, [setBreadcrumbs]);
 
   const { data: goals, isLoading, error } = useQuery({
@@ -27,7 +27,7 @@ export function Goals() {
   });
 
   if (!selectedCompanyId) {
-    return <EmptyState icon={Target} message="Select a company to view goals." />;
+    return <EmptyState icon={Target} message="Sélectionnez une entreprise pour voir les objectifs." />;
   }
 
   if (isLoading) {
@@ -41,8 +41,8 @@ export function Goals() {
       {goals && goals.length === 0 && (
         <EmptyState
           icon={Target}
-          message="No goals yet."
-          action="Add Goal"
+          message="Aucun objectif pour l'instant."
+          action="Ajouter un objectif"
           onAction={() => openNewGoal()}
         />
       )}
@@ -52,7 +52,7 @@ export function Goals() {
           <div className="flex items-center justify-start">
             <Button size="sm" variant="outline" onClick={() => openNewGoal()}>
               <Plus className="h-3.5 w-3.5 mr-1.5" />
-              New Goal
+              Nouvel objectif
             </Button>
           </div>
           <GoalTree goals={goals} goalLink={(goal) => `/goals/${goal.id}`} />

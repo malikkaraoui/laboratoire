@@ -447,14 +447,14 @@ export function CompanySettings() {
   useEffect(() => {
     setBreadcrumbs([
       { label: selectedCompany?.name ?? "Company", href: "/dashboard" },
-      { label: "Settings" }
+      { label: "Paramètres" }
     ]);
   }, [setBreadcrumbs, selectedCompany?.name]);
 
   if (!selectedCompany) {
     return (
       <div className="text-sm text-muted-foreground">
-        No company selected. Select a company from the switcher above.
+        Aucune entreprise sélectionnée. Choisissez une entreprise dans le sélecteur ci-dessus.
       </div>
     );
   }
@@ -514,16 +514,16 @@ export function CompanySettings() {
     <div className="max-w-2xl space-y-6">
       <div className="flex items-center gap-2">
         <Settings className="h-5 w-5 text-muted-foreground" />
-        <h1 className="text-lg font-semibold">Company Settings</h1>
+        <h1 className="text-lg font-semibold">Paramètres de l'entreprise</h1>
       </div>
 
       {/* General */}
       <div className="space-y-4">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          General
+          Général
         </div>
         <div className="space-y-3 rounded-md border border-border px-4 py-4">
-          <Field label="Company name" hint="The display name for your company.">
+          <Field label="Nom de l'entreprise" hint="Le nom d'affichage de votre entreprise.">
             <input
               className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
               type="text"
@@ -533,13 +533,13 @@ export function CompanySettings() {
           </Field>
           <Field
             label="Description"
-            hint="Optional description shown in the company profile."
+            hint="Description optionnelle affichée dans le profil de l'entreprise."
           >
             <input
               className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
               type="text"
               value={description}
-              placeholder="Optional company description"
+              placeholder="Description optionnelle de l'entreprise"
               onChange={(e) => setDescription(e.target.value)}
             />
           </Field>
@@ -549,7 +549,7 @@ export function CompanySettings() {
       {/* Appearance */}
       <div className="space-y-4">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          Appearance
+          Apparence
         </div>
         <div className="space-y-3 rounded-md border border-border px-4 py-4">
           <div className="flex items-start gap-4">
@@ -564,7 +564,7 @@ export function CompanySettings() {
             <div className="flex-1 space-y-3">
               <Field
                 label="Logo"
-                hint="Upload a PNG, JPEG, WEBP, GIF, or SVG logo image."
+                hint="Téléversez une image PNG, JPEG, WEBP, GIF ou SVG."
               >
                 <div className="space-y-2">
                   <input
@@ -581,7 +581,7 @@ export function CompanySettings() {
                         onClick={handleClearLogo}
                         disabled={clearLogoMutation.isPending}
                       >
-                        {clearLogoMutation.isPending ? "Removing..." : "Remove logo"}
+                        {clearLogoMutation.isPending ? "Suppression..." : "Supprimer le logo"}
                       </Button>
                     </div>
                   )}
@@ -590,7 +590,7 @@ export function CompanySettings() {
                       {logoUploadError ??
                         (logoUploadMutation.error instanceof Error
                           ? logoUploadMutation.error.message
-                          : "Logo upload failed")}
+                          : "Échec du téléversement du logo")}
                     </span>
                   )}
                   {clearLogoMutation.isError && (
@@ -599,13 +599,13 @@ export function CompanySettings() {
                     </span>
                   )}
                   {logoUploadMutation.isPending && (
-                    <span className="text-xs text-muted-foreground">Uploading logo...</span>
+                    <span className="text-xs text-muted-foreground">Téléversement du logo...</span>
                   )}
                 </div>
               </Field>
               <Field
-                label="Brand color"
-                hint="Sets the hue for the company icon. Leave empty for auto-generated color."
+                label="Couleur de marque"
+                hint="Définit la teinte de l'icône de l'entreprise. Laissez vide pour une couleur générée automatiquement."
               >
                 <div className="flex items-center gap-2">
                   <input
@@ -623,7 +623,7 @@ export function CompanySettings() {
                         setBrandColor(v);
                       }
                     }}
-                    placeholder="Auto"
+                    placeholder="Auto (automatique)"
                     className="w-28 rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm font-mono outline-none"
                   />
                   {brandColor && (
@@ -633,7 +633,7 @@ export function CompanySettings() {
                       onClick={() => setBrandColor("")}
                       className="text-xs text-muted-foreground"
                     >
-                      Clear
+                      Effacer
                     </Button>
                   )}
                 </div>
@@ -651,16 +651,16 @@ export function CompanySettings() {
             onClick={handleSaveGeneral}
             disabled={generalMutation.isPending || !companyName.trim()}
           >
-            {generalMutation.isPending ? "Saving..." : "Save changes"}
+            {generalMutation.isPending ? "Enregistrement..." : "Enregistrer les modifications"}
           </Button>
           {generalMutation.isSuccess && (
-            <span className="text-xs text-muted-foreground">Saved</span>
+            <span className="text-xs text-muted-foreground">Enregistré</span>
           )}
           {generalMutation.isError && (
             <span className="text-xs text-destructive">
               {generalMutation.error instanceof Error
                   ? generalMutation.error.message
-                  : "Failed to save"}
+                  : "Échec de l'enregistrement"}
             </span>
           )}
         </div>
@@ -669,20 +669,19 @@ export function CompanySettings() {
       {environmentsEnabled ? (
         <div className="space-y-4" data-testid="company-settings-environments-section">
           <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-            Environments
+            Environnements
           </div>
           <div className="space-y-4 rounded-md border border-border px-4 py-4">
             <div className="rounded-md border border-border/60 bg-muted/20 px-3 py-2 text-xs text-muted-foreground">
-              Environment choices use the same adapter support matrix as agent defaults. SSH environments
-              are available for remote-managed adapters.
+              Les choix d'environnement utilisent la même matrice de compatibilité des adaptateurs que les paramètres par défaut des agents. Les environnements SSH sont disponibles pour les adaptateurs gérés à distance.
             </div>
 
             <div className="overflow-x-auto">
               <table className="w-full min-w-[34rem] text-left text-xs">
-                <caption className="sr-only">Environment support by adapter</caption>
+                <caption className="sr-only">Compatibilité des environnements par adaptateur</caption>
                 <thead className="border-b border-border text-muted-foreground">
                   <tr>
-                    <th className="py-2 pr-3 font-medium">Adapter</th>
+                    <th className="py-2 pr-3 font-medium">Adaptateur</th>
                     <th className="px-3 py-2 font-medium">Local</th>
                     <th className="px-3 py-2 font-medium">SSH</th>
                   </tr>
@@ -710,7 +709,7 @@ export function CompanySettings() {
 
             <div className="space-y-3">
               {(environments ?? []).length === 0 ? (
-                <div className="text-sm text-muted-foreground">No environments saved for this company yet.</div>
+                <div className="text-sm text-muted-foreground">Aucun environnement enregistré pour cette entreprise pour l'instant.</div>
               ) : (
                 (environments ?? []).map((environment) => {
                   const probe = probeResults[environment.id] ?? null;
@@ -734,7 +733,7 @@ export function CompanySettings() {
                               {typeof environment.config.username === "string" ? environment.config.username : "user"}
                             </div>
                           ) : (
-                            <div className="text-xs text-muted-foreground">Runs on this Paperclip host.</div>
+                            <div className="text-xs text-muted-foreground">S'exécute sur cet hôte Paperclip.</div>
                           )}
                         </div>
                         <div className="flex flex-wrap items-center gap-2">
@@ -746,8 +745,8 @@ export function CompanySettings() {
                               disabled={environmentProbeMutation.isPending}
                             >
                               {environmentProbeMutation.isPending
-                                ? "Testing..."
-                                : "Test connection"}
+                                ? "Test en cours..."
+                                : "Tester la connexion"}
                             </Button>
                           ) : null}
                           <Button
@@ -755,7 +754,7 @@ export function CompanySettings() {
                             variant="ghost"
                             onClick={() => handleEditEnvironment(environment)}
                           >
-                            {isEditing ? "Editing" : "Edit"}
+                            {isEditing ? "En cours de modification" : "Modifier"}
                           </Button>
                         </div>
                       </div>
@@ -781,10 +780,10 @@ export function CompanySettings() {
 
             <div className="border-t border-border/60 pt-4">
               <div className="mb-3 text-sm font-medium">
-                {editingEnvironmentId ? "Edit environment" : "Add environment"}
+                {editingEnvironmentId ? "Modifier l'environnement" : "Ajouter un environnement"}
               </div>
               <div className="space-y-3">
-                <Field label="Name" hint="Operator-facing name for this execution target.">
+                <Field label="Nom" hint="Nom visible par les opérateurs pour cette cible d'exécution.">
                   <input
                     className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                     type="text"
@@ -792,7 +791,7 @@ export function CompanySettings() {
                     onChange={(e) => setEnvironmentForm((current) => ({ ...current, name: e.target.value }))}
                   />
                 </Field>
-                <Field label="Description" hint="Optional note about what this machine is for.">
+                <Field label="Description" hint="Note optionnelle sur l'utilisation de cette machine.">
                   <input
                     className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                     type="text"
@@ -800,7 +799,7 @@ export function CompanySettings() {
                     onChange={(e) => setEnvironmentForm((current) => ({ ...current, description: e.target.value }))}
                   />
                 </Field>
-                <Field label="Driver" hint="Local runs on this host. SSH stores a remote machine target.">
+                <Field label="Pilote" hint="Local s'exécute sur cet hôte. SSH stocke une cible de machine distante.">
                   <select
                     className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                     value={environmentForm.driver}
@@ -817,7 +816,7 @@ export function CompanySettings() {
 
                 {environmentForm.driver === "ssh" ? (
                   <div className="grid gap-3 md:grid-cols-2">
-                    <Field label="Host" hint="DNS name or IP address for the remote machine.">
+                    <Field label="Hôte" hint="Nom DNS ou adresse IP de la machine distante.">
                       <input
                         className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                         type="text"
@@ -825,7 +824,7 @@ export function CompanySettings() {
                         onChange={(e) => setEnvironmentForm((current) => ({ ...current, sshHost: e.target.value }))}
                       />
                     </Field>
-                    <Field label="Port" hint="Defaults to 22.">
+                    <Field label="Port" hint="Par défaut : 22.">
                       <input
                         className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                         type="number"
@@ -835,7 +834,7 @@ export function CompanySettings() {
                         onChange={(e) => setEnvironmentForm((current) => ({ ...current, sshPort: e.target.value }))}
                       />
                     </Field>
-                    <Field label="Username" hint="SSH login user.">
+                    <Field label="Nom d'utilisateur" hint="Utilisateur de connexion SSH.">
                       <input
                         className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                         type="text"
@@ -843,7 +842,7 @@ export function CompanySettings() {
                         onChange={(e) => setEnvironmentForm((current) => ({ ...current, sshUsername: e.target.value }))}
                       />
                     </Field>
-                    <Field label="Remote workspace path" hint="Absolute path that Paperclip will verify during SSH connection tests.">
+                    <Field label="Chemin du workspace distant" hint="Chemin absolu que Paperclip vérifiera lors des tests de connexion SSH.">
                       <input
                         className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                         type="text"
@@ -853,7 +852,7 @@ export function CompanySettings() {
                           setEnvironmentForm((current) => ({ ...current, sshRemoteWorkspacePath: e.target.value }))}
                       />
                     </Field>
-                    <Field label="Private key" hint="Optional PEM private key. Leave blank to rely on the server's SSH agent or default keychain.">
+                    <Field label="Clé privée" hint="Clé privée PEM optionnelle. Laissez vide pour utiliser l'agent SSH du serveur ou le trousseau par défaut.">
                       <div className="space-y-2">
                         <select
                           className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
@@ -865,7 +864,7 @@ export function CompanySettings() {
                               sshPrivateKey: e.target.value ? "" : current.sshPrivateKey,
                             }))}
                         >
-                          <option value="">No saved secret</option>
+                          <option value="">Aucun secret enregistré</option>
                           {(secrets ?? []).map((secret) => (
                             <option key={secret.id} value={secret.id}>{secret.name}</option>
                           ))}
@@ -878,7 +877,7 @@ export function CompanySettings() {
                         />
                       </div>
                     </Field>
-                    <Field label="Known hosts" hint="Optional known_hosts block used when strict host key checking is enabled.">
+                    <Field label="Hôtes connus" hint="Bloc known_hosts optionnel utilisé quand la vérification stricte de la clé d'hôte est activée.">
                       <textarea
                         className="h-32 w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-xs font-mono outline-none"
                         value={environmentForm.sshKnownHosts}
@@ -887,8 +886,8 @@ export function CompanySettings() {
                     </Field>
                     <div className="md:col-span-2">
                       <ToggleField
-                        label="Strict host key checking"
-                        hint="Keep this on unless you deliberately want probe-time host key acceptance disabled."
+                        label="Vérification stricte de la clé d'hôte"
+                        hint="Gardez cette option activée sauf si vous souhaitez délibérément désactiver l'acceptation de la clé d'hôte lors des tests."
                         checked={environmentForm.sshStrictHostKeyChecking}
                         onChange={(checked) =>
                           setEnvironmentForm((current) => ({ ...current, sshStrictHostKeyChecking: checked }))}
@@ -905,11 +904,11 @@ export function CompanySettings() {
                   >
                     {environmentMutation.isPending
                       ? editingEnvironmentId
-                        ? "Saving..."
-                        : "Creating..."
+                        ? "Enregistrement..."
+                        : "Création..."
                       : editingEnvironmentId
-                        ? "Save environment"
-                        : "Create environment"}
+                        ? "Enregistrer l'environnement"
+                        : "Créer l'environnement"}
                   </Button>
                   {editingEnvironmentId ? (
                     <Button
@@ -918,7 +917,7 @@ export function CompanySettings() {
                       onClick={handleCancelEnvironmentEdit}
                       disabled={environmentMutation.isPending}
                     >
-                      Cancel
+                      Annuler
                     </Button>
                   ) : null}
                   {environmentForm.driver !== "local" ? (
@@ -928,14 +927,14 @@ export function CompanySettings() {
                       onClick={() => draftEnvironmentProbeMutation.mutate(environmentForm)}
                       disabled={draftEnvironmentProbeMutation.isPending || !environmentFormValid}
                     >
-                      {draftEnvironmentProbeMutation.isPending ? "Testing..." : "Test draft"}
+                      {draftEnvironmentProbeMutation.isPending ? "Test en cours..." : "Tester le brouillon"}
                     </Button>
                   ) : null}
                   {environmentMutation.isError ? (
                     <span className="text-xs text-destructive">
                       {environmentMutation.error instanceof Error
                         ? environmentMutation.error.message
-                        : "Failed to save environment"}
+                        : "Échec de l'enregistrement de l'environnement"}
                     </span>
                   ) : null}
                   {draftEnvironmentProbeMutation.data ? (
@@ -953,12 +952,12 @@ export function CompanySettings() {
       {/* Hiring */}
       <div className="space-y-4" data-testid="company-settings-team-section">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          Hiring
+          Recrutement
         </div>
         <div className="rounded-md border border-border px-4 py-3">
           <ToggleField
-            label="Require board approval for new hires"
-            hint="New agent hires stay pending until approved by board."
+            label="Exiger l'approbation du conseil pour les nouvelles recrues"
+            hint="Les nouvelles recrues agents restent en attente jusqu'à l'approbation du conseil."
             checked={!!selectedCompany.requireBoardApprovalForNewAgents}
             onChange={(v) => settingsMutation.mutate(v)}
             toggleTestId="company-settings-team-approval-toggle"
@@ -968,31 +967,31 @@ export function CompanySettings() {
 
       <div className="space-y-4">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          Feedback Sharing
+          Partage de retours
         </div>
         <div className="space-y-3 rounded-md border border-border px-4 py-4">
           <ToggleField
-            label="Allow sharing voted AI outputs with Paperclip Labs"
-            hint="Only AI-generated outputs you explicitly vote on are eligible for feedback sharing."
+            label="Autoriser le partage des sorties IA votées avec Paperclip Labs"
+            hint="Seules les sorties générées par l'IA sur lesquelles vous votez explicitement sont éligibles au partage de retours."
             checked={!!selectedCompany.feedbackDataSharingEnabled}
             onChange={(enabled) => feedbackSharingMutation.mutate(enabled)}
           />
           <p className="text-sm text-muted-foreground">
-            Votes are always saved locally. This setting controls whether voted AI outputs may also be marked for sharing with Paperclip Labs.
+            Les votes sont toujours enregistrés localement. Ce paramètre contrôle si les sorties IA votées peuvent également être marquées pour partage avec Paperclip Labs.
           </p>
           <div className="space-y-1 text-xs text-muted-foreground">
             <div>
-              Terms version: {selectedCompany.feedbackDataSharingTermsVersion ?? DEFAULT_FEEDBACK_DATA_SHARING_TERMS_VERSION}
+              Version des conditions : {selectedCompany.feedbackDataSharingTermsVersion ?? DEFAULT_FEEDBACK_DATA_SHARING_TERMS_VERSION}
             </div>
             {selectedCompany.feedbackDataSharingConsentAt ? (
               <div>
-                Enabled {new Date(selectedCompany.feedbackDataSharingConsentAt).toLocaleString()}
+                Activé le {new Date(selectedCompany.feedbackDataSharingConsentAt).toLocaleString()}
                 {selectedCompany.feedbackDataSharingConsentByUserId
-                  ? ` by ${selectedCompany.feedbackDataSharingConsentByUserId}`
+                  ? ` par ${selectedCompany.feedbackDataSharingConsentByUserId}`
                   : ""}
               </div>
             ) : (
-              <div>Sharing is currently disabled.</div>
+              <div>Le partage est actuellement désactivé.</div>
             )}
             {FEEDBACK_TERMS_URL ? (
               <a
@@ -1001,7 +1000,7 @@ export function CompanySettings() {
                 rel="noreferrer"
                 className="inline-flex text-foreground underline underline-offset-4"
               >
-                Read our terms of service
+                Lire nos conditions d'utilisation
               </a>
             ) : null}
           </div>
@@ -1011,14 +1010,14 @@ export function CompanySettings() {
       {/* Invites */}
       <div className="space-y-4" data-testid="company-settings-invites-section">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          Invites
+          Invitations
         </div>
         <div className="space-y-3 rounded-md border border-border px-4 py-4">
           <div className="flex items-center gap-1.5">
             <span className="text-xs text-muted-foreground">
-              Generate an OpenClaw agent invite snippet.
+              Générer un snippet d'invitation pour un agent OpenClaw.
             </span>
-            <HintIcon text="Creates a short-lived OpenClaw agent invite and renders a copy-ready prompt." />
+            <HintIcon text="Crée une invitation d'agent OpenClaw à durée limitée et génère un prompt prêt à copier." />
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Button
@@ -1028,8 +1027,8 @@ export function CompanySettings() {
               disabled={inviteMutation.isPending}
             >
               {inviteMutation.isPending
-                ? "Generating..."
-                : "Generate OpenClaw Invite Prompt"}
+                ? "Génération..."
+                : "Générer le prompt d'invitation OpenClaw"}
             </Button>
           </div>
           {inviteError && (
@@ -1042,7 +1041,7 @@ export function CompanySettings() {
             >
               <div className="flex items-center justify-between gap-2">
                 <div className="text-xs text-muted-foreground">
-                  OpenClaw Invite Prompt
+                  Prompt d'invitation OpenClaw
                 </div>
                 {snippetCopied && (
                   <span
@@ -1050,7 +1049,7 @@ export function CompanySettings() {
                     className="flex items-center gap-1 text-xs text-green-600 animate-pulse"
                   >
                     <Check className="h-3 w-3" />
-                    Copied
+                    Copié
                   </span>
                 )}
               </div>
@@ -1077,7 +1076,7 @@ export function CompanySettings() {
                       }
                     }}
                   >
-                    {snippetCopied ? "Copied snippet" : "Copy snippet"}
+                    {snippetCopied ? "Snippet copié" : "Copier le snippet"}
                   </Button>
                 </div>
               </div>
@@ -1089,24 +1088,24 @@ export function CompanySettings() {
       {/* Import / Export */}
       <div className="space-y-4">
         <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-          Company Packages
+          Paquets de l'entreprise
         </div>
         <div className="rounded-md border border-border px-4 py-4">
           <p className="text-sm text-muted-foreground">
-            Import and export have moved to dedicated pages accessible from the{" "}
-            <a href="/org" className="underline hover:text-foreground">Org Chart</a> header.
+            L'import et l'export ont été déplacés vers des pages dédiées accessibles depuis l'en-tête de{" "}
+            <a href="/org" className="underline hover:text-foreground">l'Organigramme</a>.
           </p>
           <div className="mt-3 flex items-center gap-2">
             <Button size="sm" variant="outline" asChild>
               <Link to="/company/export">
                 <Download className="mr-1.5 h-3.5 w-3.5" />
-                Export
+                Exporter
               </Link>
             </Button>
             <Button size="sm" variant="outline" asChild>
               <Link to="/company/import">
                 <Upload className="mr-1.5 h-3.5 w-3.5" />
-                Import
+                Importer
               </Link>
             </Button>
           </div>
@@ -1116,12 +1115,11 @@ export function CompanySettings() {
       {/* Danger Zone */}
       <div className="space-y-4">
         <div className="text-xs font-medium text-destructive uppercase tracking-wide">
-          Danger Zone
+          Zone dangereuse
         </div>
         <div className="space-y-3 rounded-md border border-destructive/40 bg-destructive/5 px-4 py-4">
           <p className="text-sm text-muted-foreground">
-            Archive this company to hide it from the sidebar. This persists in
-            the database.
+            Archivez cette entreprise pour la masquer de la barre latérale. Cette action est persistante dans la base de données.
           </p>
           <div className="flex items-center gap-2">
             <Button
@@ -1134,7 +1132,7 @@ export function CompanySettings() {
               onClick={() => {
                 if (!selectedCompanyId) return;
                 const confirmed = window.confirm(
-                  `Archive company "${selectedCompany.name}"? It will be hidden from the sidebar.`
+                  `Archiver l'entreprise "${selectedCompany.name}" ? Elle sera masquée de la barre latérale.`
                 );
                 if (!confirmed) return;
                 const nextCompanyId =
@@ -1150,16 +1148,16 @@ export function CompanySettings() {
               }}
             >
               {archiveMutation.isPending
-                ? "Archiving..."
+                ? "Archivage..."
                 : selectedCompany.status === "archived"
-                ? "Already archived"
-                : "Archive company"}
+                ? "Déjà archivée"
+                : "Archiver l'entreprise"}
             </Button>
             {archiveMutation.isError && (
               <span className="text-xs text-destructive">
                 {archiveMutation.error instanceof Error
                   ? archiveMutation.error.message
-                  : "Failed to archive company"}
+                  : "Échec de l'archivage de l'entreprise"}
               </span>
             )}
           </div>

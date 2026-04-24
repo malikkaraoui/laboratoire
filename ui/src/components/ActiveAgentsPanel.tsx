@@ -66,7 +66,7 @@ export function ActiveAgentsPanel({ companyId }: ActiveAgentsPanelProps) {
       </h3>
       {runs.length === 0 ? (
         <div className="rounded-xl border border-border p-4">
-          <p className="text-sm text-muted-foreground">No recent agent runs.</p>
+          <p className="text-sm text-muted-foreground">Aucune exécution d'agent récente.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4">
@@ -86,7 +86,7 @@ export function ActiveAgentsPanel({ companyId }: ActiveAgentsPanelProps) {
       {hiddenRunCount > 0 && (
         <div className="mt-3 flex justify-end text-xs text-muted-foreground">
           <Link to="/agents" className="hover:text-foreground hover:underline">
-            {hiddenRunCount} more active/recent run{hiddenRunCount === 1 ? "" : "s"}
+            {hiddenRunCount} exécution{hiddenRunCount === 1 ? "" : "s"} active{hiddenRunCount === 1 ? "" : "s"}/récente{hiddenRunCount === 1 ? "" : "s"} supplémentaire{hiddenRunCount === 1 ? "" : "s"}
           </Link>
         </div>
       )}
@@ -131,7 +131,7 @@ const AgentRunCard = memo(function AgentRunCard({
               <Identity name={run.agentName} size="sm" className="[&>span:last-child]:!text-[11px]" />
             </div>
             <div className="mt-2 flex items-center gap-2 text-[11px] text-muted-foreground">
-              <span>{isActive ? "Live now" : run.finishedAt ? `Finished ${relativeTime(run.finishedAt)}` : `Started ${relativeTime(run.createdAt)}`}</span>
+              <span>{isActive ? "En direct" : run.finishedAt ? `Terminé ${relativeTime(run.finishedAt)}` : `Démarré ${relativeTime(run.createdAt)}`}</span>
             </div>
           </div>
 
