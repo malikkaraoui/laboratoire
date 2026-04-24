@@ -11,12 +11,12 @@ import { ArrowLeft } from "lucide-react";
 import { NotFoundPage } from "./NotFound";
 
 /**
- * Company-context plugin page. Renders a plugin's `page` slot at
- * `/:companyPrefix/plugins/:pluginId` when the plugin declares a page slot
- * and is enabled for that company.
+ * Page de plugin dans le contexte entreprise. Affiche le slot `page` d'un plugin sur
+ * `/:companyPrefix/plugins/:pluginId` quand le plugin déclare un slot de page
+ * et est activé pour cette entreprise.
  *
- * @see doc/plugins/PLUGIN_SPEC.md §19.2 — Company-Context Routes
- * @see doc/plugins/PLUGIN_SPEC.md §24.4 — Company-Context Plugin Page
+ * @see doc/plugins/PLUGIN_SPEC.md §19.2 — Routes dans le contexte entreprise
+ * @see doc/plugins/PLUGIN_SPEC.md §24.4 — Page de plugin dans le contexte entreprise
  */
 export function PluginPage() {
   const { companyPrefix: routeCompanyPrefix, pluginId, pluginRoutePath } = useParams<{
@@ -104,13 +104,13 @@ export function PluginPage() {
     }
     return (
       <div className="space-y-4">
-        <p className="text-sm text-muted-foreground">Select a company to view this page.</p>
+        <p className="text-sm text-muted-foreground">Sélectionnez une entreprise pour afficher cette page.</p>
       </div>
     );
   }
 
   if (!contributions) {
-    return <div className="text-sm text-muted-foreground">Loading…</div>;
+    return <div className="text-sm text-muted-foreground">Chargement en cours…</div>;
   }
 
   if (!pluginId && pluginRoutePath) {
@@ -120,7 +120,7 @@ export function PluginPage() {
     if (duplicateMatches.length > 1) {
       return (
         <div className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
-          Multiple plugins declare the route <code>{pluginRoutePath}</code>. Use the plugin-id route until the conflict is resolved.
+          Plusieurs plugins déclarent la route <code>{pluginRoutePath}</code>. Utilisez la route par identifiant de plugin jusqu'à résolution du conflit.
         </div>
       );
     }
@@ -130,7 +130,7 @@ export function PluginPage() {
     if (pluginRoutePath) {
       return <NotFoundPage scope="board" />;
     }
-    // No page slot: redirect to plugin settings where plugin info is always shown
+    // Pas de slot de page : redirection vers les paramètres du plugin où les infos sont toujours affichées
     const settingsPath = pluginId ? `/instance/settings/plugins/${pluginId}` : "/instance/settings/plugins";
     return <Navigate to={settingsPath} replace />;
   }
@@ -141,7 +141,7 @@ export function PluginPage() {
         <Button variant="ghost" size="sm" asChild>
           <Link to={companyPrefix ? `/${companyPrefix}/dashboard` : "/dashboard"}>
             <ArrowLeft className="h-4 w-4 mr-1" />
-            Back
+            Retour
           </Link>
         </Button>
       </div>
