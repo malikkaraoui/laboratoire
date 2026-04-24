@@ -836,6 +836,7 @@ Minimum event set:
 - `agent.run.finished`
 - `agent.run.failed`
 - `agent.run.cancelled`
+- `agent.run.workspace_ready`
 - `approval.created`
 - `approval.decided`
 - `budget.incident.opened`
@@ -882,6 +883,40 @@ Rules:
 - Plugin events are not core domain events — they do not appear in the core activity log unless the emitting plugin explicitly logs them.
 - Plugin events follow the same at-least-once delivery semantics as core events.
 - The host must not allow plugins to emit events in the core namespace (events without the `plugin.` prefix).
+
+### 16.3 `agent.run.workspace_ready`
+
+Emitted by the host after the execution workspace for an agent run has been
+realized (worktree created or reused, provision command completed), and before
+the adapter process is spawned to execute the run. This gives plugins a hook
+point to mutate or augment the workspace filesystem before agent execution
+starts — e.g. injecting `.claude/` config, MCP server declarations, or other
+per-run scaffolding.
+
+Payload:
+
+```ts
+{
+  runId: string;                   // heartbeat run UUID
+  issueId: string | null;          // issue UUID if the run is issue-scoped
+  projectId: string | null;        // resolved project UUID
+  companyId: string;               // company UUID
+  agentId: string;                 // agent UUID
+  cwd: string;                     // absolute path of the realized workspace
+  branchName: string | null;       // git branch, null when strategy is project_primary
+  baseRef: string | null;          // base git ref the workspace was derived from
+}
+```
+
+Contract:
+
+- The event fires exactly once per run, immediately after the workspace is
+  ready and before `adapter.execute()` is invoked.
+- Subscribers must complete their filesystem work synchronously w.r.t. the
+  event handler contract — the host does not wait for plugin side effects
+  beyond the delivery semantics defined in §16.
+- The host does not emit a corresponding teardown event; execution worktrees
+  are disposable and cleaned up by the workspace lifecycle.
 
 ## 17. Scheduled Jobs
 
