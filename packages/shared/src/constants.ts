@@ -868,6 +868,7 @@ export const PLUGIN_EVENT_TYPES = [
   "agent.run.finished",
   "agent.run.failed",
   "agent.run.cancelled",
+  "agent.run.workspace_ready",
   "goal.created",
   "goal.updated",
   "approval.created",
