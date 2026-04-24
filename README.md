@@ -43,12 +43,6 @@
 
 <br/>
 
-<div align="center">
-  <video src="https://github.com/user-attachments/assets/773bdfb2-6d1e-4e30-8c5f-3487d5b70c8f" width="600" controls></video>
-</div>
-
-<br/>
-
 ## What is Paperclip?
 
 # Open-source orchestration for zero-human companies
