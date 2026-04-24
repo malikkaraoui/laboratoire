@@ -5163,6 +5163,28 @@ export function heartbeatService(db: Db) {
         });
     const resolvedProjectId = executionWorkspace.projectId ?? issueRef?.projectId ?? executionProjectId ?? null;
     const resolvedProjectWorkspaceId = issueRef?.projectWorkspaceId ?? resolvedWorkspace.workspaceId ?? null;
+
+    publishPluginDomainEvent({
+      eventId: randomUUID(),
+      eventType: "agent.run.workspace_ready",
+      occurredAt: new Date().toISOString(),
+      actorId: run.agentId,
+      actorType: "agent",
+      entityId: run.id,
+      entityType: "heartbeat_run",
+      companyId: run.companyId,
+      payload: {
+        runId: run.id,
+        issueId: issueRef?.id ?? null,
+        projectId: resolvedProjectId,
+        companyId: run.companyId,
+        agentId: run.agentId,
+        cwd: executionWorkspace.cwd,
+        branchName: executionWorkspace.branchName,
+        baseRef: executionWorkspace.repoRef,
+      },
+    });
+
     let persistedExecutionWorkspace = null;
     const nextExecutionWorkspaceMetadataBase = {
       ...(existingExecutionWorkspace?.metadata ?? {}),
