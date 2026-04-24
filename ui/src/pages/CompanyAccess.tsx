@@ -437,26 +437,26 @@ export function CompanyAccess() {
                       setDraftStatus(event.target.value as EditableMemberStatus)
                     }
                   >
-                    <option value="active">Active</option>
-                    <option value="pending">Pending</option>
-                    <option value="suspended">Suspended</option>
+                    <option value="active">Actif</option>
+                    <option value="pending">En attente</option>
+                    <option value="suspended">Suspendu</option>
                   </select>
                 </label>
               </div>
 
               <div className="space-y-3">
                 <div>
-                  <h3 className="text-sm font-medium">Grants</h3>
+                  <h3 className="text-sm font-medium">Autorisations</h3>
                   <p className="text-sm text-muted-foreground">
-                    Roles provide implicit grants automatically. Explicit grants below are only for overrides and extra access that should persist even if the role changes.
+                    Les rôles fournissent des autorisations implicites automatiquement. Les autorisations explicites ci-dessous sont uniquement pour les remplacements et accès supplémentaires devant persister même si le rôle change.
                   </p>
                 </div>
                 <div className="rounded-lg border border-border px-3 py-3">
-                  <div className="text-sm font-medium">Implicit grants from role</div>
+                  <div className="text-sm font-medium">Autorisations implicites du rôle</div>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {draftRole
-                      ? `${HUMAN_COMPANY_MEMBERSHIP_ROLE_LABELS[draftRole]} currently includes these permissions automatically.`
-                      : "No role is selected, so this member has no implicit grants right now."}
+                      ? `${HUMAN_COMPANY_MEMBERSHIP_ROLE_LABELS[draftRole]} inclut actuellement ces permissions automatiquement.`
+                      : "Aucun rôle sélectionné, ce membre n'a donc pas d'autorisations implicites pour l'instant."}
                   </p>
                   {implicitGrantKeys.length > 0 ? (
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -490,12 +490,12 @@ export function CompanyAccess() {
                         <span className="block text-xs text-muted-foreground">{permissionKey}</span>
                         {implicitGrantSet.has(permissionKey) ? (
                           <span className="block text-xs text-muted-foreground">
-                            Included implicitly by the {draftRole ? HUMAN_COMPANY_MEMBERSHIP_ROLE_LABELS[draftRole] : "selected"} role. Add an explicit grant only if it should stay after the role changes.
+                            Inclus implicitement par le rôle {draftRole ? HUMAN_COMPANY_MEMBERSHIP_ROLE_LABELS[draftRole] : "sélectionné"}. Ajoutez une autorisation explicite uniquement si elle doit persister après un changement de rôle.
                           </span>
                         ) : null}
                         {draftGrants.has(permissionKey) ? (
                           <span className="block text-xs text-muted-foreground">
-                            Stored explicitly for this member.
+                            Stocké explicitement pour ce membre.
                           </span>
                         ) : null}
                       </span>

@@ -9,6 +9,7 @@ import {
   type EnvironmentProbeResult,
 } from "@paperclipai/shared";
 import { useCompany } from "../context/CompanyContext";
+import { useDialog } from "../context/DialogContext";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { useToastActions } from "../context/ToastContext";
 import { companiesApi } from "../api/companies";
@@ -142,6 +143,7 @@ export function CompanySettings() {
     setSelectedCompanyId
   } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
+  const { openOnboarding } = useDialog();
   const { pushToast } = useToastActions();
   const queryClient = useQueryClient();
   // General settings local state
@@ -543,6 +545,16 @@ export function CompanySettings() {
               onChange={(e) => setDescription(e.target.value)}
             />
           </Field>
+          <div className="pt-1">
+            <Button
+              size="sm"
+              variant="outline"
+              title="Relancez l'assistant de configuration pas à pas"
+              onClick={() => openOnboarding()}
+            >
+              Relancer le tutoriel de démarrage
+            </Button>
+          </div>
         </div>
       </div>
 
