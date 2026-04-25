@@ -138,6 +138,26 @@ describe("plugin-atelier worker", () => {
     );
   });
 
+  it("respecte perAgentOverrides pour un agent spécifique", async () => {
+    mockInject.mockResolvedValue({ applied: [".claude/hooks/user-prompt-submit.sh"], skipped: [], warnings: [] });
+
+    const harness = makeHarness({
+      defaultProfile: "lean",
+      perAgentOverrides: { [WORKSPACE_READY_PAYLOAD.agentId]: "full" },
+    });
+    await plugin.definition.setup(harness.ctx);
+    await harness.emit("agent.run.workspace_ready", WORKSPACE_READY_PAYLOAD);
+
+    expect(mockInject).toHaveBeenCalledWith(
+      expect.objectContaining({
+        config: expect.objectContaining({
+          defaultProfile: "lean",
+          perAgentOverrides: { [WORKSPACE_READY_PAYLOAD.agentId]: "full" },
+        }),
+      }),
+    );
+  });
+
   it("onHealth répond ok", async () => {
     const health = await plugin.definition.onHealth?.();
     expect(health?.status).toBe("ok");

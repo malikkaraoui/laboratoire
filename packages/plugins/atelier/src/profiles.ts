@@ -1,33 +1,19 @@
 export type ProfileName = "full" | "lean" | "review-only";
 
 export interface AtelierProfile {
-  skills: string[];
+  /** Hooks Claude Code injectés dans .claude/hooks/ — exécution garantie, hors contrôle du modèle. */
   hooks: string[];
+  /** Serveurs MCP à fusionner dans .mcp.json. */
   mcp: Record<string, unknown>;
 }
 
 export const PROFILES: Record<ProfileName, AtelierProfile> = {
+  /**
+   * Tous les hooks actifs + MCP GitHub.
+   * UserPromptSubmit intercepte chaque prompt entrant.
+   * SessionModel enforce le modèle au démarrage de session.
+   */
   full: {
-    skills: [
-      "superpowers:brainstorming",
-      "superpowers:systematic-debugging",
-      "superpowers:test-driven-development",
-      "superpowers:writing-plans",
-      "superpowers:executing-plans",
-      "superpowers:verification-before-completion",
-      "superpowers:finishing-a-development-branch",
-      "superpowers:requesting-code-review",
-      "superpowers:receiving-code-review",
-      "superpowers:dispatching-parallel-agents",
-      "superpowers:subagent-driven-development",
-      "superpowers:using-git-worktrees",
-      "superpowers:using-superpowers",
-      "superpowers:writing-skills",
-      "simplify",
-      "feature-dev:feature-dev",
-      "code-review:code-review",
-      "review",
-    ],
     hooks: ["session-model", "user-prompt-submit", "pre-tool-use", "post-tool-use"],
     mcp: {
       github: {
@@ -37,18 +23,21 @@ export const PROFILES: Record<ProfileName, AtelierProfile> = {
       },
     },
   },
+  /**
+   * Hooks essentiels sans MCP.
+   * UserPromptSubmit garantit le passage unique sur chaque prompt.
+   * PreToolUse bloque les opérations non autorisées.
+   */
   lean: {
-    skills: [
-      "superpowers:verification-before-completion",
-      "superpowers:systematic-debugging",
-      "simplify",
-    ],
-    hooks: ["pre-tool-use"],
+    hooks: ["user-prompt-submit", "pre-tool-use"],
     mcp: {},
   },
+  /**
+   * Uniquement le verrou avant push.
+   * UserPromptSubmit + PreToolUse pour bloquer les actions destructives.
+   */
   "review-only": {
-    skills: ["superpowers:verification-before-completion", "code-review:code-review"],
-    hooks: ["pre-tool-use"],
+    hooks: ["user-prompt-submit", "pre-tool-use"],
     mcp: {},
   },
 };

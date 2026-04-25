@@ -3,10 +3,9 @@ import type { ProfileName } from "./profiles.js";
 
 export interface AtelierInstanceConfig {
   defaultProfile: ProfileName;
-  skills?: string[];
-  hooks?: string[];
   mcpServers?: Record<string, unknown>;
-  perAgentOverrides?: Record<string, { profile?: ProfileName; skills?: string[]; hooks?: string[] }>;
+  /** Surcharge de profil par agentId. */
+  perAgentOverrides?: Record<string, ProfileName>;
 }
 
 const profileEnum = ["full", "lean", "review-only"] satisfies ProfileName[];
@@ -19,17 +18,11 @@ export const instanceConfigSchema: JsonSchema = {
       type: "string",
       enum: profileEnum,
       default: "lean",
-      description: "Preset appliqué par défaut à tous les agents",
-    },
-    skills: {
-      type: "array",
-      items: { type: "string" },
-      description: "Skills supplémentaires à injecter (s'ajoutent au preset)",
-    },
-    hooks: {
-      type: "array",
-      items: { type: "string" },
-      description: "Hooks supplémentaires à injecter dans .claude/hooks/",
+      description:
+        "Profil de hooks injectés dans chaque worktree agent. " +
+        "'full' active tous les hooks + MCP GitHub. " +
+        "'lean' active UserPromptSubmit + PreToolUse (passage unique garanti). " +
+        "'review-only' restreint aux hooks de blocage avant push.",
     },
     mcpServers: {
       type: "object",
@@ -38,15 +31,8 @@ export const instanceConfigSchema: JsonSchema = {
     },
     perAgentOverrides: {
       type: "object",
-      additionalProperties: {
-        type: "object",
-        properties: {
-          profile: { type: "string", enum: profileEnum },
-          skills: { type: "array", items: { type: "string" } },
-          hooks: { type: "array", items: { type: "string" } },
-        },
-      },
-      description: "Overrides de config par agentId — priorité sur defaultProfile",
+      additionalProperties: { type: "string", enum: profileEnum },
+      description: "Surcharge de profil par agentId — priorité sur defaultProfile",
     },
   },
 };
