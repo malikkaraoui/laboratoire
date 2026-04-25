@@ -13,6 +13,7 @@ import { agentsApi } from "../api/agents";
 import { queryKeys } from "../lib/queryKeys";
 import { cn } from "../lib/utils";
 import type { Agent } from "@paperclipai/shared";
+import { ModelPicker } from "../adapters/ModelPicker";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -24,27 +25,32 @@ const ADAPTER_LABELS: Record<string, string> = {
   cursor: "Cursor",
   pi_local: "Pi",
   ollama_local: "Ollama",
+  openrouter: "OpenRouter",
   openclaw_gateway: "OpenClaw",
   hermes_local: "Hermes",
 };
 
-function getProviderInfo(agent: Agent) {
+const ADAPTER_EMOJI: Record<string, string> = {
+  ollama_local: "🦙",
+  openrouter: "☁️",
+};
+
+interface ProviderInfo {
+  provider: string;
+  model: string;
+  emoji: string | null;
+}
+
+function getProviderInfo(agent: Agent): ProviderInfo {
   const cfg = agent.adapterConfig as Record<string, string | undefined>;
-  const baseUrl = (cfg.baseUrl ?? "").toLowerCase();
-  const apiKey = cfg.apiKey ?? "";
   const model = cfg.model ?? "";
 
   if (agent.adapterType === "claude_local") {
-    return { provider: "Claude", model: model || "claude" };
+    return { provider: "Claude", model: model || "claude", emoji: null };
   }
-  if (agent.adapterType === "ollama_local") {
-    const isOR = baseUrl.includes("openrouter.ai") || apiKey.startsWith("sk-or-");
-    return {
-      provider: isOR ? "OpenRouter" : "Ollama",
-      model: model || (isOR ? "?" : "llama3.2"),
-    };
-  }
-  return { provider: ADAPTER_LABELS[agent.adapterType] ?? agent.adapterType, model };
+  const provider = ADAPTER_LABELS[agent.adapterType] ?? agent.adapterType;
+  const emoji = ADAPTER_EMOJI[agent.adapterType] ?? null;
+  return { provider, model, emoji };
 }
 
 function fmtK(n: number) {
@@ -77,11 +83,14 @@ function AgentModelRow({
 }) {
   const queryClient = useQueryClient();
   const info = getProviderInfo(agent);
+  const cfg = (agent.adapterConfig ?? {}) as Record<string, string | undefined>;
+  const isDynamicProvider = agent.adapterType === "ollama_local" || agent.adapterType === "openrouter";
 
   const { data: models, isLoading: modelsLoading } = useQuery({
     queryKey: ["adapterModels", companyId, agent.adapterType],
     queryFn: () => agentsApi.adapterModels(companyId, agent.adapterType),
     staleTime: 60_000,
+    enabled: !isDynamicProvider,
   });
 
   const updateMutation = useMutation({
@@ -95,33 +104,47 @@ function AgentModelRow({
   const modelList = models ?? [];
 
   return (
-    <div className="flex items-center gap-3 px-3 py-2.5">
-      <span className={cn("h-2 w-2 rounded-full shrink-0", statusDot(agent.status))} />
-      <span className="text-sm truncate flex-1 min-w-0">{agent.name}</span>
-      {modelsLoading ? (
-        <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground shrink-0" />
-      ) : modelList.length > 0 ? (
-        <Select
-          value={info.model}
-          onValueChange={(v) => updateMutation.mutate(v)}
-          disabled={updateMutation.isPending}
-        >
-          <SelectTrigger className="h-7 text-xs w-44 shrink-0">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {modelList.map((m) => (
-              <SelectItem key={m.id} value={m.id} className="text-xs">
-                {m.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      ) : (
-        <span className="text-xs text-muted-foreground truncate max-w-[140px] shrink-0">
-          {info.model || "—"}
-        </span>
-      )}
+    <div className="flex items-start gap-3 px-3 py-2.5">
+      <span className={cn("h-2 w-2 rounded-full shrink-0 mt-1.5", statusDot(agent.status))} />
+      <div className="flex-1 min-w-0 space-y-1">
+        <div className="flex items-center gap-1.5">
+          {info.emoji && <span aria-hidden className="text-[11px]">{info.emoji}</span>}
+          <span className="text-sm truncate">{agent.name}</span>
+        </div>
+        {isDynamicProvider ? (
+          <ModelPicker
+            provider={agent.adapterType as "ollama_local" | "openrouter"}
+            baseUrl={cfg.baseUrl}
+            apiKey={cfg.apiKey}
+            value={info.model}
+            onChange={(v) => updateMutation.mutate(v)}
+            placeholder={agent.adapterType === "ollama_local" ? "llama3.2…" : "anthropic/…"}
+          />
+        ) : modelsLoading ? (
+          <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
+        ) : modelList.length > 0 ? (
+          <Select
+            value={info.model}
+            onValueChange={(v) => updateMutation.mutate(v)}
+            disabled={updateMutation.isPending}
+          >
+            <SelectTrigger className="h-7 text-xs w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {modelList.map((m) => (
+                <SelectItem key={m.id} value={m.id} className="text-xs">
+                  {m.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : (
+          <span className="text-xs text-muted-foreground truncate block">
+            {info.model || "—"}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
@@ -252,7 +275,11 @@ export function ModelStatusWidget({ companyId }: { companyId: string }) {
                 : "border-border bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground",
             )}
           >
-            <Bot className="h-3 w-3 shrink-0" />
+            {info.emoji ? (
+              <span aria-hidden className="text-[11px] leading-none">{info.emoji}</span>
+            ) : (
+              <Bot className="h-3 w-3 shrink-0" />
+            )}
             <span className="hidden sm:inline">{info.provider}</span>
             {info.model && (
               <>

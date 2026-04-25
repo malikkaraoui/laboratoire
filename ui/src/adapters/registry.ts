@@ -10,6 +10,7 @@ import { hermesLocalUIAdapter } from "./hermes-local";
 import { processUIAdapter } from "./process";
 import { httpUIAdapter } from "./http";
 import { ollamaLocalUIAdapter } from "./ollama-local";
+import { openRouterUIAdapter } from "./openrouter";
 import { loadDynamicParser, invalidateDynamicParser, setDynamicParserResultNotifier } from "./dynamic-loader";
 import { SchemaConfigFields, buildSchemaAdapterConfig } from "./schema-config-fields";
 
@@ -55,6 +56,7 @@ function registerBuiltInUIAdapters() {
     geminiLocalUIAdapter,
     hermesLocalUIAdapter,
     ollamaLocalUIAdapter,
+    openRouterUIAdapter,
     openCodeLocalUIAdapter,
     piLocalUIAdapter,
     cursorLocalUIAdapter,
