@@ -98,27 +98,27 @@ const STAGED_FILE_ACCEPT = "image/*,application/pdf,text/plain,text/markdown,app
 
 const ISSUE_THINKING_EFFORT_OPTIONS = {
   claude_local: [
-    { value: "", label: "Default" },
-    { value: "low", label: "Low" },
-    { value: "medium", label: "Medium" },
-    { value: "high", label: "High" },
+    { value: "", label: "Par défaut" },
+    { value: "low", label: "Faible" },
+    { value: "medium", label: "Moyen" },
+    { value: "high", label: "Élevé" },
   ],
   codex_local: [
-    { value: "", label: "Default" },
+    { value: "", label: "Par défaut" },
     { value: "minimal", label: "Minimal" },
-    { value: "low", label: "Low" },
-    { value: "medium", label: "Medium" },
-    { value: "high", label: "High" },
-    { value: "xhigh", label: "X-High" },
+    { value: "low", label: "Faible" },
+    { value: "medium", label: "Moyen" },
+    { value: "high", label: "Élevé" },
+    { value: "xhigh", label: "Très élevé" },
   ],
   opencode_local: [
-    { value: "", label: "Default" },
+    { value: "", label: "Par défaut" },
     { value: "minimal", label: "Minimal" },
-    { value: "low", label: "Low" },
-    { value: "medium", label: "Medium" },
-    { value: "high", label: "High" },
-    { value: "xhigh", label: "X-High" },
-    { value: "max", label: "Max" },
+    { value: "low", label: "Faible" },
+    { value: "medium", label: "Moyen" },
+    { value: "high", label: "Élevé" },
+    { value: "xhigh", label: "Très élevé" },
+    { value: "max", label: "Maximum" },
   ],
 } as const;
 
