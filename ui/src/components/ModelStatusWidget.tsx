@@ -35,12 +35,18 @@ const ADAPTER_EMOJI: Record<string, string> = {
   openrouter: "☁️",
 };
 
-function getProviderInfo(agent: Agent) {
+interface ProviderInfo {
+  provider: string;
+  model: string;
+  emoji: string | null;
+}
+
+function getProviderInfo(agent: Agent): ProviderInfo {
   const cfg = agent.adapterConfig as Record<string, string | undefined>;
   const model = cfg.model ?? "";
 
   if (agent.adapterType === "claude_local") {
-    return { provider: "Claude", model: model || "claude", emoji: null as string | null };
+    return { provider: "Claude", model: model || "claude", emoji: null };
   }
   const provider = ADAPTER_LABELS[agent.adapterType] ?? agent.adapterType;
   const emoji = ADAPTER_EMOJI[agent.adapterType] ?? null;

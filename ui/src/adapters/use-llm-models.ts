@@ -23,6 +23,18 @@ interface UseLLMModelsArgs {
 }
 
 /**
+ * Discriminant stable et non-secret d'une apiKey pour la queryKey React Query.
+ * Évite de mettre la clé en clair dans la cache key tout en différenciant
+ * deux clés différentes (sinon un changement de clé ne déclencherait pas de
+ * refetch). Utilise length + 4 derniers chars — suffisant pour discriminer.
+ */
+function apiKeyFingerprint(apiKey: string | undefined): string {
+  if (!apiKey) return "no-key";
+  const tail = apiKey.length >= 4 ? apiKey.slice(-4) : apiKey;
+  return `len${apiKey.length}-…${tail}`;
+}
+
+/**
  * Récupère la liste des modèles disponibles pour un provider LLM via le proxy
  * serveur (POST /api/llm/list-models). Évite l'exposition des apiKey dans le
  * navigateur et le CORS.
@@ -35,7 +47,7 @@ export function useLLMModels({ provider, baseUrl, apiKey, enabled = true }: UseL
   const queryEnabled = enabled && isSupported;
 
   return useQuery<ListModelsResponse>({
-    queryKey: ["llm-models", provider, baseUrl ?? "", apiKey ? "with-key" : "no-key"],
+    queryKey: ["llm-models", provider, baseUrl ?? "", apiKeyFingerprint(apiKey)],
     queryFn: () =>
       api.post<ListModelsResponse>("/llm/list-models", {
         provider,

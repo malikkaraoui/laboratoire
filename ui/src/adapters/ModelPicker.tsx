@@ -123,7 +123,7 @@ export function ModelPicker({ provider, baseUrl, apiKey, value, onChange, placeh
             <RefreshCw className="h-3 w-3 text-muted-foreground" />
           )}
         </button>
-        <Popover open={open && (filtered.length > 0 || isError || isLoading)} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <button
               type="button"

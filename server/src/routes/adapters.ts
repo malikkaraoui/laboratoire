@@ -54,6 +54,35 @@ import {
 const execFileAsync = promisify(execFile);
 
 // ---------------------------------------------------------------------------
+// LLM proxy security
+// ---------------------------------------------------------------------------
+
+/**
+ * Allowlist par provider pour le proxy /api/llm/list-models. Empêche
+ * l'utilisation du proxy comme vecteur SSRF (scan IPs internes, metadata
+ * services cloud, etc.).
+ */
+const OLLAMA_ALLOWED_HOSTS = new Set(["localhost", "127.0.0.1", "::1", "[::1]"]);
+
+function isAllowedLLMBaseUrl(provider: string, baseUrl: string): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(baseUrl);
+  } catch {
+    return false;
+  }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") return false;
+  const host = parsed.hostname.toLowerCase();
+  if (provider === "ollama_local") {
+    return OLLAMA_ALLOWED_HOSTS.has(host);
+  }
+  if (provider === "openrouter") {
+    return host === "openrouter.ai" || host.endsWith(".openrouter.ai");
+  }
+  return false;
+}
+
+// ---------------------------------------------------------------------------
 // Request / Response types
 // ---------------------------------------------------------------------------
 
@@ -680,6 +709,10 @@ export function adapterRoutes() {
   // ── POST /api/llm/list-models ───────────────────────────────────────────
   // Proxy de listing des modèles disponibles pour un provider LLM.
   // Évite l'exposition des apiKey dans le navigateur et contourne le CORS.
+  //
+  // Sécurité (anti-SSRF) : baseUrl est validée contre une allowlist par provider
+  // pour empêcher un actor d'utiliser ce proxy comme un scanner d'IPs internes
+  // ou un accès à des metadata services (169.254.169.254, etc.).
   router.post("/llm/list-models", async (req, res) => {
     assertBoardOrgAccess(req);
     const body = (req.body ?? {}) as {
@@ -691,6 +724,13 @@ export function adapterRoutes() {
     const baseUrl = typeof body.baseUrl === "string" ? body.baseUrl.trim() : undefined;
     const apiKey = typeof body.apiKey === "string" ? body.apiKey.trim() : undefined;
 
+    if (baseUrl && !isAllowedLLMBaseUrl(provider, baseUrl)) {
+      res.status(400).json({
+        error: `baseUrl "${baseUrl}" not allowed for provider "${provider}".`,
+      });
+      return;
+    }
+
     try {
       if (provider === "ollama_local") {
         const models = await listOllamaModels(baseUrl || "http://localhost:11434");
@@ -698,7 +738,10 @@ export function adapterRoutes() {
         return;
       }
       if (provider === "openrouter") {
-        const models: OpenRouterModelEntry[] = await listOpenRouterModels(apiKey || undefined);
+        const models: OpenRouterModelEntry[] = await listOpenRouterModels(
+          apiKey || undefined,
+          baseUrl || undefined,
+        );
         res.json({ provider, models });
         return;
       }
@@ -706,7 +749,7 @@ export function adapterRoutes() {
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       logger.error({ err, provider }, "Failed to list LLM models");
-      res.status(500).json({ error: `Failed to list models: ${message}`, models: [] });
+      res.status(502).json({ error: `Failed to list models: ${message}` });
     }
   });
 
