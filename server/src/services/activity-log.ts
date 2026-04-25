@@ -50,6 +50,21 @@ export function publishPluginDomainEvent(event: PluginEvent): void {
   }).catch(() => {});
 }
 
+/**
+ * Awaitable variant — use when plugin handlers must complete before proceeding
+ * (e.g. workspace injection before adapter.execute()).
+ *
+ * Note: no timeout — a hanging plugin handler will block the caller indefinitely.
+ * Fire-and-forget callers (run.completed, run.failed) should keep using publishPluginDomainEvent.
+ */
+export async function emitAndAwaitPluginDomainEvent(event: PluginEvent): Promise<void> {
+  if (!_pluginEventBus) return;
+  const { errors } = await _pluginEventBus.emit(event);
+  for (const { pluginId, error } of errors) {
+    logger.warn({ pluginId, eventType: event.eventType, err: error }, "plugin event handler failed");
+  }
+}
+
 export interface LogActivityInput {
   companyId: string;
   actorType: "agent" | "user" | "system" | "plugin";

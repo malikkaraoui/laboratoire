@@ -4,14 +4,16 @@ import type { ProfileName } from "./profiles.js";
 export interface AtelierInstanceConfig {
   defaultProfile: ProfileName;
   skills?: string[];
+  hooks?: string[];
   mcpServers?: Record<string, unknown>;
-  perAgentOverrides?: Record<string, { profile?: ProfileName; skills?: string[] }>;
+  perAgentOverrides?: Record<string, { profile?: ProfileName; skills?: string[]; hooks?: string[] }>;
 }
 
 const profileEnum = ["full", "lean", "review-only"] satisfies ProfileName[];
 
 export const instanceConfigSchema: JsonSchema = {
   type: "object",
+  required: ["defaultProfile"],
   properties: {
     defaultProfile: {
       type: "string",
@@ -23,6 +25,11 @@ export const instanceConfigSchema: JsonSchema = {
       type: "array",
       items: { type: "string" },
       description: "Skills supplémentaires à injecter (s'ajoutent au preset)",
+    },
+    hooks: {
+      type: "array",
+      items: { type: "string" },
+      description: "Hooks supplémentaires à injecter dans .claude/hooks/",
     },
     mcpServers: {
       type: "object",
@@ -36,6 +43,7 @@ export const instanceConfigSchema: JsonSchema = {
         properties: {
           profile: { type: "string", enum: profileEnum },
           skills: { type: "array", items: { type: "string" } },
+          hooks: { type: "array", items: { type: "string" } },
         },
       },
       description: "Overrides de config par agentId — priorité sur defaultProfile",
