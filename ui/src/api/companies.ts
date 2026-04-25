@@ -47,6 +47,11 @@ export const companiesApi = {
       `/companies/${companyId}/pause-all-agents`,
       {},
     ),
+  resumeAllAgents: (companyId: string) =>
+    api.post<{ resumedAgentCount: number }>(
+      `/companies/${companyId}/resume-all-agents`,
+      {},
+    ),
   archive: (companyId: string) => api.post<Company>(`/companies/${companyId}/archive`, {}),
   remove: (companyId: string) => api.delete<{ ok: true }>(`/companies/${companyId}`),
   exportBundle: (

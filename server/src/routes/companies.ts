@@ -422,6 +422,28 @@ export function companyRoutes(db: Db, storage?: StorageService) {
     res.json({ pausedAgentCount: pausedIds.length, cancelledRunCount });
   });
 
+  router.post("/:companyId/resume-all-agents", async (req, res) => {
+    assertBoard(req);
+    const companyId = req.params.companyId as string;
+    assertCompanyAccess(req, companyId);
+    const allAgents = await agents.list(companyId);
+    const resumedIds: string[] = [];
+    for (const agent of allAgents) {
+      if (agent.status !== "paused") continue;
+      await agents.resume(agent.id);
+      resumedIds.push(agent.id);
+    }
+    await logActivity(db, {
+      companyId,
+      actorType: "user",
+      actorId: req.actor.userId ?? "board",
+      action: "company.agents_resumed",
+      entityType: "company",
+      entityId: companyId,
+    });
+    res.json({ resumedAgentCount: resumedIds.length });
+  });
+
   router.delete("/:companyId", async (req, res) => {
     assertBoard(req);
     const companyId = req.params.companyId as string;

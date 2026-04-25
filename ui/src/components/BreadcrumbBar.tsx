@@ -1,5 +1,5 @@
 import { Link } from "@/lib/router";
-import { Menu, PauseCircle } from "lucide-react";
+import { Menu, PauseCircle, PlayCircle } from "lucide-react";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { useSidebar } from "../context/SidebarContext";
 import { useCompany } from "../context/CompanyContext";
@@ -13,38 +13,67 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Fragment, useMemo, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { companiesApi } from "../api/companies";
+import { agentsApi } from "../api/agents";
 import { queryKeys } from "../lib/queryKeys";
 import { PluginSlotOutlet, usePluginSlots } from "@/plugins/slots";
 import { PluginLauncherOutlet, usePluginLaunchers } from "@/plugins/launchers";
 import { ModelStatusWidget } from "./ModelStatusWidget";
 
 function PauseGeneraleButton({ companyId }: { companyId: string }) {
-  const [confirm, setConfirm] = useState(false);
+  const [confirmPause, setConfirmPause] = useState(false);
   const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: () => companiesApi.pauseAllAgents(companyId),
-    onSuccess: () => {
-      setConfirm(false);
-      queryClient.invalidateQueries({ queryKey: queryKeys.agents.list(companyId) });
-      queryClient.invalidateQueries({ queryKey: queryKeys.dashboard(companyId) });
-    },
+
+  const { data: agentsList } = useQuery({
+    queryKey: queryKeys.agents.list(companyId),
+    queryFn: () => agentsApi.list(companyId),
+    refetchInterval: 10_000,
   });
 
-  if (confirm) {
+  const anyPaused = (agentsList ?? []).some((a) => a.status === "paused");
+
+  const invalidate = () => {
+    queryClient.invalidateQueries({ queryKey: queryKeys.agents.list(companyId) });
+    queryClient.invalidateQueries({ queryKey: queryKeys.dashboard(companyId) });
+  };
+
+  const pauseMutation = useMutation({
+    mutationFn: () => companiesApi.pauseAllAgents(companyId),
+    onSuccess: () => { setConfirmPause(false); invalidate(); },
+  });
+
+  const resumeMutation = useMutation({
+    mutationFn: () => companiesApi.resumeAllAgents(companyId),
+    onSuccess: invalidate,
+  });
+
+  if (anyPaused) {
+    return (
+      <button
+        onClick={() => resumeMutation.mutate()}
+        disabled={resumeMutation.isPending}
+        className="flex items-center gap-1 rounded border border-green-300 bg-green-50 px-2 py-1 text-xs font-medium text-green-700 hover:bg-green-100 dark:border-green-500/30 dark:bg-green-950/40 dark:text-green-300 dark:hover:bg-green-950/60 shrink-0 disabled:opacity-50"
+      >
+        <PlayCircle className="h-3.5 w-3.5" />
+        <span className="hidden sm:inline">{resumeMutation.isPending ? "…" : "Reprendre"}</span>
+      </button>
+    );
+  }
+
+  if (confirmPause) {
     return (
       <div className="flex items-center gap-2 shrink-0">
         <span className="text-xs text-muted-foreground hidden sm:inline">Mettre en pause ?</span>
         <button
-          onClick={() => mutation.mutate()}
-          disabled={mutation.isPending}
+          onClick={() => pauseMutation.mutate()}
+          disabled={pauseMutation.isPending}
           className="rounded border border-orange-400 bg-orange-600 px-2 py-1 text-xs font-medium text-white hover:bg-orange-700 disabled:opacity-50"
         >
-          {mutation.isPending ? "…" : "Confirmer"}
+          {pauseMutation.isPending ? "…" : "Confirmer"}
         </button>
         <button
-          onClick={() => setConfirm(false)}
+          onClick={() => setConfirmPause(false)}
           className="rounded border border-border px-2 py-1 text-xs font-medium hover:bg-accent"
         >
           Annuler
@@ -55,7 +84,7 @@ function PauseGeneraleButton({ companyId }: { companyId: string }) {
 
   return (
     <button
-      onClick={() => setConfirm(true)}
+      onClick={() => setConfirmPause(true)}
       className="flex items-center gap-1 rounded border border-orange-300 bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 hover:bg-orange-100 dark:border-orange-500/30 dark:bg-orange-950/40 dark:text-orange-300 dark:hover:bg-orange-950/60 shrink-0"
     >
       <PauseCircle className="h-3.5 w-3.5" />
