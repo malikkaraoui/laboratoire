@@ -139,7 +139,7 @@ describe("plugin-atelier worker", () => {
   });
 
   it("onHealth répond ok", async () => {
-    const health = await plugin.definition.onHealth?.({} as never);
+    const health = await plugin.definition.onHealth?.();
     expect(health?.status).toBe("ok");
   });
 });
