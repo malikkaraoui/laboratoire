@@ -23,6 +23,6 @@
     "vitest": "^3.2.0"
   },
   "optionalDependencies": {
-    "claude-atelier": "0.22.0-preview.0"
+    "claude-atelier": "0.22.0"
   }
 }
