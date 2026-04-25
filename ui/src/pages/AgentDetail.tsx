@@ -318,7 +318,7 @@ export function RunInvocationCard({
 
   return (
     <div className="rounded-lg border border-border bg-background/60 p-3 space-y-2">
-      <div className="text-xs font-medium text-muted-foreground">Invocation</div>
+      <div className="text-xs font-medium text-muted-foreground">Invocation de l'adaptateur</div>
       {typeof payload.adapterType === "string" && (
         <div className="text-xs"><span className="text-muted-foreground">Adaptateur : </span>{payload.adapterType}</div>
       )}
@@ -2001,7 +2001,7 @@ function PromptsTab({
     return (
       <div className="max-w-3xl">
         <p className="text-sm text-muted-foreground">
-          Instructions bundles are only available for local adapters.
+          Les bundles d'instructions ne sont disponibles que pour les adaptateurs locaux.
         </p>
       </div>
     );
@@ -3904,7 +3904,7 @@ function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: strin
                 )}
                 onClick={() => setTranscriptMode(mode)}
               >
-                {mode}
+                {mode === "nice" ? "Lisible" : "Brut"}
               </button>
             ))}
           </div>
