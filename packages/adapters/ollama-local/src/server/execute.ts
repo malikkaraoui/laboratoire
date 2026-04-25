@@ -13,7 +13,7 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
   const { config, runId, agent, context, onLog } = ctx;
 
   const baseUrl = asString(config.baseUrl, "http://localhost:11434/v1").replace(/\/$/, "");
-  const apiKey = asString(config.apiKey, "");
+  const apiKey = asString(config.apiKey, "") || process.env.OPENROUTER_KEY || process.env.OPENROUTER_API_KEY || "";
   const model = asString(config.model, "llama3.2");
   const timeoutSec = asNumber(config.timeoutSec, 300);
   const promptTemplate = asString(config.promptTemplate, DEFAULT_PAPERCLIP_AGENT_PROMPT_TEMPLATE);
