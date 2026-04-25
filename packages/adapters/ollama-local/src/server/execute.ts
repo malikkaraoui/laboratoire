@@ -35,9 +35,8 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
   const userMessage = joinPromptSections([wakePrompt, sessionHandoffNote, taskContextNote, renderedPrompt]);
 
   const systemParts: string[] = [];
-  if (typeof agent.capabilities === "string" && agent.capabilities.trim()) {
-    systemParts.push(agent.capabilities.trim());
-  }
+  const configSystemPrompt = asString(config.systemPrompt, "").trim();
+  if (configSystemPrompt) systemParts.push(configSystemPrompt);
   const systemPromptAppend = asString(context.paperclipSystemPromptAppend, "").trim();
   if (systemPromptAppend) systemParts.push(systemPromptAppend);
   const systemMessage = systemParts.join("\n\n");
