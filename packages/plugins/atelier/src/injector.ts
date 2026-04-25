@@ -31,7 +31,7 @@ type ApplyProfileFn = (opts: {
 
 function resolveProfile(agentId: string, config: AtelierInstanceConfig): ProfileName {
   const override = config.perAgentOverrides?.[agentId];
-  return override?.profile ?? config.defaultProfile ?? "lean";
+  return override?.profile ?? config.defaultProfile;
 }
 
 function resolveSkills(agentId: string, config: AtelierInstanceConfig): string[] | undefined {
