@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@/lib/router";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dashboardApi } from "../api/dashboard";
+import { companiesApi } from "../api/companies";
 import { activityApi } from "../api/activity";
 import { accessApi } from "../api/access";
 import { issuesApi } from "../api/issues";
@@ -38,6 +39,8 @@ export function Dashboard() {
   const { selectedCompanyId, companies } = useCompany();
   const { openOnboarding } = useDialog();
   const { setBreadcrumbs } = useBreadcrumbs();
+  const queryClient = useQueryClient();
+  const [pauseConfirm, setPauseConfirm] = useState(false);
   const [animatedActivityIds, setAnimatedActivityIds] = useState<Set<string>>(new Set());
   const seenActivityIdsRef = useRef<Set<string>>(new Set());
   const hydratedActivityRef = useRef(false);
@@ -52,6 +55,15 @@ export function Dashboard() {
   useEffect(() => {
     setBreadcrumbs([{ label: "Tableau de bord" }]);
   }, [setBreadcrumbs]);
+
+  const pauseAllMutation = useMutation({
+    mutationFn: () => companiesApi.pauseAllAgents(selectedCompanyId!),
+    onSuccess: () => {
+      setPauseConfirm(false);
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.list(selectedCompanyId!) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.dashboard(selectedCompanyId!) });
+    },
+  });
 
   const { data, isLoading, error } = useQuery({
     queryKey: queryKeys.dashboard(selectedCompanyId!),
@@ -214,7 +226,35 @@ export function Dashboard() {
         </div>
       )}
 
-      <ActiveAgentsPanel companyId={selectedCompanyId!} />
+      <div className="flex items-center justify-between">
+        <ActiveAgentsPanel companyId={selectedCompanyId!} />
+        {!pauseConfirm ? (
+          <button
+            onClick={() => setPauseConfirm(true)}
+            className="flex items-center gap-1.5 rounded-md border border-orange-300 bg-orange-50 px-3 py-1.5 text-sm font-medium text-orange-700 hover:bg-orange-100 dark:border-orange-500/30 dark:bg-orange-950/40 dark:text-orange-300 dark:hover:bg-orange-950/60 shrink-0"
+          >
+            <PauseCircle className="h-4 w-4" />
+            Pause générale
+          </button>
+        ) : (
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="text-sm text-muted-foreground">Mettre tous les agents en pause ?</span>
+            <button
+              onClick={() => pauseAllMutation.mutate()}
+              disabled={pauseAllMutation.isPending}
+              className="rounded-md bg-orange-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-orange-700 disabled:opacity-50"
+            >
+              {pauseAllMutation.isPending ? "En cours…" : "Confirmer"}
+            </button>
+            <button
+              onClick={() => setPauseConfirm(false)}
+              className="rounded-md border border-border px-3 py-1.5 text-sm font-medium hover:bg-accent"
+            >
+              Annuler
+            </button>
+          </div>
+        )}
+      </div>
 
       {data && (
         <>

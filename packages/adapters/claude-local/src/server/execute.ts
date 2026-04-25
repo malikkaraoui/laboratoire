@@ -386,6 +386,10 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
       );
     }
   }
+  const systemPromptAppend = asString(context.paperclipSystemPromptAppend, "").trim();
+  if (systemPromptAppend) {
+    combinedInstructionsContents = (combinedInstructionsContents ?? "") + "\n\n" + systemPromptAppend;
+  }
   const promptBundle = await prepareClaudePromptBundle({
     companyId: agent.companyId,
     skills: claudeSkillEntries.filter((entry) => desiredSkillNames.has(entry.key)),

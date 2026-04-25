@@ -221,6 +221,14 @@ export function CompanySettings() {
     }
   });
 
+  const forceFrenchMutation = useMutation({
+    mutationFn: (enabled: boolean) =>
+      companiesApi.update(selectedCompanyId!, { forceAgentLanguageFrench: enabled }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.companies.all });
+    },
+  });
+
   const feedbackSharingMutation = useMutation({
     mutationFn: (enabled: boolean) =>
       companiesApi.update(selectedCompanyId!, {
@@ -960,6 +968,21 @@ export function CompanySettings() {
           </div>
         </div>
       ) : null}
+
+      {/* Langue des agents */}
+      <div className="space-y-4">
+        <div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+          Langue des agents
+        </div>
+        <div className="rounded-md border border-border px-4 py-3">
+          <ToggleField
+            label="Forcer le français pour tous les agents"
+            hint="Tous les agents de cette société répondront toujours en français, quelle que soit leur langue naturelle."
+            checked={!!selectedCompany.forceAgentLanguageFrench}
+            onChange={(v) => forceFrenchMutation.mutate(v)}
+          />
+        </div>
+      </div>
 
       {/* Hiring */}
       <div className="space-y-4" data-testid="company-settings-team-section">

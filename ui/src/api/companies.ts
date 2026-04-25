@@ -33,6 +33,7 @@ export const companiesApi = {
         | "status"
         | "budgetMonthlyCents"
         | "requireBoardApprovalForNewAgents"
+        | "forceAgentLanguageFrench"
         | "feedbackDataSharingEnabled"
         | "brandColor"
         | "logoAssetId"
@@ -41,6 +42,11 @@ export const companiesApi = {
   ) => api.patch<Company>(`/companies/${companyId}`, data),
   updateBranding: (companyId: string, data: UpdateCompanyBranding) =>
     api.patch<Company>(`/companies/${companyId}/branding`, data),
+  pauseAllAgents: (companyId: string) =>
+    api.post<{ pausedAgentCount: number; cancelledRunCount: number }>(
+      `/companies/${companyId}/pause-all-agents`,
+      {},
+    ),
   archive: (companyId: string) => api.post<Company>(`/companies/${companyId}/archive`, {}),
   remove: (companyId: string) => api.delete<{ ok: true }>(`/companies/${companyId}`),
   exportBundle: (

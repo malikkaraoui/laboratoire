@@ -21,6 +21,7 @@ import {
   companyPortabilityService,
   companyService,
   feedbackService,
+  heartbeatService,
   logActivity,
 } from "../services/index.js";
 import type { StorageService } from "../storage/types.js";
@@ -34,6 +35,7 @@ export function companyRoutes(db: Db, storage?: StorageService) {
   const access = accessService(db);
   const budgets = budgetService(db);
   const feedback = feedbackService(db);
+  const heartbeat = heartbeatService(db);
 
   function parseBooleanQuery(value: unknown) {
     return value === true || value === "true" || value === "1";
@@ -395,6 +397,29 @@ export function companyRoutes(db: Db, storage?: StorageService) {
       entityId: companyId,
     });
     res.json(company);
+  });
+
+  router.post("/:companyId/pause-all-agents", async (req, res) => {
+    assertBoard(req);
+    const companyId = req.params.companyId as string;
+    assertCompanyAccess(req, companyId);
+    const allAgents = await agents.list(companyId);
+    const pausedIds: string[] = [];
+    for (const agent of allAgents) {
+      if (agent.status === "terminated" || agent.status === "paused") continue;
+      await agents.pause(agent.id, "manual");
+      pausedIds.push(agent.id);
+    }
+    const { cancelledRunCount } = await heartbeat.cancelActiveForCompany(companyId);
+    await logActivity(db, {
+      companyId,
+      actorType: "user",
+      actorId: req.actor.userId ?? "board",
+      action: "company.agents_paused",
+      entityType: "company",
+      entityId: companyId,
+    });
+    res.json({ pausedAgentCount: pausedIds.length, cancelledRunCount });
   });
 
   router.delete("/:companyId", async (req, res) => {

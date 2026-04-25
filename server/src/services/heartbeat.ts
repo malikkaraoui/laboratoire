@@ -27,6 +27,7 @@ import {
   agentTaskSessions,
   agentWakeupRequests,
   activityLog,
+  companies,
   companySkills as companySkillsTable,
   documentRevisions,
   issueDocuments,
@@ -5720,6 +5721,19 @@ export function heartbeatService(db: Db) {
         });
       };
 
+      const companyRow = await db
+        .select({ forceAgentLanguageFrench: companies.forceAgentLanguageFrench })
+        .from(companies)
+        .where(eq(companies.id, agent.companyId))
+        .limit(1)
+        .then((rows) => rows[0] ?? null);
+      if (companyRow?.forceAgentLanguageFrench) {
+        context.paperclipSystemPromptAppend = (
+          "IMPORTANT: Tu dois TOUJOURS répondre en français, quelle que soit la langue " +
+          "utilisée pour te parler. Toutes tes réponses, analyses et sorties doivent être en français."
+        );
+      }
+
       const adapter = getServerAdapter(agent.adapterType);
       const authToken = adapter.supportsLocalAgentJwt
         ? createLocalAgentJwt(agent.id, agent.companyId, agent.adapterType, run.id)
@@ -7688,6 +7702,18 @@ export function heartbeatService(db: Db) {
     cancelRun: (runId: string) => cancelRunInternal(runId),
 
     cancelActiveForAgent: (agentId: string) => cancelActiveForAgentInternal(agentId),
+
+    cancelActiveForCompany: async (companyId: string) => {
+      const companyAgents = await db
+        .select({ id: agents.id })
+        .from(agents)
+        .where(and(eq(agents.companyId, companyId), notInArray(agents.status, ["terminated", "paused"])));
+      let total = 0;
+      for (const agent of companyAgents) {
+        total += await cancelActiveForAgentInternal(agent.id, "Pause générale de la société");
+      }
+      return { agentCount: companyAgents.length, cancelledRunCount: total };
+    },
 
     cancelBudgetScopeWork,
 

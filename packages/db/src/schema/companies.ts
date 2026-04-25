@@ -16,6 +16,9 @@ export const companies = pgTable(
     requireBoardApprovalForNewAgents: boolean("require_board_approval_for_new_agents")
       .notNull()
       .default(true),
+    forceAgentLanguageFrench: boolean("force_agent_language_french")
+      .notNull()
+      .default(false),
     feedbackDataSharingEnabled: boolean("feedback_data_sharing_enabled")
       .notNull()
       .default(false),
