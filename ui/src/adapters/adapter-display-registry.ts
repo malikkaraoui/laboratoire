@@ -14,6 +14,7 @@ import {
   Sparkles,
   Terminal,
   Cpu,
+  Layers,
 } from "lucide-react";
 import { OpenCodeLogoIcon } from "@/components/OpenCodeLogoIcon";
 import { HermesIcon } from "@/components/HermesIcon";
@@ -78,6 +79,11 @@ const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
     label: "Hermes Agent",
     description: "Local Hermes CLI agent",
     icon: HermesIcon,
+  },
+  ollama_local: {
+    label: "Ollama / OpenRouter",
+    description: "Ollama local ou OpenRouter (compatible OpenAI API)",
+    icon: Layers,
   },
   pi_local: {
     label: "Pi",

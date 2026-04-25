@@ -9,6 +9,7 @@ import { openClawGatewayUIAdapter } from "./openclaw-gateway";
 import { hermesLocalUIAdapter } from "./hermes-local";
 import { processUIAdapter } from "./process";
 import { httpUIAdapter } from "./http";
+import { ollamaLocalUIAdapter } from "./ollama-local";
 import { loadDynamicParser, invalidateDynamicParser, setDynamicParserResultNotifier } from "./dynamic-loader";
 import { SchemaConfigFields, buildSchemaAdapterConfig } from "./schema-config-fields";
 
@@ -53,6 +54,7 @@ function registerBuiltInUIAdapters() {
     codexLocalUIAdapter,
     geminiLocalUIAdapter,
     hermesLocalUIAdapter,
+    ollamaLocalUIAdapter,
     openCodeLocalUIAdapter,
     piLocalUIAdapter,
     cursorLocalUIAdapter,
