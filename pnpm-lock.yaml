@@ -296,7 +296,7 @@ importers:
         version: link:../sdk
     optionalDependencies:
       claude-atelier:
-        specifier: ^0.22.0-preview.0
+        specifier: 0.22.0-preview.0
         version: 0.22.0-preview.0
     devDependencies:
       '@types/node':
