@@ -1,5 +1,5 @@
 import { Link } from "@/lib/router";
-import { Menu, Bot } from "lucide-react";
+import { Menu, Bot, PauseCircle } from "lucide-react";
 import { useBreadcrumbs } from "../context/BreadcrumbContext";
 import { useSidebar } from "../context/SidebarContext";
 import { useCompany } from "../context/CompanyContext";
@@ -12,9 +12,10 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Fragment, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { Fragment, useMemo, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { agentsApi } from "../api/agents";
+import { companiesApi } from "../api/companies";
 import { queryKeys } from "../lib/queryKeys";
 import { PluginSlotOutlet, usePluginSlots } from "@/plugins/slots";
 import { PluginLauncherOutlet, usePluginLaunchers } from "@/plugins/launchers";
@@ -60,6 +61,50 @@ function CompanyLlmBadge({ companyId }: { companyId: string }) {
   );
 }
 
+function PauseGeneraleButton({ companyId }: { companyId: string }) {
+  const [confirm, setConfirm] = useState(false);
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: () => companiesApi.pauseAllAgents(companyId),
+    onSuccess: () => {
+      setConfirm(false);
+      queryClient.invalidateQueries({ queryKey: queryKeys.agents.list(companyId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.dashboard(companyId) });
+    },
+  });
+
+  if (confirm) {
+    return (
+      <div className="flex items-center gap-2 shrink-0">
+        <span className="text-xs text-muted-foreground hidden sm:inline">Mettre en pause ?</span>
+        <button
+          onClick={() => mutation.mutate()}
+          disabled={mutation.isPending}
+          className="rounded border border-orange-400 bg-orange-600 px-2 py-1 text-xs font-medium text-white hover:bg-orange-700 disabled:opacity-50"
+        >
+          {mutation.isPending ? "…" : "Confirmer"}
+        </button>
+        <button
+          onClick={() => setConfirm(false)}
+          className="rounded border border-border px-2 py-1 text-xs font-medium hover:bg-accent"
+        >
+          Annuler
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setConfirm(true)}
+      className="flex items-center gap-1 rounded border border-orange-300 bg-orange-50 px-2 py-1 text-xs font-medium text-orange-700 hover:bg-orange-100 dark:border-orange-500/30 dark:bg-orange-950/40 dark:text-orange-300 dark:hover:bg-orange-950/60 shrink-0"
+    >
+      <PauseCircle className="h-3.5 w-3.5" />
+      <span className="hidden sm:inline">Pause générale</span>
+    </button>
+  );
+}
+
 type GlobalToolbarContext = { companyId: string | null; companyPrefix: string | null };
 
 function GlobalToolbarPlugins({ context }: { context: GlobalToolbarContext }) {
@@ -79,6 +124,7 @@ export function BreadcrumbBar() {
   const { toggleSidebar, isMobile } = useSidebar();
   const { selectedCompanyId, selectedCompany } = useCompany();
   const llmBadge = selectedCompanyId ? <CompanyLlmBadge companyId={selectedCompanyId} /> : null;
+  const pauseButton = selectedCompanyId ? <PauseGeneraleButton companyId={selectedCompanyId} /> : null;
 
   const globalToolbarSlotContext = useMemo(
     () => ({
@@ -100,7 +146,8 @@ export function BreadcrumbBar() {
 
   if (breadcrumbs.length === 0) {
     return (
-      <div className="border-b border-border px-4 md:px-6 h-12 shrink-0 flex items-center justify-end">
+      <div className="border-b border-border px-4 md:px-6 h-12 shrink-0 flex items-center justify-end gap-2">
+        {pauseButton}
         {llmBadge}
         {globalToolbarSlots}
       </div>
@@ -129,7 +176,10 @@ export function BreadcrumbBar() {
             {breadcrumbs[0].label}
           </h1>
         </div>
-        {llmBadge}
+        <div className="flex items-center gap-2 shrink-0">
+          {pauseButton}
+          {llmBadge}
+        </div>
         {globalToolbarSlots}
       </div>
     );
@@ -162,7 +212,10 @@ export function BreadcrumbBar() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      {llmBadge}
+      <div className="flex items-center gap-2 shrink-0">
+        {pauseButton}
+        {llmBadge}
+      </div>
       {globalToolbarSlots}
     </div>
   );
