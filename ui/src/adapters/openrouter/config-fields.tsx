@@ -5,9 +5,9 @@ import { ModelPicker } from "../ModelPicker";
 const inputClass =
   "w-full rounded-md border border-border px-2.5 py-1.5 bg-transparent outline-none text-sm font-mono placeholder:text-muted-foreground/40";
 
-const DEFAULT_BASE_URL = "http://localhost:11434/v1";
+const DEFAULT_BASE_URL = "https://openrouter.ai/api/v1";
 
-export function OllamaLocalConfigFields({
+export function OpenRouterConfigFields({
   isCreate,
   values,
   set,
@@ -41,37 +41,40 @@ export function OllamaLocalConfigFields({
     else mark("adapterConfig", "model", v || undefined);
   }
 
-  const baseUrl = readText("baseUrl", DEFAULT_BASE_URL);
+  const apiKey = readText("apiKey");
 
   return (
     <>
-      <Field label="Base URL" hint={`Endpoint local Ollama. Par défaut : ${DEFAULT_BASE_URL}`}>
+      <Field label="API Key OpenRouter" hint="Clé sk-or-… requise. Génération sur openrouter.ai/keys.">
         <DraftInput
-          value={baseUrl}
+          value={apiKey}
+          onCommit={(v) => writeText("apiKey", v)}
+          immediate
+          className={inputClass}
+          placeholder="sk-or-..."
+        />
+      </Field>
+
+      <Field
+        label="Modèle"
+        hint="Liste chargée depuis openrouter.ai/api/v1/models. Saisie libre possible."
+      >
+        <ModelPicker
+          provider="openrouter"
+          apiKey={apiKey || undefined}
+          value={readModel()}
+          onChange={writeModel}
+          placeholder="ex : anthropic/claude-3-5-sonnet, openai/gpt-4o"
+        />
+      </Field>
+
+      <Field label="Base URL" hint={`Endpoint API. Par défaut : ${DEFAULT_BASE_URL}`}>
+        <DraftInput
+          value={readText("baseUrl", DEFAULT_BASE_URL)}
           onCommit={(v) => writeText("baseUrl", v)}
           immediate
           className={inputClass}
           placeholder={DEFAULT_BASE_URL}
-        />
-      </Field>
-
-      <Field label="Modèle" hint="Modèles détectés via `ollama list` sur votre machine. Saisie libre possible.">
-        <ModelPicker
-          provider="ollama_local"
-          baseUrl={baseUrl}
-          value={readModel()}
-          onChange={writeModel}
-          placeholder="ex : llama3.2, qwen2.5, mistral"
-        />
-      </Field>
-
-      <Field label="API Key (optionnel)" hint="Requis uniquement si votre serveur Ollama exige une clé.">
-        <DraftInput
-          value={readText("apiKey")}
-          onCommit={(v) => writeText("apiKey", v)}
-          immediate
-          className={inputClass}
-          placeholder=""
         />
       </Field>
 

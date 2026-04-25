@@ -11,6 +11,7 @@ export const BUILTIN_ADAPTER_TYPES = new Set([
   "pi_local",
   "hermes_local",
   "ollama_local",
+  "openrouter",
   "process",
   "http",
 ]);

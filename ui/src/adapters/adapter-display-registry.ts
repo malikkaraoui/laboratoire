@@ -14,10 +14,34 @@ import {
   Sparkles,
   Terminal,
   Cpu,
-  Layers,
+  Cloud,
 } from "lucide-react";
 import { OpenCodeLogoIcon } from "@/components/OpenCodeLogoIcon";
 import { HermesIcon } from "@/components/HermesIcon";
+
+// ---------------------------------------------------------------------------
+// Catégorisation : agents CLI built-in vs providers LLM externes
+// ---------------------------------------------------------------------------
+
+export type AdapterCategory = "builtin" | "local-provider" | "cloud-provider";
+
+/**
+ * Indicateur emoji discret indiquant la nature de l'adapter, affiché à côté
+ * du label dans les dropdowns et badges.
+ * - 🦙 : provider LLM local (Ollama)
+ * - ☁️  : provider LLM cloud (OpenRouter)
+ * - aucun : agent CLI built-in (Claude Code, Codex, Gemini…)
+ */
+export function getAdapterCategoryEmoji(type: string): string | null {
+  const cat = adapterDisplayMap[type]?.category;
+  if (cat === "local-provider") return "🦙";
+  if (cat === "cloud-provider") return "☁️";
+  return null;
+}
+
+export function getAdapterCategory(type: string): AdapterCategory {
+  return adapterDisplayMap[type]?.category ?? "builtin";
+}
 
 // ---------------------------------------------------------------------------
 // Type suffix parsing
@@ -50,6 +74,11 @@ export interface AdapterDisplayInfo {
   recommended?: boolean;
   comingSoon?: boolean;
   disabledLabel?: string;
+  /**
+   * Catégorie utilisée pour grouper les options dans le dropdown LLM et
+   * afficher l'indicateur emoji 🦙 / ☁️.
+   */
+  category?: AdapterCategory;
 }
 
 const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
@@ -81,9 +110,16 @@ const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
     icon: HermesIcon,
   },
   ollama_local: {
-    label: "Ollama / OpenRouter",
-    description: "Ollama local ou OpenRouter (compatible OpenAI API)",
-    icon: Layers,
+    label: "Ollama",
+    description: "Modèles LLM tournant localement sur votre machine via Ollama",
+    icon: Cpu,
+    category: "local-provider",
+  },
+  openrouter: {
+    label: "OpenRouter",
+    description: "Accès cloud à des dizaines de modèles via une API unique",
+    icon: Cloud,
+    category: "cloud-provider",
   },
   pi_local: {
     label: "Pi",

@@ -51,7 +51,7 @@ import { ReportsToPicker } from "./ReportsToPicker";
 import { EnvVarEditor } from "./EnvVarEditor";
 import { shouldShowLegacyWorkingDirectoryField } from "../lib/legacy-agent-config";
 import { listAdapterOptions, listVisibleAdapterTypes } from "../adapters/metadata";
-import { getAdapterLabel } from "../adapters/adapter-display-registry";
+import { getAdapterLabel, getAdapterCategory, getAdapterCategoryEmoji, type AdapterCategory } from "../adapters/adapter-display-registry";
 import { useDisabledAdaptersSync } from "../adapters/use-disabled-adapters";
 import { buildAgentUpdatePatch, type AgentConfigOverlay } from "../lib/agent-config-patch";
 import { useAdapterCapabilities } from "../adapters/use-adapter-capabilities";
@@ -589,12 +589,12 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
         </div>
       ) : null}
 
-      {/* ---- Adapter ---- */}
+      {/* ---- LLM (provider/agent runtime) ---- */}
       <div className={cn(!cards && (isCreate ? "border-t border-border" : "border-b border-border"))}>
         <div className={cn(cards ? "flex items-center justify-between mb-3" : "px-4 py-2 flex items-center justify-between gap-2")}>
           {cards
-            ? <h3 className="text-sm font-medium">Adapter</h3>
-            : <span className="text-xs font-medium text-muted-foreground">Adapter</span>
+            ? <h3 className="text-sm font-medium">LLM</h3>
+            : <span className="text-xs font-medium text-muted-foreground">LLM</span>
           }
           {showAdapterTestEnvironmentButton && (
             <Button
@@ -611,7 +611,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
         </div>
         <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
           {showAdapterTypeField && (
-            <Field label="Adapter type" hint={help.adapterType}>
+            <Field label="Provider LLM" hint={help.adapterType}>
               <AdapterTypeDropdown
                 value={adapterType}
                 disabledTypes={disabledTypes}
@@ -1059,6 +1059,13 @@ function AdapterEnvironmentResult({ result }: { result: AdapterEnvironmentTestRe
 
 /* ---- Internal sub-components ---- */
 
+const CATEGORY_ORDER: AdapterCategory[] = ["builtin", "local-provider", "cloud-provider"];
+const CATEGORY_LABEL: Record<AdapterCategory, string> = {
+  builtin: "Agents CLI built-in",
+  "local-provider": "Providers LLM locaux",
+  "cloud-provider": "Providers LLM cloud",
+};
+
 function AdapterTypeDropdown({
   value,
   onChange,
@@ -1077,11 +1084,25 @@ function AdapterTypeDropdown({
     [disabledTypes],
   );
 
+  // Groupement par catégorie : built-in / local-provider / cloud-provider.
+  const grouped = useMemo(() => {
+    const map = new Map<AdapterCategory, typeof adapterList>();
+    for (const cat of CATEGORY_ORDER) map.set(cat, []);
+    for (const item of adapterList) {
+      const cat = getAdapterCategory(item.value);
+      map.get(cat)!.push(item);
+    }
+    return map;
+  }, [adapterList]);
+
+  const valueEmoji = getAdapterCategoryEmoji(value);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button className="inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1.5 text-sm hover:bg-accent/50 transition-colors w-full justify-between">
           <span className="inline-flex items-center gap-1.5">
+            {valueEmoji && <span aria-hidden>{valueEmoji}</span>}
             {value === "opencode_local" ? <OpenCodeLogoIcon className="h-3.5 w-3.5" /> : null}
             <span>{adapterLabels[value] ?? getAdapterLabel(value)}</span>
           </span>
@@ -1089,33 +1110,48 @@ function AdapterTypeDropdown({
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-1" align="start">
-        {adapterList.map((item) => (
-          <button
-            key={item.value}
-            disabled={item.comingSoon}
-            className={cn(
-              "flex items-center justify-between w-full px-2 py-1.5 text-sm rounded",
-              item.comingSoon
-                ? "opacity-40 cursor-not-allowed"
-                : "hover:bg-accent/50",
-              item.value === value && !item.comingSoon && "bg-accent",
-            )}
-            onClick={() => {
-              if (!item.comingSoon) {
-                onChange(item.value);
-                setOpen(false);
-              }
-            }}
-          >
-            <span className="inline-flex items-center gap-1.5">
-              {item.value === "opencode_local" ? <OpenCodeLogoIcon className="h-3.5 w-3.5" /> : null}
-              <span>{item.label}</span>
-            </span>
-            {item.comingSoon && (
-              <span className="text-[10px] text-muted-foreground">Coming soon</span>
-            )}
-          </button>
-        ))}
+        {CATEGORY_ORDER.map((cat) => {
+          const items = grouped.get(cat) ?? [];
+          if (items.length === 0) return null;
+          return (
+            <div key={cat}>
+              <div className="px-2 pt-1.5 pb-1 text-[10px] uppercase tracking-wide font-semibold text-muted-foreground">
+                {CATEGORY_LABEL[cat]}
+              </div>
+              {items.map((item) => {
+                const emoji = getAdapterCategoryEmoji(item.value);
+                return (
+                  <button
+                    key={item.value}
+                    disabled={item.comingSoon}
+                    className={cn(
+                      "flex items-center justify-between w-full px-2 py-1.5 text-sm rounded",
+                      item.comingSoon
+                        ? "opacity-40 cursor-not-allowed"
+                        : "hover:bg-accent/50",
+                      item.value === value && !item.comingSoon && "bg-accent",
+                    )}
+                    onClick={() => {
+                      if (!item.comingSoon) {
+                        onChange(item.value);
+                        setOpen(false);
+                      }
+                    }}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      {emoji && <span aria-hidden>{emoji}</span>}
+                      {item.value === "opencode_local" ? <OpenCodeLogoIcon className="h-3.5 w-3.5" /> : null}
+                      <span>{item.label}</span>
+                    </span>
+                    {item.comingSoon && (
+                      <span className="text-[10px] text-muted-foreground">Coming soon</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          );
+        })}
       </PopoverContent>
     </Popover>
   );

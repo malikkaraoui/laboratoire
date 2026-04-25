@@ -45,6 +45,11 @@ import { loadExternalAdapterPackage, getUiParserSource, getOrExtractUiParserSour
 import { logger } from "../middleware/logger.js";
 import { assertBoardOrgAccess, assertInstanceAdmin } from "./authz.js";
 import { BUILTIN_ADAPTER_TYPES } from "../adapters/builtin-adapter-types.js";
+import {
+  listOllamaModels,
+  listOpenRouterModels,
+  type OpenRouterModelEntry,
+} from "@paperclipai/adapter-ollama-local/server";
 
 const execFileAsync = promisify(execFile);
 
@@ -670,6 +675,39 @@ export function adapterRoutes() {
       return;
     }
     res.type("application/javascript").send(source);
+  });
+
+  // ── POST /api/llm/list-models ───────────────────────────────────────────
+  // Proxy de listing des modèles disponibles pour un provider LLM.
+  // Évite l'exposition des apiKey dans le navigateur et contourne le CORS.
+  router.post("/llm/list-models", async (req, res) => {
+    assertBoardOrgAccess(req);
+    const body = (req.body ?? {}) as {
+      provider?: string;
+      baseUrl?: string;
+      apiKey?: string;
+    };
+    const provider = String(body.provider ?? "").trim();
+    const baseUrl = typeof body.baseUrl === "string" ? body.baseUrl.trim() : undefined;
+    const apiKey = typeof body.apiKey === "string" ? body.apiKey.trim() : undefined;
+
+    try {
+      if (provider === "ollama_local") {
+        const models = await listOllamaModels(baseUrl || "http://localhost:11434");
+        res.json({ provider, models });
+        return;
+      }
+      if (provider === "openrouter") {
+        const models: OpenRouterModelEntry[] = await listOpenRouterModels(apiKey || undefined);
+        res.json({ provider, models });
+        return;
+      }
+      res.status(400).json({ error: `Unsupported provider "${provider}".` });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      logger.error({ err, provider }, "Failed to list LLM models");
+      res.status(500).json({ error: `Failed to list models: ${message}`, models: [] });
+    }
   });
 
   return router;

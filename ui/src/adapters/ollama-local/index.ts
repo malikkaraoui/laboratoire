@@ -9,7 +9,7 @@ function parseOllamaStdoutLine(line: string, ts: string) {
 
 export const ollamaLocalUIAdapter: UIAdapterModule = {
   type: "ollama_local",
-  label: "Ollama / OpenRouter (local)",
+  label: "Ollama (local)",
   parseStdoutLine: parseOllamaStdoutLine,
   ConfigFields: OllamaLocalConfigFields,
   buildAdapterConfig: buildSchemaAdapterConfig,

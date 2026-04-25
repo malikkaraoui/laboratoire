@@ -59,6 +59,7 @@ import {
   execute as ollamaExecute,
   testEnvironment as ollamaTestEnvironment,
   listOllamaModels,
+  listOpenRouterModels,
 } from "@paperclipai/adapter-ollama-local/server";
 import {
   agentConfigurationDoc as ollamaAgentConfigurationDoc,
@@ -256,6 +257,37 @@ const ollamaLocalAdapter: ServerAdapterModule = {
   agentConfigurationDoc: ollamaAgentConfigurationDoc,
 };
 
+// OpenRouter partage le protocole OpenAI-compatible avec Ollama, donc il
+// réutilise la même fonction execute. La distinction est purement métier :
+// baseUrl par défaut différente, listModels qui interroge openrouter.ai,
+// et un type propre pour les indicateurs visuels (cloud vs local).
+const openRouterAdapter: ServerAdapterModule = {
+  type: "openrouter",
+  execute: async (ctx) => {
+    const cfg = (ctx.agent.adapterConfig ?? {}) as Record<string, unknown>;
+    const baseUrl = typeof cfg.baseUrl === "string" && cfg.baseUrl.trim().length > 0
+      ? cfg.baseUrl
+      : "https://openrouter.ai/api/v1";
+    const patchedCtx = {
+      ...ctx,
+      agent: { ...ctx.agent, adapterConfig: { ...cfg, baseUrl } },
+    };
+    return ollamaExecute(patchedCtx);
+  },
+  testEnvironment: ollamaTestEnvironment,
+  models: [],
+  listModels: () => listOpenRouterModels(),
+  supportsLocalAgentJwt: false,
+  supportsInstructionsBundle: false,
+  requiresMaterializedRuntimeSkills: false,
+  agentConfigurationDoc:
+    "OpenRouter adapter — accès cloud à des dizaines de modèles via une API unique compatible OpenAI.\n\n" +
+    "Configuration :\n" +
+    "- baseUrl : https://openrouter.ai/api/v1 (par défaut)\n" +
+    "- apiKey : clé OpenRouter (sk-or-...) — requise\n" +
+    "- model : ex. 'anthropic/claude-3-5-sonnet', 'openai/gpt-4o', 'meta-llama/llama-3.1-70b-instruct'\n",
+};
+
 const hermesLocalAdapter: ServerAdapterModule = {
   type: "hermes_local",
   execute: async (ctx) => {
@@ -339,6 +371,7 @@ function registerBuiltInAdapters() {
     geminiLocalAdapter,
     openclawGatewayAdapter,
     ollamaLocalAdapter,
+    openRouterAdapter,
     hermesLocalAdapter,
     processAdapter,
     httpAdapter,
