@@ -93,7 +93,7 @@ Fichiers à modifier :
 - `doc/plugins/PLUGIN_SPEC.md` §16 — documenter l'event
 - `server/src/services/__tests__/workspace-runtime.test.ts` — test unitaire
 
-**Gap identifié** : Aucun event n'est actuellement émis entre `provisionCommand` et `adapter.execute()`. Ce patch comble ce trou de manière propre et additive (bénéfique pour tout futur plugin workspace).
+**Résolu** : l'event est émis dans `heartbeat.ts:5168` via `emitAndAwaitPluginDomainEvent`. Le type `"agent.run.workspace_ready"` est dans `PLUGIN_EVENT_TYPES` (shared/constants.ts) et documenté PLUGIN_SPEC.md §16.3. Aucune modification core nécessaire.
 
 ### Phase 2 — Scaffold du plugin
 Créer `packages/plugins/atelier/` :
@@ -152,12 +152,14 @@ Test e2e : créer company + agent Claude Code → assigner ticket → vérifier 
 - [x] `main` mise à jour (commit `60469ac`)
 - [x] Décisions d'architecture prises et lockées
 - [ ] **P0** — claude-atelier API programmatique *(à faire côté claude-atelier)*
-- [ ] **P1** — event `run.workspace_ready` dans core *(prêt à démarrer)*
-- [ ] P2 à P7 — en attente de P1
+- [x] **P1** — event `agent.run.workspace_ready` déjà émis dans `heartbeat.ts:5168`, documenté PLUGIN_SPEC.md §16.3, type dans SDK ✓
+- [x] **P2** — Scaffold complet : `packages/plugins/atelier/` (manifest, worker, injector stub, profiles, config-schema, 8 tests)
+- [ ] **P3** — Logique d'injection *(bloqué P0 — claude-atelier@0.22.0-preview.0)*
+- [ ] P4 à P7 — en attente de P3
 
 ## Branche de développement active
 
-`claude/fork-paperclip-repo-Q6fx1`
+`main` (développement direct)
 
 ---
 
