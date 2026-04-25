@@ -20,7 +20,7 @@ const plugin = definePlugin({
         baseRef: string | null;
       };
 
-      const raw = (ctx.config ?? {}) as Partial<AtelierInstanceConfig>;
+      const raw = (await ctx.config.get()) as Partial<AtelierInstanceConfig>;
       const config: AtelierInstanceConfig = {
         ...raw,
         defaultProfile: raw.defaultProfile ?? "lean",
