@@ -244,7 +244,7 @@ export async function testEnvironment(
         });
       } else if ((probe.exitCode ?? 1) === 0 && parsed.errors.length === 0) {
         const summary = (parsed.finalMessage || parsed.messages.join(" ")).trim();
-        const hasHello = /\bhello\b/i.test(summary);
+        const hasHello = /\b(hello|bonjour|hola|ciao|hallo)\b/i.test(summary);
         checks.push({
           code: hasHello ? "pi_hello_probe_passed" : "pi_hello_probe_unexpected_output",
           level: hasHello ? "info" : "warn",

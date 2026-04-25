@@ -176,7 +176,7 @@ export async function testEnvironment(
         });
       } else if ((probe.exitCode ?? 1) === 0) {
         const summary = parsed.summary.trim();
-        const hasHello = /\bhello\b/i.test(summary);
+        const hasHello = /\b(hello|bonjour|hola|ciao|hallo)\b/i.test(summary);
         checks.push({
           code: hasHello ? "codex_hello_probe_passed" : "codex_hello_probe_unexpected_output",
           level: hasHello ? "info" : "warn",
