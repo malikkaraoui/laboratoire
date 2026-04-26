@@ -75,7 +75,10 @@ export function OllamaLocalConfigFields({
         />
       </Field>
 
-      <Field label="Timeout (sec)" hint="Durée max d'une requête en secondes (0 = pas de limite).">
+      <Field
+        label="Timeout (sec)"
+        hint="Durée max d'une requête (0 = illimité — utile pour le 1er appel Ollama qui charge le modèle en VRAM)."
+      >
         <DraftNumberInput
           value={readNum("timeoutSec", 300)}
           onCommit={(v) => writeNum("timeoutSec", v)}

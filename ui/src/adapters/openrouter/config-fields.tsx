@@ -78,7 +78,7 @@ export function OpenRouterConfigFields({
         />
       </Field>
 
-      <Field label="Timeout (sec)" hint="Durée max d'une requête en secondes (0 = pas de limite).">
+      <Field label="Timeout (sec)" hint="Durée max d'une requête en secondes (0 = illimité).">
         <DraftNumberInput
           value={readNum("timeoutSec", 300)}
           onCommit={(v) => writeNum("timeoutSec", v)}

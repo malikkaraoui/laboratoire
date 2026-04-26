@@ -51,7 +51,11 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
   await onLog("stdout", `[paperclip] Ollama adapter calling ${baseUrl}/chat/completions (model: ${model})\n`);
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutSec * 1000);
+  // timeoutSec <= 0 => pas de timeout (utile pour Ollama local : le 1er appel
+  // peut prendre plusieurs minutes le temps que le modèle soit chargé en VRAM).
+  const timer = timeoutSec > 0
+    ? setTimeout(() => controller.abort(), timeoutSec * 1000)
+    : null;
 
   let fullContent = "";
   let timedOut = false;
@@ -110,7 +114,7 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
       return { exitCode: 1, signal: null, timedOut: false, errorMessage: msg, errorCode: "ollama_error" };
     }
   } finally {
-    clearTimeout(timer);
+    if (timer) clearTimeout(timer);
   }
 
   return {
