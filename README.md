@@ -16,6 +16,20 @@
   <sub>Basé sur <a href="https://github.com/paperclipai/paperclip">paperclipai/paperclip</a> — merci à toute l'équipe Paperclip pour ce travail de dingue 🙏</sub>
 </p>
 
+<br/>
+
+<p align="center">
+  <span style="font-size: 96px; line-height: 1;">🦙</span>
+</p>
+
+<h2 align="center">Paperclip tourne <em>en local</em> via <strong>OLLAMA</strong></h2>
+
+<p align="center">
+  <strong>Zéro dépendance cloud.</strong> Tes agents alimentés par les modèles de ta machine —<br/>
+  <code>qwen3.5</code>, <code>mistral</code>, <code>deepseek-r1</code>, <code>llama3.2</code>… tout passe par <code>localhost:11434</code>.<br/>
+  <em>Et si tu veux le cloud quand même : <strong>OpenRouter</strong> ☁️ est aussi intégré.</em>
+</p>
+
 <details>
 <summary><strong>🚀 Ce fork en un coup d'œil — les features qui déchirent</strong></summary>
 
