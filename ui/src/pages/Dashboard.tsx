@@ -26,6 +26,18 @@ import { ChartCard, RunActivityChart, PriorityChart, IssueStatusChart, SuccessRa
 import { PageSkeleton } from "../components/PageSkeleton";
 import type { Agent, Issue } from "@paperclipai/shared";
 import { PluginSlotOutlet } from "@/plugins/slots";
+import { DashboardMissionView } from "../components/mission/DashboardMissionView";
+
+const DASHBOARD_VIEW_KEY = "paperclip:dashboard-view-mode";
+type DashboardViewMode = "cockpit" | "detailed";
+function loadDashboardViewMode(): DashboardViewMode {
+  if (typeof window === "undefined") return "cockpit";
+  return (window.localStorage.getItem(DASHBOARD_VIEW_KEY) as DashboardViewMode) ?? "cockpit";
+}
+function saveDashboardViewMode(mode: DashboardViewMode): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(DASHBOARD_VIEW_KEY, mode);
+}
 
 const DASHBOARD_ACTIVITY_LIMIT = 10;
 
@@ -38,6 +50,11 @@ export function Dashboard() {
   const { selectedCompanyId, companies } = useCompany();
   const { openOnboarding } = useDialog();
   const { setBreadcrumbs } = useBreadcrumbs();
+  const [viewMode, setViewMode] = useState<DashboardViewMode>(loadDashboardViewMode);
+  const switchViewMode = (mode: DashboardViewMode) => {
+    setViewMode(mode);
+    saveDashboardViewMode(mode);
+  };
   const [animatedActivityIds, setAnimatedActivityIds] = useState<Set<string>>(new Set());
   const seenActivityIdsRef = useRef<Set<string>>(new Set());
   const hydratedActivityRef = useRef(false);
@@ -193,8 +210,40 @@ export function Dashboard() {
 
   const hasNoAgents = agents !== undefined && agents.length === 0;
 
+  // ───────── Vue Cockpit (par défaut) : mission company-wide ─────────
+  if (viewMode === "cockpit" && selectedCompanyId) {
+    return (
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <h1 className="text-base font-semibold">Tableau de bord</h1>
+          <span className="text-[11px] text-muted-foreground">— vue cockpit</span>
+          <div className="flex-1" />
+          <button
+            onClick={() => switchViewMode("detailed")}
+            className="text-[11px] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Vue détaillée →
+          </button>
+        </div>
+        <DashboardMissionView
+          companyId={selectedCompanyId}
+          onOpenDetailedView={() => switchViewMode("detailed")}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+        <button
+          onClick={() => switchViewMode("cockpit")}
+          className="underline-offset-4 hover:text-foreground hover:underline"
+        >
+          ← Vue cockpit
+        </button>
+        <span>· vue détaillée</span>
+      </div>
       {error && <p className="text-sm text-destructive">{error.message}</p>}
 
       {hasNoAgents && (
