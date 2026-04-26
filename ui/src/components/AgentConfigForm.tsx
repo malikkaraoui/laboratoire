@@ -677,6 +677,15 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
             <AdapterEnvironmentResult result={testEnvironment.data} />
           )}
 
+          {/* Provider LLM externe (ollama, openrouter) : pas un "local agent"
+              au sens Paperclip — la section "Permissions & Configuration"
+              n'est pas rendue. On affiche directement ses ConfigFields ici
+              pour que l'utilisateur puisse choisir son modèle, sa baseUrl,
+              son apiKey sans détour par la topbar. */}
+          {!isLocal && uiAdapter && (
+            <uiAdapter.ConfigFields {...adapterFieldProps} />
+          )}
+
           {/* Working directory */}
           {showLegacyWorkingDirectoryField && (
             <Field label="Working directory (deprecated)" hint={help.cwd}>
