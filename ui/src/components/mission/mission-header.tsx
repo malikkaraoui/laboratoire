@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { KPIGrid, type KPI } from "./kpi-grid";
 
 export interface MissionHeaderProps {
+  /** Libellé contextuel au-dessus du titre. Défaut : "Mission active". */
+  label?: string;
   title: string;
   meta?: ReactNode;
   kpis?: KPI[];
@@ -12,13 +14,26 @@ export interface MissionHeaderProps {
   /** Slot droit (ex. boutons d'action) */
   actions?: ReactNode;
   empty?: boolean;
+  /** Niveau de heading sémantique. Défaut h2 (la page hôte porte généralement déjà un h1). */
+  headingLevel?: "h1" | "h2" | "h3";
 }
 
 /**
  * En-tête de mission : titre, méta (qui/quand/échéance), KPIs, progress bar.
  * Gabarit visuel constant pour ancrer l'œil sur la même hiérarchie.
  */
-export function MissionHeader({ title, meta, kpis, progress, actions, empty, className }: MissionHeaderProps) {
+export function MissionHeader({
+  label = "Mission active",
+  title,
+  meta,
+  kpis,
+  progress,
+  actions,
+  empty,
+  className,
+  headingLevel = "h2",
+}: MissionHeaderProps) {
+  const Heading = headingLevel;
   return (
     <section
       className={cn(
@@ -29,11 +44,13 @@ export function MissionHeader({ title, meta, kpis, progress, actions, empty, cla
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
-            <Target className="h-3 w-3" /> Mission active
+            <Target className="h-3 w-3" /> {label}
           </div>
-          <h1 className={cn("mt-1 text-xl font-semibold leading-tight tracking-tight", empty && "text-muted-foreground")}>
+          <Heading
+            className={cn("mt-1 text-xl font-semibold leading-tight tracking-tight", empty && "text-muted-foreground")}
+          >
             {title}
-          </h1>
+          </Heading>
           {meta && <div className="mt-1.5 text-xs text-muted-foreground">{meta}</div>}
         </div>
         {actions && <div className="shrink-0">{actions}</div>}

@@ -22,6 +22,14 @@ interface DashboardMissionViewProps {
   onOpenDetailedView?: () => void;
 }
 
+function missionHeaderLabel(status: string): string {
+  if (status === "active") return "Mission de l'entreprise";
+  if (status === "planned") return "Mission à venir";
+  if (status === "achieved") return "Mission accomplie";
+  if (status === "cancelled") return "Mission annulée";
+  return "Mission";
+}
+
 function pickActiveCompanyMission(goals: Goal[]): Goal | null {
   // Mission company = goal racine (parentId null) sans owner agent (au niveau company)
   // ou à défaut, le goal racine actif le plus récent
@@ -119,12 +127,13 @@ export function DashboardMissionView({ companyId, onOpenDetailedView }: Dashboar
 
   return (
     <div className="space-y-4">
-      {/* En-tête mission company */}
+      {/* En-tête mission company — h1 ici car page d'accueil sans autre h1 */}
       <MissionHeader
+        label={missionHeaderLabel(mission.status)}
         title={mission.title}
+        headingLevel="h1"
         meta={
           <>
-            {mission.status === "active" ? "Active" : mission.status} ·{" "}
             créée {new Date(mission.createdAt).toLocaleDateString("fr-FR")} ·{" "}
             {activeAgents.length} agent{activeAgents.length > 1 ? "s" : ""} engagé{activeAgents.length > 1 ? "s" : ""}
             {mission.description && <> · {mission.description}</>}
@@ -182,7 +191,7 @@ export function DashboardMissionView({ companyId, onOpenDetailedView }: Dashboar
                       <span className="flex items-center gap-2">
                         {owner && (
                           <span className="inline-flex items-center gap-1.5">
-                            <AgentRoleAvatar name={owner.name} size="sm" />
+                            <AgentRoleAvatar name={owner.name} colorKey={owner.id} size="sm" />
                             <span>{owner.name}</span>
                           </span>
                         )}
@@ -214,7 +223,7 @@ export function DashboardMissionView({ companyId, onOpenDetailedView }: Dashboar
                     to={`/agents/${a.id}/mission`}
                     className="flex items-center gap-3 rounded-md p-1.5 text-sm transition-colors hover:bg-muted/40"
                   >
-                    <AgentRoleAvatar name={a.name} size="sm" />
+                    <AgentRoleAvatar name={a.name} colorKey={a.id} size="sm" />
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-[13px] font-medium">{a.name}</div>
                       {a.role && <div className="truncate text-[11px] text-muted-foreground">{a.role}</div>}

@@ -14,8 +14,8 @@ export interface PlanStep {
 /**
  * Timeline verticale d'un plan d'action. Marque visuelle :
  * - done : check vert + opacity réduite
- * - active : cercle vert plein + animation pulse côté icône
- * - upcoming : cercle outline gris
+ * - active : cercle vert plein dans un disque pâle, mise en avant via fond et bordure
+ * - upcoming : cercle outline gris + opacity réduite
  */
 export function PlanTimeline({ steps }: { steps: PlanStep[] }) {
   if (steps.length === 0) {

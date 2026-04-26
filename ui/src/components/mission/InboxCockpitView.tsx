@@ -269,7 +269,11 @@ function InboxRow({
         isDimmed && "opacity-60",
       )}
     >
-      <AgentRoleAvatar name={item.authorName} size="md" />
+      <AgentRoleAvatar
+        name={item.authorName}
+        colorKey={item.authorAgent?.id ?? item.authorName}
+        size="md"
+      />
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 text-[13px]">
           <span className="font-medium">{item.authorName}</span>

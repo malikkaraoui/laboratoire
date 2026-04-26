@@ -745,17 +745,21 @@ export function AgentDetail() {
       return;
     }
     const canonicalTab =
-      activeView === "instructions"
-        ? "instructions"
-        : activeView === "configuration"
-          ? "configuration"
-          : activeView === "skills"
-            ? "skills"
-            : activeView === "runs"
-              ? "runs"
-              : activeView === "budget"
-                ? "budget"
-              : "dashboard";
+      activeView === "mission"
+        ? "mission"
+        : activeView === "instructions"
+          ? "instructions"
+          : activeView === "configuration"
+            ? "configuration"
+            : activeView === "skills"
+              ? "skills"
+              : activeView === "runs"
+                ? "runs"
+                : activeView === "budget"
+                  ? "budget"
+                  : activeView === "dashboard"
+                    ? "dashboard"
+                    : "mission"; // par défaut → vue Mission cockpit-first
     if (routeAgentRef !== canonicalAgentRef || urlTab !== canonicalTab) {
       navigate(`/agents/${canonicalAgentRef}/${canonicalTab}`, { replace: true });
       return;
@@ -903,7 +907,7 @@ export function AgentDetail() {
   if (error) return <p className="text-sm text-destructive">{error.message}</p>;
   if (!agent) return null;
   if (!urlRunId && !urlTab) {
-    return <Navigate to={`/agents/${canonicalAgentRef}/dashboard`} replace />;
+    return <Navigate to={`/agents/${canonicalAgentRef}/mission`} replace />;
   }
   const isPendingApproval = agent.status === "pending_approval";
   const showConfigActionBar = (activeView === "configuration" || activeView === "instructions") && (configDirty || configSaving);

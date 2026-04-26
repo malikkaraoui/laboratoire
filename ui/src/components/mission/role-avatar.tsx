@@ -28,19 +28,26 @@ function initialsOf(name: string): string {
 }
 
 interface AgentRoleAvatarProps {
+  /** Nom affiché et utilisé pour générer les initiales. */
   name: string;
+  /**
+   * Clé déterministe pour la couleur. Privilégier un identifiant stable
+   * (rôle, agentId) pour que la couleur ne change pas si le nom évolue.
+   * Si non fourni, fallback sur `name`.
+   */
+  colorKey?: string;
   size?: "sm" | "md" | "lg";
   className?: string;
 }
 
-export function AgentRoleAvatar({ name, size = "md", className }: AgentRoleAvatarProps) {
+export function AgentRoleAvatar({ name, colorKey, size = "md", className }: AgentRoleAvatarProps) {
   const sizeCls = size === "sm" ? "h-7 w-7 text-[10px]" : size === "lg" ? "h-12 w-12 text-base" : "h-9 w-9 text-xs";
   return (
     <div
       className={cn(
         "inline-flex items-center justify-center rounded-md font-semibold shrink-0",
         sizeCls,
-        colorForName(name),
+        colorForName(colorKey ?? name),
         className,
       )}
     >
