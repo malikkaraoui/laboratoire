@@ -40,8 +40,12 @@
 | ✅ En prod | **Interface 100 % en français** — navigation, tableaux de bord, dialogs, graphiques, tout |
 | ✅ En prod | **Aide contextuelle** — survol de souris = explication simple sur chaque bouton/icône |
 | ✅ En prod | **Tutoriel de démarrage guidé** — assistant pas à pas au premier lancement, relançable depuis les paramètres |
-| 🔧 En cours | **Plugin `@paperclipai/plugin-atelier`** — chaque agent Claude Code spawné par Paperclip reçoit automatiquement la config [claude-atelier](https://github.com/malikkaraoui/claude-atelier) (skills, hooks, MCP, mémoire) dans son workspace |
-| 🗺️ Roadmap | **Profils d'agents prêts à l'emploi** — `full`, `lean`, `review-only` injectés au démarrage du run |
+| ✅ En prod | **Plugin `@paperclipai/plugin-atelier`** — chaque agent Claude Code spawné par Paperclip reçoit automatiquement la config [claude-atelier](https://github.com/malikkaraoui/claude-atelier) (hooks, MCP, mémoire) dans son workspace |
+| ✅ En prod | **Profils d'agents `full` / `lean` / `review-only`** — sélectionnables par agent, hooks injectés au démarrage du run |
+| ✅ En prod | **🦙 Ollama local + ☁️ OpenRouter** — providers LLM séparés avec listing dynamique des modèles, badge live + ModelPicker dans la topbar |
+| ✅ En prod | **Vue Mission cockpit-first** — page agent / Inbox / Dashboard pivotent autour de Mission → Objectifs → Livrables (validation inline) |
+| ✅ En prod | **Pause générale réelle** — bouton topbar qui annule les runs en cours ET pause les agents |
+| ✅ En prod | **Forçage langue française des LLM** — system prompt bilingue strict pour les modèles 4b-8b |
 | 🗺️ Roadmap | **Dashboard francophone enrichi** — métriques localisées, graphiques étendus, filtres avancés |
 | 🗺️ Roadmap | **Templates d'entreprises FR** — entreprises préconfigurées pour des use-cases français courants |
 
