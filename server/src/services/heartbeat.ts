@@ -5728,10 +5728,24 @@ export function heartbeatService(db: Db) {
         .limit(1)
         .then((rows) => rows[0] ?? null);
       if (companyRow?.forceAgentLanguageFrench) {
-        context.paperclipSystemPromptAppend = (
-          "IMPORTANT: Tu dois TOUJOURS répondre en français, quelle que soit la langue " +
-          "utilisée pour te parler. Toutes tes réponses, analyses et sorties doivent être en français."
-        );
+        // Prompt bilingue + directif pour maximiser l'efficacité avec les petits
+        // modèles (qwen3.5:4b, mistral 7b, deepseek...) qui ont tendance à
+        // ignorer les instructions formulées en français uniquement.
+        context.paperclipSystemPromptAppend = [
+          "=== LANGUAGE REQUIREMENT / EXIGENCE LINGUISTIQUE ===",
+          "",
+          "ABSOLUTE RULE: All your output MUST be in FRENCH only.",
+          "RÈGLE ABSOLUE : Toutes tes réponses, analyses, plans, commentaires, " +
+            "messages, raisonnements (thinking) et sorties DOIVENT être EN FRANÇAIS.",
+          "",
+          "- Ne réponds JAMAIS en anglais, même si on te parle en anglais.",
+          "- Even technical sections (plans, summaries, action items) MUST be in French.",
+          "- Si tu utilises un mot technique anglais (API, commit, deploy), explique-le en français.",
+          "- Le code et les noms de variables peuvent rester en anglais ; les commentaires en français.",
+          "",
+          "Exemple correct : « Je vais analyser le ticket et déléguer au CTO. »",
+          "Exemple INCORRECT : « I will analyze the ticket and delegate to the CTO. »",
+        ].join("\n");
       }
 
       const adapter = getServerAdapter(agent.adapterType);
