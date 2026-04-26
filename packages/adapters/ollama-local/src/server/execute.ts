@@ -51,21 +51,36 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
   await onLog("stdout", `[paperclip] Ollama adapter calling ${baseUrl}/chat/completions (model: ${model})\n`);
 
   const controller = new AbortController();
-  // timeoutSec <= 0 => pas de timeout (utile pour Ollama local : le 1er appel
-  // peut prendre plusieurs minutes le temps que le modèle soit chargé en VRAM).
+  // timeoutSec <= 0 => pas de timeout applicatif (utile pour Ollama local :
+  // le 1er appel peut prendre plusieurs minutes le temps que le modèle soit
+  // chargé en VRAM, et les modèles "thinking" comme qwen3 peuvent réfléchir
+  // longtemps avant d'émettre du content).
   const timer = timeoutSec > 0
     ? setTimeout(() => controller.abort(), timeoutSec * 1000)
     : null;
 
+  // undici (le client HTTP de Node fetch) coupe par défaut les streams après
+  // 5 minutes via headersTimeout/bodyTimeout. On crée un Agent dédié sans
+  // limite pour permettre les longs streams (modèles "thinking", local CPU).
+  const { Agent, fetch: undiciFetch } = await import("undici");
+  const dispatcher = new Agent({
+    headersTimeout: 0,
+    bodyTimeout: 0,
+    keepAliveTimeout: 60_000,
+  });
+
   let fullContent = "";
+  let fullReasoning = "";
+  let reasoningStarted = false;
   let timedOut = false;
 
   try {
-    const res = await fetch(`${baseUrl}/chat/completions`, {
+    const res = await undiciFetch(`${baseUrl}/chat/completions`, {
       method: "POST",
       headers,
       body: JSON.stringify({ model, messages, stream: true }),
       signal: controller.signal,
+      dispatcher,
     });
 
     if (!res.ok) {
@@ -90,12 +105,30 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
         if (!trimmed || trimmed === "[DONE]") continue;
         try {
           const chunk = JSON.parse(trimmed) as {
-            choices?: { delta?: { content?: string }; finish_reason?: string }[];
+            choices?: { delta?: { content?: string; reasoning?: string }; finish_reason?: string }[];
           };
-          const delta = chunk.choices?.[0]?.delta?.content ?? "";
-          if (delta) {
-            fullContent += delta;
-            await onLog("stdout", delta);
+          const delta = chunk.choices?.[0]?.delta;
+          // Modèles "thinking" (qwen3.5, deepseek-r1...) : émettent leur
+          // raisonnement dans `delta.reasoning` avant de streamer la vraie
+          // réponse dans `delta.content`. On loggue le thinking pour que
+          // l'utilisateur voie qu'il se passe quelque chose, sans le mélanger
+          // à la réponse finale.
+          const reasoningDelta = delta?.reasoning ?? "";
+          if (reasoningDelta) {
+            if (!reasoningStarted) {
+              await onLog("stdout", "\n[paperclip] thinking…\n");
+              reasoningStarted = true;
+            }
+            fullReasoning += reasoningDelta;
+            await onLog("stdout", reasoningDelta);
+          }
+          const contentDelta = delta?.content ?? "";
+          if (contentDelta) {
+            if (reasoningStarted && !fullContent) {
+              await onLog("stdout", "\n[paperclip] response:\n");
+            }
+            fullContent += contentDelta;
+            await onLog("stdout", contentDelta);
           }
         } catch {
           // skip malformed SSE lines

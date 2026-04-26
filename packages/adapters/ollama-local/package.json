@@ -28,7 +28,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@paperclipai/adapter-utils": "workspace:*"
+    "@paperclipai/adapter-utils": "workspace:*",
+    "undici": "^8.1.0"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",
