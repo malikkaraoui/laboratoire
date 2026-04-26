@@ -20,8 +20,11 @@ import { instanceSettingsApi } from "../api/instanceSettings";
 import { secretsApi } from "../api/secrets";
 import { queryKeys } from "../lib/queryKeys";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Settings, Check, Download, Upload } from "lucide-react";
 import { CompanyPatternIcon } from "../components/CompanyPatternIcon";
+import { SectorPicker } from "../components/company/SectorPicker";
+import { KbisLookupField } from "../components/company/KbisLookupField";
 import {
   Field,
   ToggleField,
@@ -151,6 +154,12 @@ export function CompanySettings() {
   const [description, setDescription] = useState("");
   const [brandColor, setBrandColor] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
+  // Profil "vraie entreprise" (mode laboratoire CEO)
+  const [sector, setSector] = useState<string | null>(null);
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
+  const [kbisSiret, setKbisSiret] = useState("");
+  const [siretVerified, setSiretVerified] = useState(false);
   const [logoUploadError, setLogoUploadError] = useState<string | null>(null);
   const [editingEnvironmentId, setEditingEnvironmentId] = useState<string | null>(null);
   const [environmentForm, setEnvironmentForm] = useState<EnvironmentFormState>(createEmptyEnvironmentForm);
@@ -163,6 +172,11 @@ export function CompanySettings() {
     setDescription(selectedCompany.description ?? "");
     setBrandColor(selectedCompany.brandColor ?? "");
     setLogoUrl(selectedCompany.logoUrl ?? "");
+    setSector(selectedCompany.sector ?? null);
+    setWebsiteUrl(selectedCompany.websiteUrl ?? "");
+    setGithubUrl(selectedCompany.githubUrl ?? "");
+    setKbisSiret(selectedCompany.kbisSiret ?? "");
+    setSiretVerified(selectedCompany.siretVerified ?? false);
   }, [selectedCompany]);
 
   const [inviteError, setInviteError] = useState<string | null>(null);
@@ -198,13 +212,23 @@ export function CompanySettings() {
     !!selectedCompany &&
     (companyName !== selectedCompany.name ||
       description !== (selectedCompany.description ?? "") ||
-      brandColor !== (selectedCompany.brandColor ?? ""));
+      brandColor !== (selectedCompany.brandColor ?? "") ||
+      (sector ?? "") !== (selectedCompany.sector ?? "") ||
+      websiteUrl !== (selectedCompany.websiteUrl ?? "") ||
+      githubUrl !== (selectedCompany.githubUrl ?? "") ||
+      kbisSiret.replace(/\s+/g, "") !== (selectedCompany.kbisSiret ?? "") ||
+      siretVerified !== (selectedCompany.siretVerified ?? false));
 
   const generalMutation = useMutation({
     mutationFn: (data: {
       name: string;
       description: string | null;
       brandColor: string | null;
+      sector: string | null;
+      websiteUrl: string | null;
+      githubUrl: string | null;
+      kbisSiret: string | null;
+      siretVerified: boolean;
     }) => companiesApi.update(selectedCompanyId!, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.companies.all });
@@ -473,7 +497,12 @@ export function CompanySettings() {
     generalMutation.mutate({
       name: companyName.trim(),
       description: description.trim() || null,
-      brandColor: brandColor || null
+      brandColor: brandColor || null,
+      sector: sector,
+      websiteUrl: websiteUrl.trim() || null,
+      githubUrl: githubUrl.trim() || null,
+      kbisSiret: kbisSiret.replace(/\s+/g, "") || null,
+      siretVerified,
     });
   }
 
@@ -542,15 +571,19 @@ export function CompanySettings() {
             />
           </Field>
           <Field
-            label="Description"
-            hint="Description optionnelle affichée dans le profil de l'entreprise."
+            label="Présentation & directives"
+            hint="Mission, vision, contraintes — la 'constitution' que les agents doivent respecter."
           >
-            <input
-              className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
-              type="text"
+            <Textarea
               value={description}
-              placeholder="Description optionnelle de l'entreprise"
+              placeholder={
+                "Mission : pourquoi cette société existe.\n" +
+                "Vision : où on veut aller.\n" +
+                "Valeurs / contraintes non négociables."
+              }
               onChange={(e) => setDescription(e.target.value)}
+              rows={10}
+              className="min-h-[240px] resize-y text-sm leading-relaxed"
             />
           </Field>
           <div className="pt-1">
@@ -563,6 +596,49 @@ export function CompanySettings() {
               Relancer le tutoriel de démarrage
             </Button>
           </div>
+        </div>
+      </div>
+
+      {/* Profil entreprise (mode laboratoire CEO) */}
+      <div className="space-y-4">
+        <div>
+          <div className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Profil entreprise
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            Mode laboratoire : renseigne ces champs pour cloner ta vraie société et faire prendre
+            de meilleures décisions à l'équipe d'agents.
+          </p>
+        </div>
+        <div className="space-y-4 rounded-md border border-border px-4 py-4">
+          <Field label="Secteur d'activité" hint="Aide les agents à proposer les bons profils.">
+            <SectorPicker value={sector} onChange={setSector} />
+          </Field>
+          <Field label="🌐 Site web">
+            <input
+              type="url"
+              value={websiteUrl}
+              placeholder="https://exemple.fr"
+              onChange={(e) => setWebsiteUrl(e.target.value)}
+              className="h-10 w-full rounded-md border border-border bg-transparent px-3 text-sm outline-none focus:border-foreground"
+            />
+          </Field>
+          <Field label="🐙 Organisation GitHub">
+            <input
+              type="url"
+              value={githubUrl}
+              placeholder="https://github.com/ton-organisation"
+              onChange={(e) => setGithubUrl(e.target.value)}
+              className="h-10 w-full rounded-md border border-border bg-transparent px-3 font-mono text-sm outline-none focus:border-foreground"
+            />
+          </Field>
+          <Field label="📋 SIRET (KBIS)">
+            <KbisLookupField
+              value={kbisSiret}
+              onChange={(v) => { setKbisSiret(v); setSiretVerified(false); }}
+              onVerified={() => setSiretVerified(true)}
+            />
+          </Field>
         </div>
       </div>
 

@@ -26,6 +26,17 @@ export const companies = pgTable(
     feedbackDataSharingConsentByUserId: text("feedback_data_sharing_consent_by_user_id"),
     feedbackDataSharingTermsVersion: text("feedback_data_sharing_terms_version"),
     brandColor: text("brand_color"),
+    /**
+     * Profil "vraie entreprise" — utilisé par le mode laboratoire CEO pour
+     * cloner sa société réelle dans Paperclip et tester des décisions avant
+     * de les prendre dans la vraie vie.
+     */
+    sector: text("sector"),
+    websiteUrl: text("website_url"),
+    githubUrl: text("github_url"),
+    /** SIRET (14 chiffres) — vérifiable via l'API publique SIRENE de l'INSEE. */
+    kbisSiret: text("kbis_siret"),
+    siretVerified: boolean("siret_verified").notNull().default(false),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },

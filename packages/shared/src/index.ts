@@ -859,6 +859,8 @@ export {
 } from "./validators/index.js";
 
 export { API_PREFIX, API } from "./api.js";
+export { BUSINESS_SECTORS, getBusinessSector } from "./business-sectors.js";
+export type { BusinessSector } from "./business-sectors.js";
 export { normalizeAgentUrlKey, deriveAgentUrlKey, isUuidLike } from "./agent-url-key.js";
 export { deriveProjectUrlKey, normalizeProjectUrlKey, hasNonAsciiContent } from "./project-url-key.js";
 export {
