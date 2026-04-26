@@ -294,6 +294,18 @@
   }
 }
 
+/* Mission cockpit — thinking dots (badge "en cours…") */
+@keyframes thinking-dot {
+  0%, 60%, 100% { opacity: 0.3; transform: scale(1); }
+  30% { opacity: 1; transform: scale(1.4); }
+}
+.animate-thinking-dot {
+  animation: thinking-dot 1.4s infinite ease-in-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-thinking-dot { animation: none; opacity: 0.6; }
+}
+
 /* Shimmer text effect for active "Working" state — Cursor-style sweep */
 @keyframes shimmer-text-slide {
   0% { background-position: 100% center; }

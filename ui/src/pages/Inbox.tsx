@@ -144,6 +144,19 @@ import {
   type InboxWorkItemGroupBy,
 } from "../lib/inbox";
 import { useDismissedInboxAlerts, useInboxDismissals, useReadInboxItems } from "../hooks/useInboxBadge";
+import { InboxCockpitView } from "../components/mission/InboxCockpitView";
+
+/** Mémoire locale du mode d'affichage Inbox (cockpit | detailed). */
+const INBOX_VIEW_KEY = "paperclip:inbox-view-mode";
+type InboxViewMode = "cockpit" | "detailed";
+function loadInboxViewMode(): InboxViewMode {
+  if (typeof window === "undefined") return "cockpit";
+  return (window.localStorage.getItem(INBOX_VIEW_KEY) as InboxViewMode) ?? "cockpit";
+}
+function saveInboxViewMode(mode: InboxViewMode): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(INBOX_VIEW_KEY, mode);
+}
 
 export { InboxIssueMetaLeading, InboxIssueTrailingColumns } from "../components/IssueColumns";
 export { IssueGroupHeader as InboxGroupHeader } from "../components/IssueGroupHeader";
@@ -665,6 +678,11 @@ export function Inbox() {
   const experimentalSettingsLoaded = experimentalSettings !== undefined;
   const [searchQuery, setSearchQuery] = useState("");
   const normalizedSearchQuery = searchQuery.trim();
+  const [viewMode, setViewMode] = useState<InboxViewMode>(loadInboxViewMode);
+  const switchViewMode = (mode: InboxViewMode) => {
+    setViewMode(mode);
+    saveInboxViewMode(mode);
+  };
   const [filterPreferences, setFilterPreferences] = useState<InboxFilterPreferences>(
     () => loadInboxFilterPreferences(selectedCompanyId),
   );
@@ -1874,8 +1892,40 @@ export function Inbox() {
     .map((issue) => issue.id);
   const canMarkAllRead = unreadIssueIds.length > 0;
   const activeIssueFilterCount = countActiveIssueFilters(issueFilters, true);
+  // ───────── Vue Cockpit (par défaut) : cards 1-ligne, sender + résumé + actions ─────────
+  if (viewMode === "cockpit" && selectedCompanyId) {
+    return (
+      <div className="space-y-3">
+        <div className="flex items-center gap-2">
+          <h1 className="text-base font-semibold">Boîte de réception</h1>
+          <span className="text-[11px] text-muted-foreground">— vue cockpit</span>
+          <div className="flex-1" />
+          <button
+            onClick={() => switchViewMode("detailed")}
+            className="text-[11px] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Vue détaillée →
+          </button>
+        </div>
+        <InboxCockpitView
+          companyId={selectedCompanyId}
+          onOpenDetailedView={() => switchViewMode("detailed")}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
+        <button
+          onClick={() => switchViewMode("cockpit")}
+          className="underline-offset-4 hover:text-foreground hover:underline"
+        >
+          ← Vue cockpit
+        </button>
+        <span>· vue détaillée</span>
+      </div>
       <div className="space-y-2">
         {/* Search — full-width row on mobile, inline on desktop */}
         <div className="relative sm:hidden">

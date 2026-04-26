@@ -94,6 +94,7 @@ import {
 } from "@paperclipai/shared";
 import { redactHomePathUserSegments, redactHomePathUserSegmentsInValue } from "@paperclipai/adapter-utils";
 import { agentRouteRef } from "../lib/utils";
+import { AgentMissionView } from "../components/mission/AgentMissionView";
 import {
   applyAgentSkillSnapshot,
   arraysEqual,
@@ -226,15 +227,18 @@ function scrollToContainerBottom(container: ScrollContainer, behavior: ScrollBeh
   container.scrollTo({ top: container.scrollHeight, behavior });
 }
 
-type AgentDetailView = "dashboard" | "instructions" | "configuration" | "skills" | "runs" | "budget";
+type AgentDetailView = "mission" | "dashboard" | "instructions" | "configuration" | "skills" | "runs" | "budget";
 
 function parseAgentDetailView(value: string | null): AgentDetailView {
+  if (value === "mission") return "mission";
   if (value === "instructions" || value === "prompts") return "instructions";
   if (value === "configure" || value === "configuration") return "configuration";
   if (value === "skills") return "skills";
   if (value === "budget") return "budget";
   if (value === "runs") return value;
-  return "dashboard";
+  if (value === "dashboard") return "dashboard";
+  // Mission est la nouvelle vue par défaut (cockpit-first)
+  return "mission";
 }
 
 function usageNumber(usage: Record<string, unknown> | null, ...keys: string[]) {
@@ -741,17 +745,21 @@ export function AgentDetail() {
       return;
     }
     const canonicalTab =
-      activeView === "instructions"
-        ? "instructions"
-        : activeView === "configuration"
-          ? "configuration"
-          : activeView === "skills"
-            ? "skills"
-            : activeView === "runs"
-              ? "runs"
-              : activeView === "budget"
-                ? "budget"
-              : "dashboard";
+      activeView === "mission"
+        ? "mission"
+        : activeView === "instructions"
+          ? "instructions"
+          : activeView === "configuration"
+            ? "configuration"
+            : activeView === "skills"
+              ? "skills"
+              : activeView === "runs"
+                ? "runs"
+                : activeView === "budget"
+                  ? "budget"
+                  : activeView === "dashboard"
+                    ? "dashboard"
+                    : "mission"; // par défaut → vue Mission cockpit-first
     if (routeAgentRef !== canonicalAgentRef || urlTab !== canonicalTab) {
       navigate(`/agents/${canonicalAgentRef}/${canonicalTab}`, { replace: true });
       return;
@@ -899,7 +907,7 @@ export function AgentDetail() {
   if (error) return <p className="text-sm text-destructive">{error.message}</p>;
   if (!agent) return null;
   if (!urlRunId && !urlTab) {
-    return <Navigate to={`/agents/${canonicalAgentRef}/dashboard`} replace />;
+    return <Navigate to={`/agents/${canonicalAgentRef}/mission`} replace />;
   }
   const isPendingApproval = agent.status === "pending_approval";
   const showConfigActionBar = (activeView === "configuration" || activeView === "instructions") && (configDirty || configSaving);
@@ -1009,6 +1017,7 @@ export function AgentDetail() {
         >
           <PageTabBar
             items={[
+              { value: "mission", label: "Mission" },
               { value: "dashboard", label: "Tableau de bord" },
               { value: "instructions", label: "Instructions" },
               { value: "skills", label: "Compétences" },
@@ -1088,6 +1097,14 @@ export function AgentDetail() {
       )}
 
       {/* View content */}
+      {activeView === "mission" && resolvedCompanyId && (
+        <AgentMissionView
+          agent={agent}
+          companyId={resolvedCompanyId}
+          onOpenTechnicalView={() => navigate(`/agents/${canonicalAgentRef}/dashboard`)}
+        />
+      )}
+
       {activeView === "dashboard" && (
         <AgentOverview
           agent={agent}
