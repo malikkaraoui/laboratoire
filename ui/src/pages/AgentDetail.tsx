@@ -94,6 +94,7 @@ import {
 } from "@paperclipai/shared";
 import { redactHomePathUserSegments, redactHomePathUserSegmentsInValue } from "@paperclipai/adapter-utils";
 import { agentRouteRef } from "../lib/utils";
+import { AgentMissionView } from "../components/mission/AgentMissionView";
 import {
   applyAgentSkillSnapshot,
   arraysEqual,
@@ -226,15 +227,18 @@ function scrollToContainerBottom(container: ScrollContainer, behavior: ScrollBeh
   container.scrollTo({ top: container.scrollHeight, behavior });
 }
 
-type AgentDetailView = "dashboard" | "instructions" | "configuration" | "skills" | "runs" | "budget";
+type AgentDetailView = "mission" | "dashboard" | "instructions" | "configuration" | "skills" | "runs" | "budget";
 
 function parseAgentDetailView(value: string | null): AgentDetailView {
+  if (value === "mission") return "mission";
   if (value === "instructions" || value === "prompts") return "instructions";
   if (value === "configure" || value === "configuration") return "configuration";
   if (value === "skills") return "skills";
   if (value === "budget") return "budget";
   if (value === "runs") return value;
-  return "dashboard";
+  if (value === "dashboard") return "dashboard";
+  // Mission est la nouvelle vue par défaut (cockpit-first)
+  return "mission";
 }
 
 function usageNumber(usage: Record<string, unknown> | null, ...keys: string[]) {
@@ -1009,6 +1013,7 @@ export function AgentDetail() {
         >
           <PageTabBar
             items={[
+              { value: "mission", label: "Mission" },
               { value: "dashboard", label: "Tableau de bord" },
               { value: "instructions", label: "Instructions" },
               { value: "skills", label: "Compétences" },
@@ -1088,6 +1093,14 @@ export function AgentDetail() {
       )}
 
       {/* View content */}
+      {activeView === "mission" && resolvedCompanyId && (
+        <AgentMissionView
+          agent={agent}
+          companyId={resolvedCompanyId}
+          onOpenTechnicalView={() => navigate(`/agents/${canonicalAgentRef}/dashboard`)}
+        />
+      )}
+
       {activeView === "dashboard" && (
         <AgentOverview
           agent={agent}
