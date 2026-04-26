@@ -405,12 +405,16 @@ export function companyRoutes(db: Db, storage?: StorageService) {
     assertCompanyAccess(req, companyId);
     const allAgents = await agents.list(companyId);
     const pausedIds: string[] = [];
+    let cancelledRunCount = 0;
     for (const agent of allAgents) {
       if (agent.status === "terminated" || agent.status === "paused") continue;
+      // Annuler les runs en cours AVANT le pause : sinon cancelActiveForCompany
+      // filtre les agents 'paused' et les runs en cours continueraient sans
+      // jamais être interrompus.
+      cancelledRunCount += await heartbeat.cancelActiveForAgent(agent.id);
       await agents.pause(agent.id, "manual");
       pausedIds.push(agent.id);
     }
-    const { cancelledRunCount } = await heartbeat.cancelActiveForCompany(companyId);
     await logActivity(db, {
       companyId,
       actorType: "user",
