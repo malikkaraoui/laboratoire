@@ -385,5 +385,144 @@ Idées importées d'autres domaines où la simulation décisionnelle est mature 
 154. **Brand français-souverain** — sur clientèle sensible (industrie, défense, santé), Palantir/US bloqués. *[MOAT]*
 155. **API publique avec SDK** — devs et intégrateurs construisent sur le produit, le rendent sticky. *[MOAT]*
 
+---
+
+### Synthèse fondatrice round 4 — Pilier "Resilience Simulator" (input dirigeant)
+
+Le produit a maintenant **3 piliers** au lieu de 2 :
+
+1. **Twin solo** — simulation de décisions sur l'ADN d'une PME
+2. **Réseau social B2B intelligent** — vases communicants + radar opportunités
+3. **Resilience Simulator** *(nouveau)* — bibliothèque de scénarios disruptifs que la vie peut t'envoyer, pour stress-tester ta PME *avant* l'événement
+
+**Promesse pilier 3** : *« Tu n'as pas vu venir le COVID. Cette fois, tu l'auras vu. »*
+
+**Différence vs sous-bloc 2.D (stress-tests USECASE)**
+- Le sous-bloc 2.D = simulations *à la demande* du dirigeant ("et si mon CTO part demain ?")
+- Le pilier Résilience = **catalogue exhaustif de scénarios** que la plateforme exécute périodiquement *automatiquement* + génère un **score de résilience PME** mis à jour, comme un check-up médical annuel obligatoire.
+
+**Cibles supplémentaires débloquées**
+- Assureurs PME / courtiers (rabais prime si score élevé) — channel B2B2C énorme
+- Conformité PCA (Plan de Continuité d'Activité) → norme ISO 22301 light, requis pour gros marchés publics et certifications industrielles
+- Banques & crédit pro — score de résilience comme proxy de risque de défaut
+
+**Inspirations méthodologiques**
+- Stress tests EBA banques (scénarios baseline + adverse + sévèrement adverse)
+- Scénarios climatiques GIEC SSP (4 trajectoires nominales : optimiste / nominal / pessimiste / catastrophe)
+- Modèles épidémiologiques SIR (propagation d'un choc)
+- Méthode ORSEC sécurité civile (gestion par typologie d'événement)
+- War-gaming militaire (Red Team adversarial)
+- Modèle actuariel assurance (tables de fréquence × sévérité)
+
+---
+
+### Wave 4 — Pilier RÉSILIENCE · Catalogue de scénarios disruptifs
+
+**Techniques activées :** Failure Analysis · Reverse Brainstorming · Chaos Engineering · Cross-Pollination (banque, climat, civilisation)
+**Tagging :** [CYBER] · [CLIMAT] · [SANIT] = sanitaire/social · [MACRO] = macro-éco · [REGUL] = réglementaire · [GEO] = géopolitique · [INTERNE] · [MARCHÉ] · [META] = scénarios composés / fonctionnalités-méta
+
+#### Sous-bloc 4.A — Cyber & technique [CYBER]
+
+156. **Ransomware avec chiffrement de l'ERP 4 jours** (cf. déjà 80) — coût rançon vs reconstruction + perte chiffre + impact assureur. *[CYBER]*
+157. **Fraude au président / phishing CEO 80k€** — virement frauduleux passé, simu trésorerie + recours bancaire + couverture assurance. *[CYBER]*
+158. **Brèche RGPD 50k clients** → notif CNIL 72h + amende potentielle 4% CA + class action. *[CYBER]*
+159. **Panne fournisseur cloud 48h** (OVH burn 2021, AWS us-east outage) → simu dépendance fournisseur unique + plan multi-cloud. *[CYBER]*
+160. **Attaque DDoS site e-commerce 5 jours pic Black Friday** — perte CA + image + coût mitigation. *[CYBER]*
+161. **Compromission email dirigeant** — fuite de négociations en cours + impact relations clients/fournisseurs. *[CYBER]*
+162. **Sabotage interne** par employé licencié (suppression fichiers, transfert clients) → coût judiciaire + reconstruction. *[CYBER] · [INTERNE]*
+163. **Faille zero-day sur logiciel métier** non patchable 30 jours → arrêt activité partiel forcé. *[CYBER]*
+164. **Perte irrémédiable de 6 mois de données** (sans backup OK) → impact comptable + fiscal + relation client. *[CYBER]*
+165. **Deepfake audio/vidéo dirigeant** circule sur réseaux → impact reputation + clients qui doutent. *[CYBER] · [MARCHÉ]*
+
+#### Sous-bloc 4.B — Climat & environnement [CLIMAT]
+
+166. **Feu de forêt forçant fermeture site 10 jours** — perte CA + délocalisation temporaire + assurance. *[CLIMAT]*
+167. **Inondation locaux** (cf. 64 côté radar) → côté PME impactée : dégâts matériels + arrêt + indemnité assureur. *[CLIMAT]*
+168. **Tempête + coupure électrique 5 jours** — production arrêtée, périssables perdus, télétravail indisponible. *[CLIMAT]*
+169. **Canicule 40°C 15 jours** — chute productivité, climatisation surcoût, BTP/agriculture/restau impactés différemment selon secteur. *[CLIMAT]*
+170. **Sécheresse impact agriculture/eau industrielle** — restrictions arrêté préfectoral, coût alternatives. *[CLIMAT]*
+171. **Submersion littoral PME bord de mer** — Hauts-de-France, Vendée, etc. Scénario long-terme 5-10 ans. *[CLIMAT]*
+172. **Pollution accidentelle** (déversement, incendie chimique) → arrêt + responsabilité civile + dépollution. *[CLIMAT]*
+173. **Pénurie d'eau industrielle saison estivale** — restrictions, surcoût bouteilles/recyclage, arrêt process. *[CLIMAT]*
+174. **Tornade / phénomène extrême** rare mais croissant en France métropolitaine. *[CLIMAT]*
+174-bis. **Pluies torrentielles 15 jours consécutifs** — saturation sols, chantiers BTP à l'arrêt en continu, cultures noyées, infiltrations dans entrepôts/locaux, voiries inondées intermittentes, livraisons retardées en chaîne. Différent de l'inondation ponctuelle (#167) : c'est l'**usure cumulée** sur 2 semaines. Impact sectoriel : BTP (-100% production extérieure), agriculture (perte récolte selon stade), logistique (+30% délais), retail bord-de-mer (-40% fréquentation). *[CLIMAT]*
+
+#### Sous-bloc 4.C — Sanitaire & social [SANIT]
+
+175. **Pandémie type COVID 6 mois — variant -30% CA** → confinement, télétravail forcé, fermeture admin, PGE. *[SANIT]*
+176. **Grève transports nationaux 4 semaines** — perte employés sans télétravail possible, retards livraisons, déplacement RDV. *[SANIT]*
+177. **Mouvement social local** (gilets jaunes, blocages routiers) — chute fréquentation commerce de centre-ville. *[SANIT]*
+178. **Émeutes urbaines** impact commerce (été 2023) — vandalisme, fermeture, primes assurance. *[SANIT]*
+179. **Pénurie carburant 15 jours** — flotte arrêtée, livraisons impossibles, sous-traitants bloqués. *[SANIT]*
+180. **Pénurie matières premières mondiales** (semi-conducteurs 2021, ammoniac 2022, lithium) — délais ×3, surcoûts ×2. *[SANIT] · [GEO]*
+181. **Épidémie locale** type intoxication alimentaire / légionellose → fermeture admin restaurant, image. *[SANIT]*
+182. **Black-out électrique national 6h** (RTE scénario hivernal extrême) — arrêt total, redémarrage progressif. *[SANIT]*
+
+#### Sous-bloc 4.D — Macro-économique [MACRO]
+
+183. **Récession France -30% activité sectorielle 12 mois** (cf. 82) — restructuration forcée, plan social. *[MACRO]*
+184. **Inflation +8% sur 18 mois** (cf. 84) — indexation contrats, marges écrasées. *[MACRO]*
+185. **Chute pouvoir d'achat français -10%** — substitution clients vers low-cost, baisse panier moyen. *[MACRO]*
+186. **Crise bancaire / blocage trésorerie** type 2008 → PGE bloqués, découvert refusé. *[MACRO]*
+187. **Effondrement euro / crise de change** — coût importation matières, contrats devises. *[MACRO]*
+188. **Hausse taux directeur BCE +3pt** — coût emprunt × 1.5, leasing renchéri, refinancement difficile. *[MACRO]*
+189. **Rupture chaîne logistique mondiale** type Suez 2021 / mer Rouge 2024 — délais conteneurs ×3. *[MACRO] · [GEO]*
+190. **Effondrement marché immobilier** -25% — impact valorisation actifs, garanties bancaires. *[MACRO]*
+
+#### Sous-bloc 4.E — Réglementaire [REGUL]
+
+191. **Nouvelle taxe sectorielle** (taxe carbone, GAFA, sucre, alcool, tabac, plastique) — impact marges. *[REGUL]*
+192. **Interdiction matériau / produit** (glyphosate, F-gaz, plastique usage unique, néonicotinoïdes) — reconversion forcée. *[REGUL]*
+193. **Durcissement RGPD/NIS2/IA Act** — investissement conformité 30-100k€. *[REGUL]*
+194. **Hausse cotisations sociales / réforme retraites** — masse salariale +3-5%. *[REGUL]*
+195. **Norme environnementale forçant investissement** (DPE locatif, ZFE flotte, REP emballages). *[REGUL]*
+196. **Contrôle URSSAF + redressement 80k** (cf. 78). *[REGUL]*
+197. **Perte agrément / certification ISO/HACCP/Qualibat** — exclusion marchés publics, perte clients premium. *[REGUL]*
+
+#### Sous-bloc 4.F — Géopolitique [GEO]
+
+198. **Guerre / sanctions touchant fournisseur clé** (Russie 2022, Ukraine, Iran, Niger) — arrêt approvisionnement. *[GEO]*
+199. **Embargo matière première stratégique** (lithium, cobalt, terres rares, blé, gaz). *[GEO]*
+200. **Brexit-like rupture commerciale** — paperasserie douanière + délais + pertes clients UK-style. *[GEO]*
+201. **Guerre commerciale US-Chine effets second tour** — taxes droits douane sur composants. *[GEO]*
+202. **Tensions Russie/Europe énergie hiver** — gaz/électricité × 4 sur 6 mois. *[GEO]*
+203. **Crise diplomatique avec pays-client majeur** (Algérie, Maroc, Chine) — perte marché export. *[GEO]*
+
+#### Sous-bloc 4.G — Internes / RH [INTERNE]
+
+204. **Démission CTO/dir-clé sans préavis** (cf. 76) — continuité produit, perte savoir tacite. *[INTERNE]*
+205. **Maladie/deuil dirigeant 6 mois** (cf. 79) — délégation, banque, clients, équipe. *[INTERNE]*
+206. **Conflit social interne / grève CSE** — productivité, image employeur. *[INTERNE]*
+207. **3 dossiers prud'homaux simultanés** (cf. 85) — coût + temps dirigeant. *[INTERNE]*
+208. **Démission groupée** (équipe entière qui suit un manager qui part). *[INTERNE]*
+209. **Burn-out dirigeant** — arrêt 3 mois, qui prend le relais ? *[INTERNE]*
+210. **Décès accidentel d'un salarié au travail** — enquête, suspension activité, impact équipe. *[INTERNE]*
+211. **Découverte fraude comptable interne** — audit forcé, communication banque/expert-comptable. *[INTERNE]*
+
+#### Sous-bloc 4.H — Marché / business [MARCHÉ]
+
+212. **Faillite client = 40% CA** (cf. 51) — créance impayée + plan B commercial 6 mois. *[MARCHÉ]*
+213. **Concurrent fait dumping -20% prix** (cf. 83) — guerre prix ou différenciation. *[MARCHÉ]*
+214. **Substitution technologique** (« l'IA tue mon métier en 24 mois ») — pivot ou exit. *[MARCHÉ]*
+215. **Désintermédiation Amazon / GAFA** — perte canal de vente direct. *[MARCHÉ]*
+216. **Gros client racheté change de stratégie** — nouveau directeur achats stoppe le contrat. *[MARCHÉ]*
+217. **Bad buzz réseaux sociaux 72h** (cf. 81) — gestion crise, communication. *[MARCHÉ]*
+218. **Plagiat / contrefaçon par concurrent** — défense IP, action judiciaire. *[MARCHÉ]*
+219. **Disparition d'un canal acquisition** (Google bannit, iOS 14 ATT, fin cookies tiers). *[MARCHÉ]*
+
+#### Sous-bloc 4.I — Méta-fonctionnalités du pilier Résilience [META]
+
+220. **Score de Résilience PME** noté 0-100, mis à jour mensuel — agrégation cyber + climat + macro + RH + marché. Affiché sur dashboard comme un score crédit. *[META]*
+221. **Mode "exercice annuel obligatoire"** — chaque année, dirigeant lance 5 scénarios *au hasard* du catalogue, plateforme génère rapport "êtes-vous prêt ?". *[META]*
+222. **Plan de Continuité d'Activité (PCA) auto-généré ISO 22301-light** — sortie PDF prête à présenter banque/assureur/préfecture. *[META]*
+223. **Stress test "scénario combiné"** Monte-Carlo — cyber + grève + canicule simultanés (comme stress test EBA pour banques). *[META]*
+224. **Bibliothèque scénarios par secteur** — BTP, restau, agro, retail, agence ont leur Top 10 scénarios pré-paramétrés. *[META]*
+225. **Mode "exercice incident en équipe"** multi-utilisateurs — l'équipe joue un scénario en parallèle (gamification). *[META]*
+226. **Backtesting historique** — *« si COVID arrive demain, voici ce que ta PME aurait subi vs ce que tu sais des PME similaires en 2020 »*. *[META]*
+227. **Alerte précoce signaux faibles** — corrélation données externes (météo, presse, marchés publics) → flag scénario probable dans 2-4 semaines. *[META]*
+228. **Couplage assureur / courtier** — score de résilience exporté → rabais prime auto-calculé. Channel monétisable. *[META] · [PRX]*
+229. **Insight pair anonymisé** — *« 73% des PME BTP de votre taille n'ont pas survécu sereinement à un client = 40% CA en 2024 »* (réseau alimente le pilier). *[META]*
+230. **Coaching post-scénario** — après chaque simulation, agent coach demande *« qu'est-ce que tu vas faire dans les 30 jours pour réduire ce risque ? »* + rappel à 30 jours. *[META]*
+
 
 
