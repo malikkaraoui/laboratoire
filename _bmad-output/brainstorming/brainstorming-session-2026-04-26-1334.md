@@ -524,5 +524,131 @@ Le produit a maintenant **3 piliers** au lieu de 2 :
 229. **Insight pair anonymisé** — *« 73% des PME BTP de votre taille n'ont pas survécu sereinement à un client = 40% CA en 2024 »* (réseau alimente le pilier). *[META]*
 230. **Coaching post-scénario** — après chaque simulation, agent coach demande *« qu'est-ce que tu vas faire dans les 30 jours pour réduire ce risque ? »* + rappel à 30 jours. *[META]*
 
+---
+
+### Synthèse fondatrice round 5 — Pilier "Menaces adversariales" (input dirigeant)
+
+Distinction critique introduite : **chocs subis** vs **menaces intentionnelles**.
+- Pilier 3 (Resilience Simulator) = chocs *non-intentionnels* (climat, macro, panne, sanitaire) — la nature/le hasard
+- **Pilier 4 (nouveau) — Menaces adversariales** = quelqu'un *veut* te nuire (concurrent, investisseur, employé, le PDG lui-même)
+
+**Couches identifiées**
+
+1. **RH adversarial** — démissions stratégiques, exfiltration clients/IP, espionnage interne, mutinerie équipe
+2. **Veille concurrentielle profonde** — concurrents *non-détectés* (stealth, indirects, venus d'un autre secteur, créés par open source)
+3. **Capital / gouvernance hostile** — rachat hostile, **IPO hostile via investisseur cheval-de-Troie ayant des billes chez un concurrent**, mutinerie board, banque qui lâche au pire moment
+4. **Paradoxe vases communicants** *(insight clé)* — la feature qui crée de la valeur **engendre tes concurrents** : deux PME complémentaires matchées par nous fusionnent et te bouffent
+5. **Le PDG lui-même comme menace** *(insight clé)* — biais de confirmation, fatigue décisionnelle, conflits d'intérêt cachés, ego post-succès, fuite en avant, addictions silencieuses, abus de biens sociaux. Le pire ennemi du dirigeant est souvent lui-même.
+
+**Pourquoi un pilier dédié et non sous-bloc d'usecase**
+- Méthodologie radicalement différente : modélisation **adversarial / theory-of-mind** (chaque menace est un "agent" avec intention), pas du Monte-Carlo aléatoire
+- Veille **24/7** automatique nécessaire (scan presse, LinkedIn, Crunchbase, JO, board minutes)
+- Implique des **données psychométriques sur le dirigeant lui-même** — terrain RH/coaching, pas data business
+- Cible client adjacente : **conseil d'administration, fonds, repreneurs LBO** (pas que dirigeants)
+
+**Fonctionnalité signature pressentie : "Red Team annuelle"**
+1 fois par an, des agents jouent : ton concurrent qui veut te tuer · ton investisseur hostile · ton DRH qui orchestre une mutinerie · toi-même mais en mauvaise foi → rapport de vulnérabilités systémiques.
+
+---
+
+### Wave 5 — Pilier MENACES · Adversarial threats
+
+**Techniques activées :** Reverse Brainstorming · Failure Analysis · Theory of Mind / War-gaming · Forced Relationships (croiser RH × capital × veille × paradoxe réseau)
+**Tagging :** [RH-ADV] · [VEILLE] · [CAPITAL] · [VASE-INV] = paradoxe vase communicant · [PDG-SELF] = le dirigeant lui-même · [META-ADV] = méta-fonctionnalités du pilier
+
+#### Sous-bloc 5.A — RH adversarial [RH-ADV]
+
+231. **Démission stratégique d'un talent clé qui rejoint un concurrent** avec ton CRM en tête, exfiltré sur 3 mois avant départ. *[RH-ADV]*
+232. **Démission groupée orchestrée** — un manager part et 5 personnes le suivent (effet Cvent). *[RH-ADV]*
+233. **Création d'un spin-off par un employé licencié** — il prend tes process + 30% de tes clients. *[RH-ADV]*
+234. **Vol de propriété intellectuelle pré-départ** — copies de spec, code, contrats sur clé USB ou Google Drive perso. *[RH-ADV]*
+235. **Sabotage discret d'un employé démotivé** placardisé — bugs introduits, deals non relancés, deadlines pourries. *[RH-ADV]*
+236. **Faux malade prolongé** bloquant volontairement un poste critique pendant restructuration. *[RH-ADV]*
+237. **Lanceur d'alerte interne** (légitime ou malveillant) → médiatisation, contrôles, image. *[RH-ADV]*
+238. **Conflit d'intérêt non déclaré** — employé actionnaire / consultant chez un concurrent. *[RH-ADV]*
+239. **Espionnage industriel via stagiaire / intérimaire / freelance** — vecteur sous-estimé. *[RH-ADV]*
+240. **Raid talent ciblé** — concurrent débauche tes 3 meilleurs en 1 semaine, package coordonné. *[RH-ADV]*
+241. **Burn-out collectif silencieux** — équipe entière démotivée sans alarme RH formelle. *[RH-ADV]*
+242. **Mutinerie d'équipe** — refus collectif d'exécuter une décision dirigeant. *[RH-ADV]*
+
+#### Sous-bloc 5.B — Veille concurrentielle profonde [VEILLE]
+
+243. **Concurrent stealth pre-revenue** détecté via Crunchbase + LinkedIn early hires + dépôts INPI. *[VEILLE]*
+244. **Concurrent venant d'un autre secteur** — Amazon vs librairies, Tesla vs auto, Doctolib vs RDV. Pivot transversal. *[VEILLE]*
+245. **Concurrent indirect par déplacement d'usage** — Notion vs Word, AirBnB vs hôtel. Tu n'es plus dans la catégorie initiale. *[VEILLE]*
+246. **Concurrent géographique étranger** débarquant en France (Klarna, Wolt, Shein) — détection via JO d'immat + acqui locale. *[VEILLE]*
+247. **Concurrent open source** qui commoditise ton offre — la **menace ultime** car gratuite, communautaire, pas attaquable juridiquement. *[VEILLE]*
+248. **Intégration verticale par fournisseur** — ton fournisseur lance ton produit (Apple vs ses sous-traitants). *[VEILLE]*
+249. **Intégration horizontale par client** — ton gros client lance ton service en interne. *[VEILLE]*
+250. **Concurrent IA qui rend ton service trivial** — substitution technologique brutale. *[VEILLE]*
+251. **Cluster concurrents en alliance souple** — cartel non-formel via syndicat/asso, squeeze tarifaire coordonné. *[VEILLE]*
+252. **Concurrent qui rachète un bouquet de petits** acteurs locaux pour dominer un bassin (roll-up). *[VEILLE]*
+253. **Veille brevets / dépôts INPI** — détection d'un dépôt qui menace ton produit core. *[VEILLE]*
+254. **Veille sites carrières concurrents** — embauches massives sur un poste = signal projet stratégique. *[VEILLE]*
+
+#### Sous-bloc 5.C — Capital / gouvernance hostile [CAPITAL]
+
+255. **Rachat hostile par concurrent direct** via tour de table secret de minoritaires. *[CAPITAL]*
+256. **IPO hostile / entrée capital par investisseur "cheval de Troie"** — un fonds prend des parts en cachant qu'il a des billes majoritaires chez un concurrent direct. *[CAPITAL]*
+257. **Cheval de Troie VC** — ton VC est aussi VC du concurrent (fond mère commun, conflit d'intérêt non révélé). *[CAPITAL]*
+258. **Pacte actionnaires détourné** — minoritaires votent en bloc contre toi sur AGE clé. *[CAPITAL]*
+259. **OPA fonds activiste** → restructuration forcée, sortie du dirigeant. *[CAPITAL]*
+260. **Banque qui durcit les conditions au pire moment** — covenants déclenchés, crédit révoqué, découvert refusé en pleine tension. *[CAPITAL]*
+261. **Caution personnelle dirigeant activée** — banque saisit patrimoine personnel via cautionnement solidaire. *[CAPITAL]*
+262. **Conflit cofondateurs** → blocage AG, deadlock. *[CAPITAL]*
+263. **Mutinerie du board** — administrateurs indépendants (souvent nommés par investisseurs) prennent le contrôle ordre du jour. *[CAPITAL]*
+264. **Commissaire aux comptes refuse certification** — alerte réglementée + pression banque/clients. *[CAPITAL]*
+265. **Levée piégée par clauses agressives** — full ratchet anti-dilution, drag-along forcé, liquidation pref ×3, ratchet salarial. *[CAPITAL]*
+266. **Investisseur qui vend ses parts à un concurrent** sans préemption efficace. *[CAPITAL]*
+
+#### Sous-bloc 5.D — Paradoxe vases communicants [VASE-INV]
+
+🤩 **L'insight le plus original de la session** — le réseau qui crée de la valeur engendre aussi des risques nouveaux.
+
+267. **Concurrent créé par notre propre matching** — 2 PME complémentaires se rencontrent via la plateforme, fusionnent leurs forces, deviennent ton concurrent direct. *Mécanique exacte à modéliser : matching X-Y noté élevé + signaux de rapprochement répétés = warning préventif*. *[VASE-INV]*
+268. **Fuite stratégique via agrégat anonymisé** — les patterns publiés à des concurrents leur permettent de décoder ton positionnement même sans données nominatives. *[VASE-INV]*
+269. **Cannibalisation involontaire** — le matching pousse ton client à se passer de toi pour aller direct au sous-traitant que la plateforme lui révèle. *[VASE-INV]*
+270. **Désintermédiation par auto-organisation** — tes employés découvrent qu'ils peuvent se mettre à leur compte en piochant clients + sous-traitants directement dans le réseau. *[VASE-INV]*
+271. **Coalition opportuniste** — 3 PME du réseau s'allient contre une 4e (ta PME) après identification d'opportunité commune révélée par le matching. *[VASE-INV]*
+272. **Effet "Yelp inversé"** — ton score de résilience faible devient visible à des partenaires potentiels → baisse de leur confiance, refus contrats. *[VASE-INV]*
+273. **Manipulation du matching** — un concurrent crée des comptes leurres pour collecter des signaux sur tes capacités/besoins. *[VASE-INV]*
+274. **Effet d'éviction** — un acteur dominant aspire les meilleures opportunités du réseau et étouffe les petits. *[VASE-INV]*
+
+**Implication produit majeure** : il faut un **moteur de privacy/disclosure différentielle** dès le design (pas après le launch) — quels signaux exposer, à qui, avec quel granularité. Un **simulateur de fuite** intégré au produit lui-même pour le tester.
+
+#### Sous-bloc 5.E — Le PDG lui-même comme menace [PDG-SELF]
+
+🤯 **Insight le plus dérangeant** — le pire ennemi du dirigeant est souvent lui-même.
+
+275. **Biais de confirmation** — le dirigeant ne voit que les signaux qui valident sa décision préférée. Détectable via diff entre data fournie aux agents et conclusion retenue. *[PDG-SELF]*
+276. **Fatigue décisionnelle** — décisions de fin d'après-midi / fin de semaine systématiquement plus risquées (cohorte historique). *[PDG-SELF]*
+277. **Conflit d'intérêt personnel non déclaré** — le dirigeant a des parts ailleurs, recommandations biaisées vers ces structures. *[PDG-SELF]*
+278. **Addiction silencieuse** (alcool, jeu, drogue, deals) — patterns détectables : variance excessive décisions, dépenses inexpliquées, calendrier erratique. *[PDG-SELF]*
+279. **Affaire de famille / divorce / conflit conjugal** → impact mesurable sur décisions (cohorte études comportement). *[PDG-SELF]*
+280. **Ego post-succès** — après gros succès récent, prises de risque démesurées (« je suis génial »). *[PDG-SELF]*
+281. **Fuite en avant / escalade d'engagement** — refus d'admettre échec, doublement de la mise sur projet voué à l'échec. *[PDG-SELF]*
+282. **Surestimation systématique de soi** — le dirigeant est statistiquement le plus mauvais juge de sa propre performance. *[PDG-SELF]*
+283. **Abus de biens sociaux** — frais perso passés en pro, voiture famille louée à la SARL, etc. Risque pénal + fiscal. *[PDG-SELF]*
+284. **Burn-out en déni** — dirigeant qui refuse de s'arrêter, multiplie décisions désastreuses, signaux ignorés par entourage par peur. *[PDG-SELF]*
+285. **Démission subite vers projet plus excitant** — abandon de l'entreprise, vide stratégique. *[PDG-SELF]*
+286. **Promesse impossible à un client / investisseur** — engagement personnel mégalomane qui crée tension équipe + perte. *[PDG-SELF]*
+287. **Cécité aux signaux faibles équipe** — direction ne voit pas une démission imminente / un conflit / une perte d'engagement, pourtant clair pour les pairs. *[PDG-SELF]*
+
+#### Sous-bloc 5.F — Méta-fonctionnalités du pilier MENACES [META-ADV]
+
+288. **Theory-of-mind agent par menace** — chaque menace simulée a son propre "cerveau" qui veut te nuire (war-gaming individualisé), pas un Monte-Carlo aléatoire. *[META-ADV]*
+289. **Score de menace global** par catégorie (RH / capital / concurrence / interne / vase-inverse / self) sur dashboard. *[META-ADV]*
+290. **Veille active 24/7** automatique — agent scanne LinkedIn, Crunchbase, JO, presse, INPI, AGE déposées → flag signaux faibles. *[META-ADV]*
+291. **Carte d'influence** — visualisation graphe : qui influence qui dans ton écosystème (board, équipe, clients-clés, fournisseurs-clés, investisseurs). Détection nœuds de risque. *[META-ADV]*
+292. **Red Team annuelle** — agents jouent simultanément ton concurrent + ton investisseur hostile + ton DRH mutiné + toi-même en mauvaise foi → rapport vulnérabilités. *[META-ADV]*
+293. **Indice "PDG-lui-même"** — score sur 100 du dirigeant face à ses propres biais (questionnaire trimestriel + télémétrie comportementale agrégée). *[META-ADV]*
+294. **Cofondateur virtuel honnête** — agent dont l'unique rôle est de challenger frontalement le dirigeant ("non, là tu te mens"). Garde-fou anti-yes-man. *[META-ADV]*
+295. **Plan de succession dirigeant simulé** — qui prend le relais si tu disparais demain ? Identifie les single points of failure organisationnels. *[META-ADV]*
+296. **Charte gouvernance auto-générée** — clauses anti-hostile-takeover, anti-deadlock, droits préférentiels, rétention talents. *[META-ADV]*
+297. **Détection deepfake PDG** — vigilance communications externes signées avec le nom du dirigeant. *[META-ADV]*
+298. **Simulateur de fuite** — outil interne testant quels signaux du réseau peuvent être décodés par un concurrent (privacy by design pour le pilier 2 vases communicants). *[META-ADV]*
+299. **Coaching de pair-mentor** — matching dirigeant ↔ ex-dirigeant senior anonyme, qui revoit les décisions à risque biais-self. *[META-ADV]*
+300. **Audit de conflits d'intérêt 360°** — board + équipe + dirigeant — déclaration annuelle obligatoire avec cross-check données publiques (Pappers, INPI). *[META-ADV]*
+
 
 
