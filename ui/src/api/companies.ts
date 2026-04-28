@@ -37,6 +37,11 @@ export const companiesApi = {
         | "feedbackDataSharingEnabled"
         | "brandColor"
         | "logoAssetId"
+        | "sector"
+        | "websiteUrl"
+        | "githubUrl"
+        | "kbisSiret"
+        | "siretVerified"
       >
     >,
   ) => api.patch<Company>(`/companies/${companyId}`, data),
@@ -52,6 +57,17 @@ export const companiesApi = {
       `/companies/${companyId}/resume-all-agents`,
       {},
     ),
+  lookupSirene: (siret: string) =>
+    api.get<{
+      siret: string;
+      siren: string;
+      name: string | null;
+      nafCode: string | null;
+      nafSection: string | null;
+      address: string | null;
+      city: string | null;
+      postalCode: string | null;
+    }>(`/companies/sirene/${encodeURIComponent(siret)}`),
   archive: (companyId: string) => api.post<Company>(`/companies/${companyId}/archive`, {}),
   remove: (companyId: string) => api.delete<{ ok: true }>(`/companies/${companyId}`),
   exportBundle: (

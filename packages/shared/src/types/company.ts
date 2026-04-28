@@ -20,6 +20,12 @@ export interface Company {
   brandColor: string | null;
   logoAssetId: string | null;
   logoUrl: string | null;
+  /** Profil "vraie entreprise" — mode laboratoire CEO */
+  sector: string | null;
+  websiteUrl: string | null;
+  githubUrl: string | null;
+  kbisSiret: string | null;
+  siretVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

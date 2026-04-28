@@ -460,5 +460,54 @@ export function companyRoutes(db: Db, storage?: StorageService) {
     res.json({ ok: true });
   });
 
+  // ── GET /api/sirene/:siret ────────────────────────────────────────────
+  // Lookup public via api.gouv.fr (recherche-entreprises) — pas de clé requise.
+  // Pré-remplit le wizard d'onboarding (nom, secteur, adresse) à partir d'un SIRET.
+  router.get("/sirene/:siret", async (req, res) => {
+    const raw = String(req.params.siret ?? "").replace(/\s+/g, "");
+    if (!/^\d{14}$/.test(raw)) {
+      res.status(400).json({ error: "SIRET invalide (14 chiffres attendus)." });
+      return;
+    }
+    try {
+      const upstream = await fetch(
+        `https://recherche-entreprises.api.gouv.fr/search?q=${raw}&page=1&per_page=1`,
+        { signal: AbortSignal.timeout(8_000) },
+      );
+      if (!upstream.ok) {
+        res.status(502).json({ error: `Lookup SIRENE échoué (HTTP ${upstream.status}).` });
+        return;
+      }
+      const json = (await upstream.json()) as {
+        results?: Array<{
+          siren: string;
+          nom_complet?: string;
+          nom_raison_sociale?: string;
+          activite_principale?: string;
+          section_activite_principale?: string;
+          siege?: { adresse?: string; commune?: string; code_postal?: string };
+        }>;
+      };
+      const hit = json.results?.[0];
+      if (!hit) {
+        res.status(404).json({ error: "Aucune entreprise trouvée pour ce SIRET." });
+        return;
+      }
+      res.json({
+        siret: raw,
+        siren: hit.siren,
+        name: hit.nom_complet ?? hit.nom_raison_sociale ?? null,
+        nafCode: hit.activite_principale ?? null,
+        nafSection: hit.section_activite_principale ?? null,
+        address: hit.siege?.adresse ?? null,
+        city: hit.siege?.commune ?? null,
+        postalCode: hit.siege?.code_postal ?? null,
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      res.status(502).json({ error: `Lookup SIRENE échoué : ${message}` });
+    }
+  });
+
   return router;
 }

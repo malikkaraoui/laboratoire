@@ -50,6 +50,11 @@ export function companyService(db: Db) {
     feedbackDataSharingTermsVersion: companies.feedbackDataSharingTermsVersion,
     brandColor: companies.brandColor,
     logoAssetId: companyLogos.assetId,
+    sector: companies.sector,
+    websiteUrl: companies.websiteUrl,
+    githubUrl: companies.githubUrl,
+    kbisSiret: companies.kbisSiret,
+    siretVerified: companies.siretVerified,
     createdAt: companies.createdAt,
     updatedAt: companies.updatedAt,
   };

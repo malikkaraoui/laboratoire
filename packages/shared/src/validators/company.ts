@@ -5,10 +5,24 @@ const logoAssetIdSchema = z.string().uuid().nullable().optional();
 const brandColorSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/).nullable().optional();
 const feedbackDataSharingTermsVersionSchema = z.string().min(1).nullable().optional();
 
+/**
+ * Profil "vraie entreprise" — utilisé par le wizard d'onboarding pour cloner
+ * une société réelle dans Paperclip. Tous les champs sont optionnels :
+ * un utilisateur peut créer une société "fictive" en saisissant juste un nom.
+ */
+const realWorldFieldsSchema = {
+  sector: z.string().min(1).max(64).nullable().optional(),
+  websiteUrl: z.string().url().max(512).nullable().optional(),
+  githubUrl: z.string().url().max(512).nullable().optional(),
+  kbisSiret: z.string().regex(/^\d{14}$/, "SIRET = 14 chiffres").nullable().optional(),
+  siretVerified: z.boolean().optional(),
+};
+
 export const createCompanySchema = z.object({
   name: z.string().min(1),
   description: z.string().optional().nullable(),
   budgetMonthlyCents: z.number().int().nonnegative().optional().default(0),
+  ...realWorldFieldsSchema,
 });
 
 export type CreateCompany = z.infer<typeof createCompanySchema>;
@@ -26,6 +40,7 @@ export const updateCompanySchema = createCompanySchema
     feedbackDataSharingTermsVersion: feedbackDataSharingTermsVersionSchema,
     brandColor: brandColorSchema,
     logoAssetId: logoAssetIdSchema,
+    ...realWorldFieldsSchema,
   });
 
 export type UpdateCompany = z.infer<typeof updateCompanySchema>;
